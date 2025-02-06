@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "nome"
+      },
+      {
+        "type": "text",
+        "name": "email"
+      },
+      {
+        "type": "text",
+        "name": "senha"
+      },
+      {
+        "type": "text",
+        "name": "cargo"
+      },
+      {
+        "type": "text",
+        "name": "telefone"
+      },
+      {
+        "type": "text",
+        "name": "foto"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "insert_user",
+      "module": "dbupdater",
+      "action": "insert",
+      "options": {
+        "connection": "dbmasterclasse",
+        "sql": {
+          "type": "insert",
+          "values": [
+            {
+              "table": "itv.usuarios",
+              "column": "nome",
+              "type": "text",
+              "value": "{{$_POST.nome}}"
+            },
+            {
+              "table": "itv.usuarios",
+              "column": "email",
+              "type": "text",
+              "value": "{{$_POST.email.lowercase()}}"
+            },
+            {
+              "table": "itv.usuarios",
+              "column": "senha",
+              "type": "text",
+              "value": "{{$_POST.senha.sha1()}}"
+            },
+            {
+              "table": "itv.usuarios",
+              "column": "cargo",
+              "type": "text",
+              "value": "{{$_POST.cargo}}"
+            },
+            {
+              "table": "itv.usuarios",
+              "column": "telefone",
+              "type": "text",
+              "value": "{{$_POST.telefone}}"
+            },
+            {
+              "table": "itv.usuarios",
+              "column": "permissao",
+              "type": "number",
+              "value": "1"
+            },
+            {
+              "table": "itv.usuarios",
+              "column": "foto",
+              "type": "text",
+              "value": "assets/images/avatars/do-utilizador.png"
+            },
+            {
+              "table": "itv.usuarios",
+              "column": "token",
+              "type": "text",
+              "value": "{{UUID}}"
+            }
+          ],
+          "table": "itv.usuarios",
+          "returning": "id",
+          "query": "select top(0) [t].[id] into #out from [itv].[usuarios] as t left join [itv].[usuarios] on 0=1;insert into [itv].[usuarios] ([cargo], [email], [foto], [nome], [permissao], [senha], [telefone], [token]) output inserted.[id] into #out values (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7); select [id] from #out; drop table #out;",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.nome}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.email.lowercase()}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.senha.sha1()}}",
+              "test": ""
+            },
+            {
+              "name": ":P4",
+              "type": "expression",
+              "value": "{{$_POST.cargo}}",
+              "test": ""
+            },
+            {
+              "name": ":P5",
+              "type": "expression",
+              "value": "{{$_POST.telefone}}",
+              "test": ""
+            },
+            {
+              "name": ":P6",
+              "type": "expression",
+              "value": "{{UUID}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "identity",
+          "type": "text"
+        },
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ],
+      "output": true
+    }
+  }
+}

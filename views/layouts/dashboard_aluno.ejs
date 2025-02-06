@@ -1,0 +1,358 @@
+<html lang="en" data-bs-theme="blue-theme">
+
+<head>
+  <script src="/dmxAppConnect/dmxAppConnect.js"></script>
+  <base href="/">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard aluno</title>
+  <!--favicon-->
+  <link rel="icon" href="../../assets/images/faviconitvale.png" type="image/png">
+  <!-- loader-->
+  <link href="../../assets/css/pace.min.css" rel="stylesheet">
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script src="../../assets/js/pace.min.js"></script>
+
+  <!--plugins-->
+  <link href="../../assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../../assets/plugins/metismenu/metisMenu.min.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/plugins/metismenu/mm-vertical.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/plugins/simplebar/css/simplebar.css">
+  <!--bootstrap css-->
+  <link href="/bootstrap/5/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+  <!--main css-->
+  <link href="../../assets/css/bootstrap-extended.css" rel="stylesheet">
+  <link href="../../sass/main.css" rel="stylesheet">
+  <link href="../../sass/dark-theme.css" rel="stylesheet">
+  <link href="../../sass/blue-theme.css" rel="stylesheet">
+  <link href="../../sass/semi-dark.css" rel="stylesheet">
+  <link href="../../sass/bordered-theme.css" rel="stylesheet">
+  <link href="../../sass/responsive.css" rel="stylesheet">
+
+  <script src="/dmxAppConnect/dmxBootstrap5Navigation/dmxBootstrap5Navigation.js" defer></script>
+  <script src="/dmxAppConnect/dmxRouting/dmxRouting.js" defer></script>
+  <link rel="stylesheet" href="/dmxAppConnect/dmxPreloader/dmxPreloader.css" />
+  <script src="/dmxAppConnect/dmxPreloader/dmxPreloader.js" defer></script>
+  <link rel="stylesheet" href="/dmxAppConnect/dmxAnimateCSS/animate.min.css" />
+  <script src="/dmxAppConnect/dmxAnimateCSS/dmxAnimateCSS.js" defer></script>
+  <script src="/dmxAppConnect/dmxBootstrap5Modal/dmxBootstrap5Modal.js" defer></script>
+  <link rel="stylesheet" href="/dmxAppConnect/dmxNotifications/dmxNotifications.css" />
+  <script src="/dmxAppConnect/dmxNotifications/dmxNotifications.js" defer></script>
+  <script src="/dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
+  <link rel="stylesheet" href="/dmxAppConnect/dmxValidator/dmxValidator.css" />
+  <script src="/dmxAppConnect/dmxValidator/dmxValidator.js" defer></script>
+  <script src="/dmxAppConnect/dmxDataTraversal/dmxDataTraversal.js" defer></script>
+  <script src="/dmxAppConnect/dmxCharts/Chart.min.js" defer></script>
+  <script src="/dmxAppConnect/dmxCharts/dmxCharts.js" defer></script>
+  <script src="/dmxAppConnect/dmxFormatter/dmxFormatter.js" defer></script>
+  <script src="/dmxAppConnect/dmxVideo/dmxVideo.js" defer></script>
+</head>
+
+<body is="dmx-app" id="dashboard">
+  <div is="dmx-browser" id="browser"></div>
+  <script is="dmx-flow" id="flow_logout" type="text/dmx-flow">[
+  {
+    serverConnect: {
+      name: "sc_logout",
+      outputType: "object",
+      url: "/api/usuarios/logOff",
+      site: "task_demander"
+    }
+  },
+  {
+    run: {name: "browser", outputType: "text", action: "{{browser.goto('/')}}"}
+  }
+]</script>
+  <dmx-notifications id="notifies"></dmx-notifications>
+  <dmx-serverconnect id="sc_usuario_atual" url="/api/usuarios/usuario_atual"></dmx-serverconnect>
+
+  <!--start header-->
+  <header class="top-header">
+    <nav class="navbar navbar-expand align-items-center gap-4">
+      <div class="btn-toggle">
+        <a href="javascript:;"><i class="material-icons-outlined">menu</i></a>
+      </div>
+      <div class="search-bar flex-grow-1">
+        <div class="position-relative">
+          <span class="material-icons-outlined position-absolute me-3 translate-middle-y end-0 top-50 search-close">close</span>
+          <div class="search-popup p-3">
+            <div class="card rounded-4 overflow-hidden">
+              <div class="card-header d-lg-none">
+                <div class="position-relative">
+                  <input class="form-control rounded-5 px-5 mobile-search-control" type="text" placeholder="Search">
+                  <span class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50">search</span>
+                  <span class="material-icons-outlined position-absolute me-3 translate-middle-y end-0 top-50 mobile-search-close">close</span>
+                </div>
+              </div>
+              <div class="card-body search-content">
+                <p class="search-title">Recent Searches</p>
+                <div class="d-flex align-items-start flex-wrap gap-2 kewords-wrapper">
+                  <a href="javascript:;" class="kewords"><span>Angular Template</span><i class="material-icons-outlined fs-6">search</i></a>
+                  <a href="javascript:;" class="kewords"><span>Dashboard</span><i class="material-icons-outlined fs-6">search</i></a>
+                  <a href="javascript:;" class="kewords"><span>Admin Template</span><i class="material-icons-outlined fs-6">search</i></a>
+                  <a href="javascript:;" class="kewords"><span>Bootstrap 5 Admin</span><i class="material-icons-outlined fs-6">search</i></a>
+                  <a href="javascript:;" class="kewords"><span>Html eCommerce</span><i class="material-icons-outlined fs-6">search</i></a>
+                  <a href="javascript:;" class="kewords"><span>Sass</span><i class="material-icons-outlined fs-6">search</i></a>
+                  <a href="javascript:;" class="kewords"><span>laravel 9</span><i class="material-icons-outlined fs-6">search</i></a>
+                </div>
+                <hr>
+                <p class="search-title">Tutorials</p>
+                <div class="search-list d-flex flex-column gap-2">
+                  <div class="search-list-item d-flex align-items-center gap-3">
+                    <div class="list-icon">
+                      <i class="material-icons-outlined fs-5">play_circle</i>
+                    </div>
+                    <div class="">
+                      <h5 class="mb-0 search-list-title ">Wordpress Tutorials</h5>
+                    </div>
+                  </div>
+                  <div class="search-list-item d-flex align-items-center gap-3">
+                    <div class="list-icon">
+                      <i class="material-icons-outlined fs-5">shopping_basket</i>
+                    </div>
+                    <div class="">
+                      <h5 class="mb-0 search-list-title">eCommerce Website Tutorials</h5>
+                    </div>
+                  </div>
+
+                  <div class="search-list-item d-flex align-items-center gap-3">
+                    <div class="list-icon">
+                      <i class="material-icons-outlined fs-5">laptop</i>
+                    </div>
+                    <div class="">
+                      <h5 class="mb-0 search-list-title">Responsive Design</h5>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+                <p class="search-title">Members</p>
+
+                <div class="search-list d-flex flex-column gap-2">
+                  <div class="search-list-item d-flex align-items-center gap-3">
+                    <div class="memmber-img">
+                      <img src="assets/images/avatars/01.png" width="32" height="32" class="rounded-circle" alt="">
+                    </div>
+                    <div class="">
+                      <h5 class="mb-0 search-list-title ">Andrew Stark</h5>
+                    </div>
+                  </div>
+
+                  <div class="search-list-item d-flex align-items-center gap-3">
+                    <div class="memmber-img">
+                      <img src="assets/images/avatars/02.png" width="32" height="32" class="rounded-circle" alt="">
+                    </div>
+                    <div class="">
+                      <h5 class="mb-0 search-list-title ">Snetro Jhonia</h5>
+                    </div>
+                  </div>
+
+                  <div class="search-list-item d-flex align-items-center gap-3">
+                    <div class="memmber-img">
+                      <img src="assets/images/avatars/03.png" width="32" height="32" class="rounded-circle" alt="">
+                    </div>
+                    <div class="">
+                      <h5 class="mb-0 search-list-title">Michle Clark</h5>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="card-footer text-center bg-transparent">
+                <a href="javascript:;" class="btn w-100">See All Search Results</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="navbar-nav gap-1 nav-right-links align-items-center">
+
+        <li class="nav-item dropdown">
+          <a href="javascript:;" class="dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown">
+            <img src="assets/images/avatars/foto-asaph.png" class="rounded-circle p-1 border" width="45" height="45" alt="" dmx-bind:src="sc_usuario_atual.data.buscar_usuario.foto">
+          </a>
+          <div class="dropdown-menu dropdown-user shadow dropdown-menu-end">
+            <a class="dropdown-item gap-2 py-2" href="javascript:;">
+              <div class="text-center">
+                <img src="assets/images/avatars/foto-asaph.png" class="rounded-circle p-1 shadow mb-3" width="90" height="90" alt="" dmx-bind:src="sc_usuario_atual.data.buscar_usuario.foto">
+                <h5 class="user-name mb-0 fw-bold">Ola, {{sc_usuario_atual.data.buscar_usuario.nome}}</h5>
+              </div>
+            </a>
+            <hr class="dropdown-divider">
+            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="/perfil"><i class="material-icons-outlined">person_outline</i>Meu Perfil</a>
+            <hr class="dropdown-divider">
+            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#" dmx-on:click="flow_logout.run()"><i class="material-icons-outlined">power_settings_new</i>Sair</a>
+          </div>
+        </li>
+      </ul>
+
+    </nav>
+  </header>
+  <!--end top header-->
+
+
+  <!--start sidebar-->
+  <aside class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+      <div class="logo-icon">
+        <img src="assets/images/logoitva.png" class="logo-img w-75" alt="">
+      </div>
+      <div class="logo-name flex-grow-1">
+      </div>
+      <div class="sidebar-close">
+        <span class="material-icons-outlined">close</span>
+      </div>
+    </div>
+    <div class="sidebar-nav">
+      <!--navigation-->
+      <ul class="metismenu" id="sidenav">
+        <li>
+          <a href="/painel_aluno">
+            <div class="parent-icon"><i class="material-icons-outlined">home</i>
+            </div>
+            <div class="menu-title">Tela inicial</div>
+          </a>
+          <ul>
+          </ul>
+        </li>
+        <li>
+          <a href="/minhas_tarefas">
+            <div class="parent-icon"><i class="material-icons-outlined">widgets</i>
+            </div>
+            <div class="menu-title">Minhas tarefas</div>
+          </a>
+        </li>
+        <li class="menu-label">CONFIGurações</li>
+        <li>
+        </li>
+        <li>
+          <a href="/perfil">
+            <div class="parent-icon"><i class="material-icons-outlined">person</i>
+            </div>
+            <div class="menu-title">Meu perfil</div>
+          </a>
+          <a href="/ranking_selos">
+            <div class="parent-icon"><i class="material-icons-outlined">star</i>
+            </div>
+            <div class="menu-title">Ranking (Selos)</div>
+          </a>
+        </li>
+        <li class="menu-label">Ajuda</li>
+        <li>
+          <a href="https://br.itvalleyschool.com/" target="_blank">
+            <div class="parent-icon"><i class="material-icons-outlined">description</i>
+            </div>
+            <div class="menu-title">Documentação</div>
+          </a>
+        </li>
+        <li>
+          <a href="https://api.whatsapp.com/send?phone=5544999161570" target="_blank">
+            <div class="parent-icon"><i class="material-icons-outlined">support</i>
+            </div>
+            <div class="menu-title">Suporte</div>
+          </a>
+        </li>
+      </ul>
+      <!--end navigation-->
+    </div>
+  </aside>
+  <!--end sidebar-->
+
+  <!--start main wrapper-->
+  <main class="main-wrapper">
+    <main is="dmx-view" id="view1">
+      <%- await include(content, locals) %>
+    </main>
+    <div class="main-content">
+      <!--breadcrumb-->
+      <!--end breadcrumb-->
+
+
+
+
+    </div>
+  </main>
+  <!--end main wrapper-->
+
+  <!--start overlay-->
+  <div class="overlay btn-toggle"></div>
+  <!--end overlay-->
+
+  <!--start footer-->
+  <footer class="page-footer">
+    <p class="mb-0">IT Valley School © 2025. All right reserved.</p>
+  </footer>
+  <!--end footer-->
+
+  <!--start cart-->
+  <!--end cart-->
+
+
+
+  <!--start switcher-->
+  <div class="d-flex justify-content-center gap-2 position-fixed bottom-0 end-0 m-3">
+    <button class="btn btn-grd btn-grd-primary d-flex align-items-center gap-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#chat_openai">
+      <i class="material-icons-outlined">mark_chat_unread</i>
+    </button>
+  </div>
+
+  <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="chat_openai">
+    <div class="offcanvas-header border-bottom h-70">
+      <h5 class="mb-0">Converse com a IA</h5>
+      <a href="javascript:;" class="primaery-menu-close" data-bs-dismiss="offcanvas">
+        <i class="material-icons-outlined">close</i>
+      </a>
+    </div>
+
+    <div class="offcanvas-body d-flex flex-column justify-content-between">
+      <!-- Área de mensagens -->
+      <div id="chat-messages" class="flex-grow-1 overflow-auto mb-3 p-2">
+        <!-- Mensagem inicial -->
+        <div class="chat-message bot-message p-2 mb-2 bg-light rounded">
+          Olá! Sou a IA da IT Valley, posso ajudar?
+        </div>
+      </div>
+
+      <!-- Indicador de carregamento -->
+      <div id="typing-indicator" class="d-none text-muted small mb-2">
+        A IA está digitando...
+      </div>
+
+      <!-- Campo de entrada de mensagens -->
+      <div class="input-group">
+        <input type="text" id="user-input" class="form-control" placeholder="Digite sua mensagem..." aria-label="Digite sua mensagem">
+        <button class="btn btn-primary" id="send-button" type="button">
+          <i class="material-icons-outlined">send</i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!--start switcher-->
+
+  <!--bootstrap js-->
+  <script src="/bootstrap/5/js/bootstrap.bundle.min.js"></script>
+
+  <!--plugins-->
+
+  <!--plugins-->
+  <script src="../../assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+  <script src="../../assets/plugins/metismenu/metisMenu.min.js"></script>
+  <script src="../../assets/plugins/apexchart/apexcharts.min.js"></script>
+  <script src="../../assets/plugins/simplebar/js/simplebar.min.js"></script>
+  <script src="../../assets/plugins/peity/jquery.peity.min.js"></script>
+  <script>
+    $(".data-attributes span").peity("donut")
+  </script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/dashboard1.js"></script>
+  <script>
+    new PerfectScrollbar(".user-list")
+  </script>
+
+  <script src="/assets/bootstrap/5/js/bootstrap.min.js"></script>
+  <script src="/assets/js/chat_deep.js"></script>
+</body>
+
+</html>

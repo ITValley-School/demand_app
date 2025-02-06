@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "offset"
+      },
+      {
+        "type": "text",
+        "name": "limit"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query_ranking",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "dbmasterclasse",
+        "sql": {
+          "query": "SELECT \n    ROW_NUMBER() OVER (ORDER BY SUM(ut.pontos) DESC) AS ranking,\n    u.nome, \n    u.foto, \n    SUM(ut.pontos) AS total_pontos\nFROM itv.usuarios u\nLEFT JOIN itv.usuarios_tarefas ut \n    ON ut.usuario_id = u.id \n    AND ut.status = 'Concluida'  -- Considera apenas tarefas concluídas\nGROUP BY u.nome, u.foto\nORDER BY total_pontos DESC;",
+          "params": []
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "ranking",
+          "type": "number"
+        },
+        {
+          "name": "nome",
+          "type": "text"
+        },
+        {
+          "name": "foto",
+          "type": "text"
+        },
+        {
+          "name": "total_pontos",
+          "type": "number"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

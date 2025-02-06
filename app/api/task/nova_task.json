@@ -1,0 +1,186 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "nome"
+      },
+      {
+        "type": "text",
+        "name": "descricao"
+      },
+      {
+        "type": "number",
+        "name": "estimativa_horas"
+      },
+      {
+        "type": "text",
+        "name": "nivel"
+      },
+      {
+        "type": "text",
+        "name": "status"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{$_POST.nivel=='Easy'}}",
+          "then": {
+            "steps": {
+              "name": "pontos",
+              "module": "core",
+              "action": "setvalue",
+              "options": {
+                "value": 20
+              },
+              "meta": [],
+              "outputType": "number"
+            }
+          },
+          "else": {
+            "steps": {
+              "name": "",
+              "module": "core",
+              "action": "condition",
+              "options": {
+                "if": "{{$_POST.nivel=='Medium'}}",
+                "then": {
+                  "steps": {
+                    "name": "pontos",
+                    "module": "core",
+                    "action": "setvalue",
+                    "options": {
+                      "value": 60
+                    },
+                    "meta": [],
+                    "outputType": "number"
+                  }
+                },
+                "else": {
+                  "steps": {
+                    "name": "",
+                    "module": "core",
+                    "action": "condition",
+                    "options": {
+                      "if": "{{$_POST.nivel=='Hard'}}",
+                      "then": {
+                        "steps": {
+                          "name": "pontos",
+                          "module": "core",
+                          "action": "setvalue",
+                          "options": {
+                            "value": 100
+                          },
+                          "meta": [],
+                          "outputType": "number"
+                        }
+                      }
+                    },
+                    "outputType": "boolean"
+                  }
+                }
+              },
+              "outputType": "boolean"
+            }
+          }
+        },
+        "outputType": "boolean"
+      },
+      {
+        "name": "insert_task",
+        "module": "dbupdater",
+        "action": "insert",
+        "options": {
+          "connection": "dbmasterclasse",
+          "sql": {
+            "type": "insert",
+            "values": [
+              {
+                "table": "itv.tarefas",
+                "column": "nome",
+                "type": "text",
+                "value": "{{$_POST.nome}}"
+              },
+              {
+                "table": "itv.tarefas",
+                "column": "descricao",
+                "type": "text",
+                "value": "{{$_POST.descricao}}"
+              },
+              {
+                "table": "itv.tarefas",
+                "column": "estimativa_horas",
+                "type": "number",
+                "value": "{{$_POST.estimativa_horas}}"
+              },
+              {
+                "table": "itv.tarefas",
+                "column": "nivel",
+                "type": "text",
+                "value": "{{$_POST.nivel}}"
+              },
+              {
+                "table": "itv.tarefas",
+                "column": "pontuacao",
+                "type": "number",
+                "value": "{{pontos}}"
+              }
+            ],
+            "table": "itv.tarefas",
+            "returning": "id",
+            "query": "select top(0) [t].[id] into #out from [itv].[tarefas] as t left join [itv].[tarefas] on 0=1;insert into [itv].[tarefas] ([descricao], [estimativa_horas], [nivel], [nome], [pontuacao]) output inserted.[id] into #out values (@p0, @p1, @p2, @p3, @p4); select [id] from #out; drop table #out;",
+            "params": [
+              {
+                "name": ":P1",
+                "type": "expression",
+                "value": "{{$_POST.nome}}",
+                "test": ""
+              },
+              {
+                "name": ":P2",
+                "type": "expression",
+                "value": "{{$_POST.descricao}}",
+                "test": ""
+              },
+              {
+                "name": ":P3",
+                "type": "expression",
+                "value": "{{$_POST.estimativa_horas}}",
+                "test": ""
+              },
+              {
+                "name": ":P4",
+                "type": "expression",
+                "value": "{{$_POST.nivel}}",
+                "test": ""
+              },
+              {
+                "name": ":P5",
+                "type": "expression",
+                "value": "{{pontos}}",
+                "test": ""
+              }
+            ]
+          }
+        },
+        "meta": [
+          {
+            "name": "identity",
+            "type": "text"
+          },
+          {
+            "name": "affected",
+            "type": "number"
+          }
+        ],
+        "output": true
+      }
+    ]
+  }
+}

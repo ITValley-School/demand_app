@@ -1,0 +1,110 @@
+[
+  {
+    "name": "",
+    "module": "auth",
+    "action": "restrict",
+    "options": {
+      "provider": "security_official"
+    }
+  },
+  {
+    "name": "identity",
+    "module": "auth",
+    "action": "identify",
+    "options": {
+      "provider": "security_official"
+    },
+    "meta": []
+  },
+  {
+    "name": "buscar_usuario",
+    "module": "dbconnector",
+    "action": "single",
+    "options": {
+      "connection": "dbmasterclasse",
+      "sql": {
+        "type": "select",
+        "columns": [
+          {
+            "table": "itv.usuarios",
+            "column": "nome"
+          },
+          {
+            "table": "itv.usuarios",
+            "column": "email"
+          },
+          {
+            "table": "itv.usuarios",
+            "column": "telefone"
+          },
+          {
+            "table": "itv.usuarios",
+            "column": "foto"
+          }
+        ],
+        "params": [
+          {
+            "operator": "equal",
+            "type": "expression",
+            "name": ":P1",
+            "value": "{{identity}}",
+            "test": ""
+          }
+        ],
+        "table": {
+          "name": "itv.usuarios"
+        },
+        "primary": "id",
+        "joins": [],
+        "wheres": {
+          "condition": "AND",
+          "rules": [
+            {
+              "id": "itv.usuarios.id",
+              "field": "itv.usuarios.id",
+              "type": "double",
+              "operator": "equal",
+              "value": "{{identity}}",
+              "data": {
+                "table": "itv.usuarios",
+                "column": "id",
+                "type": "number",
+                "columnObj": {
+                  "type": "integer",
+                  "primary": "PRIMARY",
+                  "nullable": false,
+                  "name": "id"
+                }
+              },
+              "operation": "=",
+              "table": "itv.usuarios"
+            }
+          ],
+          "conditional": null,
+          "valid": true
+        },
+        "query": "select [nome], [email], [telefone], [foto] from [itv].[usuarios] where [itv].[usuarios].[id] = @p0"
+      }
+    },
+    "output": true,
+    "meta": [
+      {
+        "type": "text",
+        "name": "nome"
+      },
+      {
+        "type": "text",
+        "name": "email"
+      },
+      {
+        "type": "text",
+        "name": "telefone"
+      },
+      {
+        "type": "text",
+        "name": "foto"
+      }
+    ],
+    "outputType": "object"
+  }
+]

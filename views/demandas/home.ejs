@@ -1,0 +1,74 @@
+<!-- Wappler include head-page="layouts/page-horizontal" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="home" appConnect="local" components="{dmxBootstrap5Modal:{},dmxNotifications:{}}" -->
+<dmx-notifications id="notification"></dmx-notifications>
+<meta name="ac:route" content="/demandas/home">
+<!-- Wappler include head-page="layouts/page-horizontal" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="vagasconsultadas" appConnect="local" -->
+<div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalDescriptionTask" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalScrollableTitle">Description Task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="paragraph">
+                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
+                        in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modaldescricaogettask" data-task-id="1" class="btn btn-primary">Pedir Tarefa</button><button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="modalGetTask" is="dmx-bs5-modal" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">getTask</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Voce confirma que deseja pegar essa tarefa?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalGetTaskConfirme" class="btn btn-primary" data-task-id="1">Confirmo!&nbsp;<a href="#"><br></a></button><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Responsive Table -->
+<div class="card ms-auto">
+    <h5 class="card-header">Tarefas Disponíveis</h5>
+    <div class="table-responsive text-nowrap">
+
+        <table class="table">
+            <thead>
+                <tr class="text-nowrap">
+                    <th>#</th>
+                    <th>nome da tarefa</th>
+                    <th>descrição</th>
+                    <th>estimativa de horas</th>
+                    <th>status</th>
+                    <th>data de início</th>
+                    <th>data de término prevista</th>
+                    <th>ações</th>
+                </tr>
+            </thead>
+            <tbody id="taskTableBody" class="table-border-bottom-0">
+                <!-- O conteúdo será preenchido pelo JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--/ Responsive Table -->
+</div>
+
+<script src="/assets/js/ItvalleyJs/demandas/demandedisp.js"></script>

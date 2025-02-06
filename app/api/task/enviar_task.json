@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "info_envio"
+      },
+      {
+        "type": "number",
+        "name": "id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "enviar_task",
+      "module": "dbupdater",
+      "action": "update",
+      "options": {
+        "connection": "dbmasterclasse",
+        "sql": {
+          "type": "update",
+          "values": [
+            {
+              "table": "itv.usuarios_tarefas",
+              "column": "status",
+              "type": "text",
+              "value": "Aprovacao"
+            },
+            {
+              "table": "itv.usuarios_tarefas",
+              "column": "data_enviada",
+              "type": "datetime",
+              "value": "{{NOW}}"
+            },
+            {
+              "table": "itv.usuarios_tarefas",
+              "column": "info_envio",
+              "type": "text",
+              "value": "{{$_POST.info_envio}}"
+            }
+          ],
+          "table": "itv.usuarios_tarefas",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "id",
+                "field": "id",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_POST.id}}",
+                "data": {
+                  "column": "id"
+                },
+                "operation": "="
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "returning": "id",
+          "query": "select top(0) [t].[id] into #out from [itv].[usuarios_tarefas] as t left join [itv].[usuarios_tarefas] on 0=1;update [itv].[usuarios_tarefas] set [status] = @p0, [data_enviada] = @p1, [info_envio] = @p2 output inserted.[id] into #out where [id] = @p3; select [id] from #out; drop table #out;",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{NOW}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.info_envio}}",
+              "test": ""
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P3",
+              "value": "{{$_POST.id}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

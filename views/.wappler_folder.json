@@ -1,0 +1,78 @@
+{
+  "Cad.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "caduser.ejs": {
+    "layoutPage": "telaprincipal",
+    "description": ""
+  },
+  "detest.ejs": {
+    "layoutPage": "telaprincipal",
+    "description": ""
+  },
+  "destes2.ejs": {
+    "layoutPage": "telaprincipal",
+    "description": ""
+  },
+  "teste-com-os-scriptsdosite.ejs": {
+    "layoutPage": "telaprincipal",
+    "description": ""
+  },
+  "chat.ejs": {
+    "layoutPage": "telaprincipal",
+    "description": ""
+  },
+  "index.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "teste-api.ejs": {
+    "layoutPage": "telaprincipal",
+    "description": ""
+  },
+  "painel_admin.ejs": {
+    "layoutPage": "dashboard",
+    "description": ""
+  },
+  "painel_aluno.ejs": {
+    "layoutPage": "dashboard_aluno",
+    "description": ""
+  },
+  "perfil.ejs": {
+    "layoutPage": "dashboard_aluno",
+    "description": ""
+  },
+  "minhas-tasks.ejs": {
+    "layoutPage": "dashboard_aluno",
+    "description": ""
+  },
+  "minhas_tarefas.ejs": {
+    "layoutPage": "dashboard_aluno",
+    "description": ""
+  },
+  "perfil_admin.ejs": {
+    "layoutPage": "dashboard",
+    "description": ""
+  },
+  "alunos.ejs": {
+    "layoutPage": "dashboard",
+    "description": ""
+  },
+  "aprovar_tasks.ejs": {
+    "layoutPage": "dashboard",
+    "description": ""
+  },
+  "itv_task_demander.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "ranking_selos.ejs": {
+    "layoutPage": "dashboard_aluno",
+    "description": ""
+  },
+  "esqueceu.ejs": {
+    "layoutPage": "dashboard",
+    "description": ""
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "offset"
+      },
+      {
+        "type": "text",
+        "name": "limit"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query_task",
+      "module": "dbconnector",
+      "action": "paged",
+      "options": {
+        "connection": "dbmasterclasse",
+        "sql": {
+          "type": "select",
+          "columns": [
+            {
+              "table": "tarefas",
+              "column": "*",
+              "schema": "itv"
+            }
+          ],
+          "params": [],
+          "table": {
+            "name": "tarefas",
+            "schema": "itv"
+          },
+          "primary": "id",
+          "joins": [],
+          "orders": [
+            {
+              "table": "tarefas",
+              "column": "id",
+              "direction": "DESC",
+              "schema": "itv"
+            }
+          ],
+          "query": "select * from [itv].[tarefas] order by [id] DESC"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "offset",
+          "type": "number"
+        },
+        {
+          "name": "limit",
+          "type": "number"
+        },
+        {
+          "name": "total",
+          "type": "number"
+        },
+        {
+          "name": "page",
+          "type": "object",
+          "sub": [
+            {
+              "name": "offset",
+              "type": "object",
+              "sub": [
+                {
+                  "name": "first",
+                  "type": "number"
+                },
+                {
+                  "name": "prev",
+                  "type": "number"
+                },
+                {
+                  "name": "next",
+                  "type": "number"
+                },
+                {
+                  "name": "last",
+                  "type": "number"
+                }
+              ]
+            },
+            {
+              "name": "current",
+              "type": "number"
+            },
+            {
+              "name": "total",
+              "type": "number"
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": "array",
+          "sub": [
+            {
+              "type": "number",
+              "name": "id"
+            },
+            {
+              "type": "text",
+              "name": "nome"
+            },
+            {
+              "type": "text",
+              "name": "descricao"
+            },
+            {
+              "type": "number",
+              "name": "estimativa_horas"
+            },
+            {
+              "type": "text",
+              "name": "status"
+            },
+            {
+              "type": "date",
+              "name": "data_inicio"
+            },
+            {
+              "type": "date",
+              "name": "data_termino_prevista"
+            },
+            {
+              "type": "number",
+              "name": "usuario_id"
+            },
+            {
+              "type": "date",
+              "name": "data_fim_realizado"
+            },
+            {
+              "type": "text",
+              "name": "nivel"
+            }
+          ]
+        }
+      ],
+      "outputType": "object"
+    }
+  }
+}

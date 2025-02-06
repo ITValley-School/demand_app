@@ -1,0 +1,75 @@
+<!-- Wappler include head-page="layouts/dashboard_aluno" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="ranking_selos" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxFormatter:{}}" -->
+<dmx-serverconnect id="sc_ranking_pontos" url="/api/pontuacao/ranking"></dmx-serverconnect>
+<meta name="ac:route" content="/ranking_selos">
+
+<main>
+    <div class="main-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Ranking de pontos</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Selos e pontos</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="ms-auto">
+                <div class="btn-group">
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end"> <a class="dropdown-item" href="javascript:;">Action</a>
+                        <a class="dropdown-item" href="javascript:;">Another action</a>
+                        <a class="dropdown-item" href="javascript:;">Something else here</a>
+                        <div class="dropdown-divider"></div> <a class="dropdown-item" href="javascript:;">Separated link</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end breadcrumb-->
+
+
+        <div class="row g-3">
+            <div class="col-auto">
+                <div class="position-relative">
+                </div>
+            </div>
+        </div><!--end row-->
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <div class="customer-table">
+                    <div class="table-responsive white-space-nowrap">
+                        <table class="table align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Nome do Aluno</th>
+                                    <th>Pontuação</th>
+                                </tr>
+                            </thead>
+                            <tbody is="dmx-repeat" id="repeat_ranking" dmx-bind:repeat="sc_ranking_pontos.data.query_ranking" key="id">
+                                <tr>
+                                    <td>
+                                        <a class="d-flex align-items-center gap-3" href="javascript:;">
+                                            <div class="customer-pic">
+                                                <img src="assets/images/avatars/01.png" class="rounded-circle mt-3 mb-3" width="80" height="80" alt="" dmx-bind:src="foto">
+                                            </div>
+                                            <p class="mb-0 customer-name fw-bold">{{nome}}</p>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <h6 class="text-warning"><b>{{total_pontos}} Pontos</b></h6>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</main>

@@ -1,0 +1,205 @@
+<!-- Wappler include head-page="layouts/dashboard_aluno" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="minhas_tarefas" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxBootstrap5Modal:{}}" -->
+<div class="modal fade" id="modal_detalhes_enviado" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalhes do envio: {{data_detalhes_enviado.data.nome_tarefa}}&nbsp;</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{data_detalhes_enviado.data.info_envio}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<dmx-serverconnect id="sc_listar_concluidas" url="/api/task/listar_my_tasks_concluida" dmx-param:sort=""></dmx-serverconnect>
+<div class="modal" id="modal_enviar_task" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Envie sua tarefa! {{data_detalhes_tarefa.data.nome_tarefas}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form is="dmx-serverconnect-form" id="sc_form_enviar_task" method="post" action="/api/task/enviar_task" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="notifies.success('Tarefa enviada!');sc_form_enviar_task.reset();sc_minhas_tarefas.load({});modal_enviar_task.hide();sc_listar_concluidas.load({})">
+                    <div class="form-group mb-3">
+                        <input id="id" name="id" class="form-control" dmx-bind:value="data_detalhes_tarefa.data.id" type="hidden">
+                        <label for="inp_info_envio">Coloque as informações desejadas.</label>
+                        <textarea id="inp_info_envio" name="info_envio" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <button type="submit" class="btn btn-primary w-100 bg-success" dmx-bind:disabled="state.executing">Enviar&nbsp;<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<dmx-serverconnect id="sc_minhas_tarefas" url="/api/task/listar_my_tasks_andamento"></dmx-serverconnect>
+<!-- Wappler include head-page="layouts/dashboard_aluno" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="painel_aluno" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxPreloader:{},dmxAnimateCSS:{},dmxBootstrap5Modal:{},dmxDataTraversal:{}}" -->
+<div class="modal" id="modal_detalhes" is="dmx-bs5-modal" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{data_detalhes_tarefa.data.nome_tarefas}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{data_detalhes_tarefa.data.descricao_tarefa}}</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<dmx-data-detail id="data_detalhes_tarefa" dmx-bind:data="sc_minhas_tarefas.data.query_listar_my_tasks.data" key="id"></dmx-data-detail>
+<dmx-data-detail id="data_detalhes_enviado" dmx-bind:data="sc_listar_concluidas.data.query_listar_my_tasks.data" key="id"></dmx-data-detail>
+<dmx-preloader id="preloader" bgcolor="#220c49" color="#FFFF" spinner="wanderingCubes"></dmx-preloader>
+
+<meta name="ac:route" content="/minhas_tarefas">
+<main>
+    <div class="main-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex  mb-3">
+            <div class="breadcrumb-title pe-3">Minhas tarefas</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="javascript:;"></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Tarefas</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="ms-auto">
+            </div>
+        </div>
+        <!--end breadcrumb-->
+
+        <div class="row">
+            <div class="col-xl-6 col-xxl-4 d-flex align-items-stretch">
+                <div class="w-100 rounded-4">
+                    <a href="https://br.itvalleyschool.com/" target="_blank"></a>
+                </div>
+            </div>
+            <div class="col-xl-6 col-xxl-4 d-flex align-items-stretch">
+                <div class="w-100 rounded-4">
+                    <a href="https://br.itvalleyschool.com/" target="_blank"></a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-12 col-xxl-12 d-flex align-items-stretch">
+            <div class="card w-100 rounded-4">
+                <div class="card-body">
+                    <div class="d-flex align-items-start justify-content-between mb-3">
+                        <div class="">
+                            <h5 class="mb-0">Minhas Tasks</h5>
+                        </div>
+                    </div>
+                    <div class="order-search position-relative my-3">
+                        <input class="form-control rounded-5 px-5" type="text" placeholder="Search">
+                        <span class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50">search</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Tarefas</th>
+                                    <th>Estimativa de horas</th>
+                                    <th>Dificuldade</th>
+                                    <th>Veja os detalhes</th>
+                                    <th>Enviar Task</th>
+                                </tr>
+                            </thead>
+                            <tbody is="dmx-repeat" id="repeat_minhas_tarefas" dmx-bind:repeat="sc_minhas_tarefas.data.query_listar_my_tasks.data" key="id">
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div>
+                                                <img src="assets/images/top-products/icontasks.png" class="rounded-circle" width="50" height="50">
+                                            </div>
+                                            <p class="mb-0">{{nome_tarefas}}</p>
+                                        </div>
+                                    </td>
+                                    <td>{{estimativa_horas_tarefa}} Horas</td>
+                                    <td>
+                                        <p class="dash-lable mb-0 bg-grd-danger rounded-2 text-white" dmx-class:bg-grd-warning="nivel_tarefa=='Medium'" dmx-class:bg-grd-info="nivel_tarefa=='Easy'">{{nivel_tarefa}}</p>
+                                    </td>
+                                    <td>
+                                        <button id="btn9" class="btn bg-dark text-white" dmx-on:click="data_detalhes_tarefa.select(id);modal_detalhes.show()">Ver detalhes</button>
+                                    </td>
+                                    <td>
+                                        <button id="btn10" class="btn text-white bg-success" dmx-on:click="data_detalhes_tarefa.select(id);modal_enviar_task.show()">Enviar Task</button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="col-lg-12 col-xxl-12 d-flex align-items-stretch">
+            <div class="card w-100 rounded-4">
+                <div class="card-body">
+                    <div class="d-flex align-items-start justify-content-between mb-3">
+                        <div class="">
+                            <h5 class="mb-0">Minhas Tasks concluídas</h5>
+                        </div>
+                    </div>
+                    <div class="order-search position-relative my-3">
+                        <input class="form-control rounded-5 px-5" type="text" placeholder="Search">
+                        <span class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50">search</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Tarefas</th>
+                                    <th>Estimativa de horas</th>
+                                    <th>Dificuldade</th>
+
+                                    <th>Detalhes</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody is="dmx-repeat" id="repeat_tasks_concluidas" dmx-bind:repeat="sc_listar_concluidas.data.query_listar_my_tasks.data" key="id">
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div>
+                                                <img src="assets/images/top-products/icontasks.png" class="rounded-circle" width="50" height="50">
+                                            </div>
+                                            <p class="mb-0">{{nome_tarefa}}</p>
+                                        </div>
+                                    </td>
+                                    <td>{{estimativa_horas_tarefas}} Horas</td>
+                                    <td>
+                                        <p class="dash-lable mb-0 bg-grd-danger rounded-2 text-white" dmx-class:bg-grd-warning="nivel_tarefas=='Medium'" dmx-class:bg-grd-info="nivel_tarefas=='Easy'">{{nivel_tarefas}}</p>
+                                    </td>
+
+                                    <td>
+                                        <button id="btn1" class="btn bg-dark text-white" dmx-on:click="data_detalhes_enviado.select(id);modal_detalhes_enviado.show()">Ver detalhes</button>
+                                    </td>
+                                    <td>
+                                        <p class="dash-lable mb-0 bg-grd-success rounded-2 text-white" dmx-class:bg-grd-warning="status=='Aprovacao'" dmx-class:bg-grd-success="status=='Concluida'">{{status}}</p>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</main>

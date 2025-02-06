@@ -1,0 +1,46 @@
+{
+  "listusuario.ejs": {
+    "layoutPage": "telaprincipal",
+    "description": ""
+  },
+  "listeleves.ejs": {
+    "layoutPage": "telaprincipal",
+    "description": ""
+  },
+  "adduser.ejs": {
+    "layoutPage": "telaprincipal",
+    "description": ""
+  },
+  "add-user.ejs": {
+    "layoutPage": "telaprincipal",
+    "description": ""
+  },
+  "login.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "esqueceu-a-senha.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "login-user.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "login-novo.ejs": {
+    "layoutPage": "telaprincipal",
+    "description": ""
+  },
+  "two-steps.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "cadastro.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "resete_senha.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  }
+}

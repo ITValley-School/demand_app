@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "offset"
+      },
+      {
+        "type": "text",
+        "name": "limit"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "listar_usuario_tarefa",
+      "module": "dbconnector",
+      "action": "paged",
+      "options": {
+        "connection": "dbmasterclasse",
+        "sql": {
+          "type": "select",
+          "columns": [],
+          "params": [],
+          "table": {
+            "name": "usuarios",
+            "schema": "itv"
+          },
+          "primary": "id",
+          "joins": [
+            {
+              "table": "itv.usuarios_tarefas",
+              "column": "*",
+              "alias": "t",
+              "type": "LEFT",
+              "clauses": {
+                "condition": "AND",
+                "rules": [
+                  {
+                    "table": "t",
+                    "column": "id",
+                    "operator": "equal",
+                    "operation": "=",
+                    "value": {
+                      "table": "usuarios",
+                      "column": "id"
+                    }
+                  }
+                ]
+              },
+              "primary": "id"
+            }
+          ],
+          "query": "select * from [itv].[usuarios] left join [itv].[usuarios_tarefas] as [t] on [t].[id] = [usuarios].[id]"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "offset",
+          "type": "number"
+        },
+        {
+          "name": "limit",
+          "type": "number"
+        },
+        {
+          "name": "total",
+          "type": "number"
+        },
+        {
+          "name": "page",
+          "type": "object",
+          "sub": [
+            {
+              "name": "offset",
+              "type": "object",
+              "sub": [
+                {
+                  "name": "first",
+                  "type": "number"
+                },
+                {
+                  "name": "prev",
+                  "type": "number"
+                },
+                {
+                  "name": "next",
+                  "type": "number"
+                },
+                {
+                  "name": "last",
+                  "type": "number"
+                }
+              ]
+            },
+            {
+              "name": "current",
+              "type": "number"
+            },
+            {
+              "name": "total",
+              "type": "number"
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": "array",
+          "sub": [
+            {
+              "type": "number",
+              "name": "id"
+            },
+            {
+              "type": "text",
+              "name": "nome"
+            },
+            {
+              "type": "text",
+              "name": "email"
+            },
+            {
+              "type": "text",
+              "name": "senha"
+            },
+            {
+              "type": "text",
+              "name": "cargo"
+            },
+            {
+              "type": "text",
+              "name": "telefone"
+            },
+            {
+              "type": "text",
+              "name": "foto"
+            },
+            {
+              "type": "number",
+              "name": "permissao"
+            }
+          ]
+        }
+      ],
+      "outputType": "object"
+    }
+  }
+}

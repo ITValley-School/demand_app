@@ -1,0 +1,268 @@
+[
+  {
+    "name": "identity",
+    "module": "auth",
+    "action": "identify",
+    "options": {
+      "provider": "security_official"
+    },
+    "output": true,
+    "meta": []
+  },
+  {
+    "name": "query_logado",
+    "module": "dbconnector",
+    "action": "single",
+    "options": {
+      "connection": "dbmasterclasse",
+      "sql": {
+        "type": "select",
+        "columns": [
+          {
+            "table": "usuarios",
+            "column": "id",
+            "schema": "itv",
+            "recid": 1
+          }
+        ],
+        "params": [
+          {
+            "operator": "equal",
+            "type": "expression",
+            "name": ":P1",
+            "value": "{{identity}}",
+            "test": ""
+          }
+        ],
+        "table": {
+          "name": "usuarios",
+          "schema": "itv"
+        },
+        "primary": "id",
+        "joins": [],
+        "wheres": {
+          "condition": "AND",
+          "rules": [
+            {
+              "id": "itv.usuarios.id",
+              "field": "itv.usuarios.id",
+              "type": "double",
+              "operator": "equal",
+              "value": "{{identity}}",
+              "data": {
+                "table": "usuarios",
+                "column": "id",
+                "type": "number",
+                "columnObj": {
+                  "type": "integer",
+                  "primary": "PRIMARY",
+                  "nullable": false,
+                  "name": "id"
+                },
+                "schema": "itv"
+              },
+              "operation": "="
+            }
+          ],
+          "conditional": null,
+          "valid": true
+        },
+        "query": "select [id] from [itv].[usuarios] where [itv].[usuarios].[id] = @p0"
+      }
+    },
+    "output": true,
+    "meta": [
+      {
+        "type": "number",
+        "name": "id"
+      }
+    ],
+    "outputType": "object"
+  },
+  {
+    "name": "query_total_adamento",
+    "module": "dbconnector",
+    "action": "single",
+    "options": {
+      "connection": "dbmasterclasse",
+      "sql": {
+        "type": "select",
+        "columns": [
+          {
+            "table": "itv.usuarios_tarefas",
+            "column": "id",
+            "alias": "total_andamento",
+            "aggregate": "COUNT"
+          }
+        ],
+        "params": [
+          {
+            "operator": "equal",
+            "type": "expression",
+            "name": ":P1",
+            "value": "{{query_logado.id}}",
+            "test": ""
+          }
+        ],
+        "table": {
+          "name": "itv.usuarios_tarefas"
+        },
+        "primary": "id",
+        "joins": [],
+        "wheres": {
+          "condition": "AND",
+          "rules": [
+            {
+              "id": "itv.usuarios_tarefas.usuario_id",
+              "field": "itv.usuarios_tarefas.usuario_id",
+              "type": "double",
+              "operator": "equal",
+              "value": "{{query_logado.id}}",
+              "data": {
+                "table": "itv.usuarios_tarefas",
+                "column": "usuario_id",
+                "type": "number",
+                "columnObj": {
+                  "type": "reference",
+                  "nullable": false,
+                  "references": "id",
+                  "inTable": "itv.usuarios",
+                  "referenceType": "integer",
+                  "onUpdate": "NO ACTION",
+                  "onDelete": "NO ACTION",
+                  "name": "usuario_id"
+                }
+              },
+              "operation": "=",
+              "table": "itv.usuarios_tarefas"
+            },
+            {
+              "id": "itv.usuarios_tarefas.status",
+              "field": "itv.usuarios_tarefas.status",
+              "type": "string",
+              "operator": "not_equal",
+              "value": "Concluida",
+              "data": {
+                "table": "itv.usuarios_tarefas",
+                "column": "status",
+                "type": "text",
+                "columnObj": {
+                  "type": "string",
+                  "maxLength": 50,
+                  "nullable": false,
+                  "name": "status"
+                }
+              },
+              "operation": "<>",
+              "table": "itv.usuarios_tarefas"
+            }
+          ],
+          "conditional": null,
+          "valid": true
+        },
+        "groupBy": [],
+        "query": "select count([id]) as [total_andamento] from [itv].[usuarios_tarefas] where [itv].[usuarios_tarefas].[usuario_id] = @p0 and [itv].[usuarios_tarefas].[status] <> @p1"
+      }
+    },
+    "output": true,
+    "meta": [
+      {
+        "type": "number",
+        "name": "total_andamento"
+      }
+    ],
+    "outputType": "object"
+  },
+  {
+    "name": "query_total_concluidas",
+    "module": "dbconnector",
+    "action": "single",
+    "options": {
+      "connection": "dbmasterclasse",
+      "sql": {
+        "type": "select",
+        "columns": [
+          {
+            "table": "itv.usuarios_tarefas",
+            "column": "id",
+            "alias": "total_concluida",
+            "aggregate": "COUNT"
+          }
+        ],
+        "params": [
+          {
+            "operator": "equal",
+            "type": "expression",
+            "name": ":P1",
+            "value": "{{query_logado.id}}",
+            "test": ""
+          }
+        ],
+        "table": {
+          "name": "itv.usuarios_tarefas"
+        },
+        "primary": "id",
+        "joins": [],
+        "wheres": {
+          "condition": "AND",
+          "rules": [
+            {
+              "id": "itv.usuarios_tarefas.usuario_id",
+              "field": "itv.usuarios_tarefas.usuario_id",
+              "type": "double",
+              "operator": "equal",
+              "value": "{{query_logado.id}}",
+              "data": {
+                "table": "itv.usuarios_tarefas",
+                "column": "usuario_id",
+                "type": "number",
+                "columnObj": {
+                  "type": "reference",
+                  "nullable": false,
+                  "references": "id",
+                  "inTable": "itv.usuarios",
+                  "referenceType": "integer",
+                  "onUpdate": "NO ACTION",
+                  "onDelete": "NO ACTION",
+                  "name": "usuario_id"
+                }
+              },
+              "operation": "="
+            },
+            {
+              "id": "itv.usuarios_tarefas.status",
+              "field": "itv.usuarios_tarefas.status",
+              "type": "string",
+              "operator": "equal",
+              "value": "Concluida",
+              "data": {
+                "table": "itv.usuarios_tarefas",
+                "column": "status",
+                "type": "text",
+                "columnObj": {
+                  "type": "string",
+                  "maxLength": 50,
+                  "nullable": false,
+                  "name": "status"
+                }
+              },
+              "operation": "="
+            }
+          ],
+          "conditional": null,
+          "valid": true
+        },
+        "groupBy": [],
+        "query": "select count([id]) as [total_concluida] from [itv].[usuarios_tarefas] where [itv].[usuarios_tarefas].[usuario_id] = @p0 and [itv].[usuarios_tarefas].[status] = @p1"
+      }
+    },
+    "output": true,
+    "meta": [
+      {
+        "type": "number",
+        "name": "total_concluida"
+      }
+    ],
+    "outputType": "object"
+  }
+]

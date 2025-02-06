@@ -1,0 +1,258 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "offset"
+      },
+      {
+        "type": "text",
+        "name": "limit"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query_aprovacao",
+      "module": "dbconnector",
+      "action": "paged",
+      "options": {
+        "connection": "dbmasterclasse",
+        "sql": {
+          "type": "select",
+          "columns": [
+            {
+              "table": "itv.usuarios_tarefas",
+              "column": "*"
+            },
+            {
+              "table": "tarefas",
+              "column": "nome",
+              "alias": "nome_tarefa"
+            },
+            {
+              "table": "tarefas",
+              "column": "descricao",
+              "alias": "descricao_tarefa"
+            },
+            {
+              "table": "tarefas",
+              "column": "nivel",
+              "alias": "nivel_tarefa"
+            },
+            {
+              "table": "usuarios",
+              "column": "nome",
+              "alias": "nome_usuario"
+            },
+            {
+              "table": "usuarios",
+              "column": "foto",
+              "alias": "foto_usuario"
+            }
+          ],
+          "params": [],
+          "table": {
+            "name": "itv.usuarios_tarefas"
+          },
+          "primary": "id",
+          "joins": [
+            {
+              "table": "tarefas",
+              "column": "*",
+              "alias": "tarefas",
+              "type": "LEFT",
+              "clauses": {
+                "condition": "AND",
+                "rules": [
+                  {
+                    "table": "tarefas",
+                    "column": "id",
+                    "operator": "equal",
+                    "operation": "=",
+                    "value": {
+                      "table": "itv.usuarios_tarefas",
+                      "column": "tarefa_id"
+                    }
+                  }
+                ]
+              },
+              "primary": "id",
+              "schema": "itv"
+            },
+            {
+              "table": "usuarios",
+              "column": "*",
+              "alias": "usuarios",
+              "type": "LEFT",
+              "clauses": {
+                "condition": "AND",
+                "rules": [
+                  {
+                    "table": "usuarios",
+                    "column": "id",
+                    "operator": "equal",
+                    "operation": "=",
+                    "value": {
+                      "table": "itv.usuarios_tarefas",
+                      "column": "usuario_id"
+                    }
+                  }
+                ]
+              },
+              "primary": "id",
+              "schema": "itv"
+            }
+          ],
+          "query": "select [itv].[usuarios_tarefas].*, [tarefas].[nome] as [nome_tarefa], [tarefas].[descricao] as [descricao_tarefa], [tarefas].[nivel] as [nivel_tarefa], [usuarios].[nome] as [nome_usuario], [usuarios].[foto] as [foto_usuario] from [itv].[usuarios_tarefas] left join [itv].[tarefas] as [tarefas] on [tarefas].[id] = [itv].[usuarios_tarefas].[tarefa_id] left join [itv].[usuarios] as [usuarios] on [usuarios].[id] = [itv].[usuarios_tarefas].[usuario_id] where [itv].[usuarios_tarefas].[status] = @p0",
+          "orders": [],
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "itv.usuarios_tarefas.status",
+                "field": "itv.usuarios_tarefas.status",
+                "type": "string",
+                "operator": "equal",
+                "value": "Aprovacao",
+                "data": {
+                  "table": "itv.usuarios_tarefas",
+                  "column": "status",
+                  "type": "text",
+                  "columnObj": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "nullable": false,
+                    "name": "status"
+                  }
+                },
+                "operation": "=",
+                "table": "itv.usuarios_tarefas"
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          }
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "offset",
+          "type": "number"
+        },
+        {
+          "name": "limit",
+          "type": "number"
+        },
+        {
+          "name": "total",
+          "type": "number"
+        },
+        {
+          "name": "page",
+          "type": "object",
+          "sub": [
+            {
+              "name": "offset",
+              "type": "object",
+              "sub": [
+                {
+                  "name": "first",
+                  "type": "number"
+                },
+                {
+                  "name": "prev",
+                  "type": "number"
+                },
+                {
+                  "name": "next",
+                  "type": "number"
+                },
+                {
+                  "name": "last",
+                  "type": "number"
+                }
+              ]
+            },
+            {
+              "name": "current",
+              "type": "number"
+            },
+            {
+              "name": "total",
+              "type": "number"
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": "array",
+          "sub": [
+            {
+              "type": "number",
+              "name": "id"
+            },
+            {
+              "type": "number",
+              "name": "usuario_id"
+            },
+            {
+              "type": "number",
+              "name": "tarefa_id"
+            },
+            {
+              "type": "datetime",
+              "name": "data_atribuicao"
+            },
+            {
+              "type": "text",
+              "name": "status"
+            },
+            {
+              "type": "datetime",
+              "name": "data_enviada"
+            },
+            {
+              "type": "datetime",
+              "name": "data_aprovada"
+            },
+            {
+              "type": "text",
+              "name": "info_envio"
+            },
+            {
+              "type": "text",
+              "name": "nome_tarefa"
+            },
+            {
+              "type": "text",
+              "name": "descricao_tarefa"
+            },
+            {
+              "type": "text",
+              "name": "nivel_tarefa"
+            },
+            {
+              "type": "text",
+              "name": "nome_usuario"
+            },
+            {
+              "type": "text",
+              "name": "foto_usuario"
+            }
+          ]
+        }
+      ],
+      "outputType": "object"
+    }
+  }
+}

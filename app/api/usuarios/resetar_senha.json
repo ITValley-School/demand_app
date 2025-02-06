@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "senha"
+      },
+      {
+        "type": "text",
+        "name": "token"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "query_usuario",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "dbmasterclasse",
+          "sql": {
+            "type": "select",
+            "columns": [
+              {
+                "table": "itv.usuarios",
+                "column": "email"
+              },
+              {
+                "table": "itv.usuarios",
+                "column": "token"
+              }
+            ],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{$_POST.token}}",
+                "test": ""
+              }
+            ],
+            "table": {
+              "name": "itv.usuarios"
+            },
+            "primary": "id",
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "itv.usuarios.token",
+                  "field": "itv.usuarios.token",
+                  "type": "string",
+                  "operator": "equal",
+                  "value": "{{$_POST.token}}",
+                  "data": {
+                    "table": "itv.usuarios",
+                    "column": "token",
+                    "type": "text",
+                    "columnObj": {
+                      "type": "string",
+                      "maxLength": 255,
+                      "nullable": true,
+                      "name": "token"
+                    }
+                  },
+                  "operation": "="
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "select [email], [token] from [itv].[usuarios] where [itv].[usuarios].[token] = @p0"
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "text",
+            "name": "email"
+          },
+          {
+            "type": "text",
+            "name": "token"
+          }
+        ],
+        "outputType": "object"
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{query_usuario}}",
+          "then": {
+            "steps": {
+              "name": "update_usuario",
+              "module": "dbupdater",
+              "action": "update",
+              "options": {
+                "connection": "dbmasterclasse",
+                "sql": {
+                  "type": "update",
+                  "values": [
+                    {
+                      "table": "itv.usuarios",
+                      "column": "senha",
+                      "type": "text",
+                      "value": "{{$_POST.senha.sha1()}}"
+                    },
+                    {
+                      "table": "itv.usuarios",
+                      "column": "token",
+                      "type": "text",
+                      "value": "{{UUID}}"
+                    }
+                  ],
+                  "table": "itv.usuarios",
+                  "wheres": {
+                    "condition": "AND",
+                    "rules": [
+                      {
+                        "id": "token",
+                        "field": "token",
+                        "type": "string",
+                        "operator": "equal",
+                        "value": "{{$_POST.token}}",
+                        "data": {
+                          "column": "token"
+                        },
+                        "operation": "="
+                      }
+                    ],
+                    "conditional": null,
+                    "valid": true
+                  },
+                  "returning": "id",
+                  "query": "update [itv].[usuarios] set [senha] = @p0, [token] = @p1 where [token] = @p2;select @@rowcount",
+                  "params": [
+                    {
+                      "name": ":P1",
+                      "type": "expression",
+                      "value": "{{$_POST.senha.sha1()}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P2",
+                      "type": "expression",
+                      "value": "{{UUID}}",
+                      "test": ""
+                    },
+                    {
+                      "operator": "equal",
+                      "type": "expression",
+                      "name": ":P3",
+                      "value": "{{$_POST.token}}",
+                      "test": ""
+                    }
+                  ]
+                }
+              },
+              "meta": [
+                {
+                  "name": "affected",
+                  "type": "number"
+                }
+              ]
+            }
+          },
+          "else": {
+            "steps": {
+              "name": "erro",
+              "module": "core",
+              "action": "response",
+              "options": {
+                "status": 403,
+                "data": "Token inválido!"
+              }
+            }
+          }
+        },
+        "outputType": "boolean"
+      }
+    ]
+  }
+}

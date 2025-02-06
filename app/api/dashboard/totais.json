@@ -1,0 +1,73 @@
+[
+  {
+    "name": "query_total_user",
+    "module": "dbconnector",
+    "action": "single",
+    "options": {
+      "connection": "dbmasterclasse",
+      "sql": {
+        "type": "select",
+        "columns": [
+          {
+            "table": "itv.usuarios",
+            "column": "id",
+            "aggregate": "COUNT",
+            "alias": "total_user"
+          }
+        ],
+        "params": [],
+        "table": {
+          "name": "itv.usuarios"
+        },
+        "primary": "id",
+        "joins": [],
+        "query": "select count([id]) as [total_user] from [itv].[usuarios]",
+        "orders": [],
+        "groupBy": []
+      }
+    },
+    "output": true,
+    "meta": [
+      {
+        "type": "number",
+        "name": "total_user"
+      }
+    ],
+    "outputType": "object"
+  },
+  {
+    "name": "query_total_tasks",
+    "module": "dbconnector",
+    "action": "single",
+    "options": {
+      "connection": "dbmasterclasse",
+      "sql": {
+        "type": "select",
+        "columns": [
+          {
+            "table": "itv.tarefas",
+            "column": "id",
+            "aggregate": "COUNT",
+            "alias": "total_tasks"
+          }
+        ],
+        "params": [],
+        "table": {
+          "name": "itv.tarefas"
+        },
+        "primary": "id",
+        "joins": [],
+        "query": "select count([id]) as [total_tasks] from [itv].[tarefas]",
+        "groupBy": []
+      }
+    },
+    "output": true,
+    "meta": [
+      {
+        "type": "number",
+        "name": "total_tasks"
+      }
+    ],
+    "outputType": "object"
+  }
+]

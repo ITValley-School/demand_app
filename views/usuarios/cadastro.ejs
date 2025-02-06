@@ -1,0 +1,147 @@
+<html lang="en" data-bs-theme="blue-theme">
+
+<head>
+    <script src="/dmxAppConnect/dmxAppConnect.js"></script>
+    <meta name="ac:route" content="/cadastro">
+    <base href="/usuarios/">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Maxton | Bootstrap 5 Admin Dashboard Template</title>
+    <!--favicon-->
+    <link rel="icon" href="../../assets/images/favicon-32x32.png" type="image/png">
+    <!-- loader-->
+    <link href="../../assets/css/pace.min.css" rel="stylesheet">
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/pace.min.js"></script>
+
+    <!--plugins-->
+    <link href="../../assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../assets/plugins/metismenu/metisMenu.min.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/plugins/metismenu/mm-vertical.css">
+    <!--bootstrap css-->
+    <link href="/bootstrap/5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+    <!--main css-->
+    <link href="../../assets/css/bootstrap-extended.css" rel="stylesheet">
+    <link href="../../sass/main.css" rel="stylesheet">
+    <link href="../../sass/dark-theme.css" rel="stylesheet">
+    <link href="../../sass/blue-theme.css" rel="stylesheet">
+    <link href="../../sass/responsive.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/dmxAppConnect/dmxNotifications/dmxNotifications.css" />
+    <script src="/dmxAppConnect/dmxNotifications/dmxNotifications.js" defer></script>
+    <link rel="stylesheet" href="/dmxAppConnect/dmxValidator/dmxValidator.css" />
+    <script src="/dmxAppConnect/dmxValidator/dmxValidator.js" defer></script>
+    <link rel="stylesheet" href="/dmxAppConnect/dmxPreloader/dmxPreloader.css" />
+    <script src="/dmxAppConnect/dmxPreloader/dmxPreloader.js" defer></script>
+</head>
+
+<body class="bg-register" is="dmx-app" id="cadastro">
+    <dmx-preloader id="preloader" bgcolor="#220c49" spinner="wanderingCubes" color="#ffff"></dmx-preloader>
+    <dmx-notifications id="notifies"></dmx-notifications>
+
+
+    <!--authentication-->
+
+    <div class="container-fluid my-5">
+        <div class="row">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5 col-xxl-5 mx-auto">
+                <div class="card rounded-4 mb-0 border-top border-4 border-primary border-gradient-1">
+                    <div class="card-body p-5 text-start">
+                        <img src="../../assets/images/logoitva.png" class="mb-4" width="190" alt="">
+                        <h4 class="fw-bold text-start">Comece agora mesmo</h4>
+                        <p class="mb-0 text-start">Cadastre-se e começe a fazer projetos reais</p>
+
+                        <div class="form-body my-4">
+                            <form class="row g-3" method="post" action="/api/usuarios/adduser" is="dmx-serverconnect-form" id="sc_form_adduser" dmx-on:success="notifies.success('Cadastro finalizado');sc_form_adduser.reset()">
+                                <div class="col-12 text-start">
+                                    <label for="inp_nome" class="form-label">Nome</label>
+                                    <input class="form-control" id="inp_nome" placeholder="ex: Jhon" name="nome" required="" data-msg-required="Obrigatório!">
+                                </div>
+                                <div class="col-12 text-start">
+                                    <label for="inp_email" class="form-label">Endreço de email</label>
+                                    <input type="email" class="form-control" id="inp_email" placeholder="example@user.com" name="email" required="" data-msg-required="Obrigatório!" data-rule-email="" data-msg-email="Digite um email válido!">
+                                </div>
+                                <div class="col-12 text-start">
+                                    <label for="inp_email" class="form-label">Telefone</label>
+                                    <input class="form-control" id="inp_telefone" placeholder="(99) 010101010" name="telefone" required="" data-msg-required="Obrigatório!" data-rule-number="" data-msg-number="Digite um número válido!">
+                                </div>
+                                <div class="col-12 text-start">
+                                    <label for="inp_email" class="form-label">Cargo ou função</label>
+                                    <input class="form-control" id="inp_funcao" placeholder="ex: back end" name="cargo">
+                                </div>
+                                <div class="col-12 text-start">
+                                    <label for="inp_senha" class="form-label">Senha</label>
+                                    <div class="input-group" id="show_hide_password">
+                                        <input type="password" class="form-control border-end-0" id="inp_senha" placeholder="Sua senha" name="senha" required="" data-msg-required="Obrigatório!">
+                                        <a href="javascript:;" class="input-group-text bg-transparent"><i class="bi bi-eye-slash-fill"></i></a>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-grd-danger">Cadastrar</button>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="text-start">
+                                        <p class="mb-0">Ja possui uma conta? <a href="/usuarios/login-user">Faça seu login</a></p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div><!--end row-->
+    </div>
+
+    <!--authentication-->
+
+
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const telefoneInput = document.getElementById("inp_telefone");
+
+    telefoneInput.addEventListener("input", function (e) {
+        let telefone = e.target.value.replace(/\D/g, ""); // Remove tudo que não for número
+
+        // Aplica a máscara de telefone (XX) XXXXX-XXXX
+        if (telefone.length > 10) {
+            telefone = telefone.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+        } else if (telefone.length > 6) {
+            telefone = telefone.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+        } else if (telefone.length > 2) {
+            telefone = telefone.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+        }
+
+        e.target.value = telefone;
+    });
+
+    telefoneInput.addEventListener("blur", function () {
+        telefoneInput.value = telefoneInput.value.replace(/\D/g, ""); // Remove a máscara ao perder o foco
+    });
+
+    telefoneInput.addEventListener("focus", function () {
+        let telefone = telefoneInput.value.replace(/\D/g, ""); // Reaplica a máscara ao focar no campo
+        if (telefone.length > 10) {
+            telefoneInput.value = telefone.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+        } else if (telefone.length > 6) {
+            telefoneInput.value = telefone.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+        } else if (telefone.length > 2) {
+            telefoneInput.value = telefone.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+        }
+    });
+});
+    </script>
+    <script src="/bootstrap/5/js/bootstrap.min.js"></script>
+    <script src="/bootstrap/5/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

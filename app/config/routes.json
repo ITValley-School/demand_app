@@ -1,0 +1,168 @@
+{
+  "routes": [
+    {
+      "path": "/caduser",
+      "page": "caduser",
+      "layout": "telaprincipal"
+    },
+    {
+      "path": "/destes2",
+      "page": "destes2",
+      "layout": "telaprincipal"
+    },
+    {
+      "path": "/teste-com-os-scriptsdosite",
+      "page": "teste-com-os-scriptsdosite",
+      "layout": "telaprincipal"
+    },
+    {
+      "path": "/chat",
+      "page": "chat",
+      "layout": "telaprincipal"
+    },
+    {
+      "path": "/chat/chat",
+      "page": "chat/chat",
+      "layout": "telaprincipal"
+    },
+    {
+      "path": "/upload/uploadaudio",
+      "page": "upload/uploadaudio",
+      "layout": "telaprincipal"
+    },
+    {
+      "path": "/Whisper/tts-ia",
+      "page": "Whisper/tts-ia",
+      "layout": "telaprincipal"
+    },
+    {
+      "path": "/Whisper/tts-openai",
+      "page": "Whisper/tts-openai",
+      "layout": "telaprincipal"
+    },
+    {
+      "path": "/demandas/home-antiga",
+      "page": "demandas/home-antiga",
+      "layout": "page-horizontal"
+    },
+    {
+      "path": "/usuarios/add-user",
+      "page": "usuarios/add-user",
+      "layout": "telaprincipal"
+    },
+    {
+      "path": "/teste-api",
+      "page": "teste-api",
+      "layout": "telaprincipal"
+    },
+    {
+      "path": "/usuarios/esqueceu-a-senha",
+      "page": "usuarios/esqueceu-a-senha",
+      "layout": "main"
+    },
+    {
+      "path": "/usuarios/login-user",
+      "page": "usuarios/login-user",
+      "layout": "main"
+    },
+    {
+      "path": "/demandas/tarefas-realizadas",
+      "page": "demandas/tarefas-realizadas",
+      "layout": "page-horizontal"
+    },
+    {
+      "path": "/demandas/tarefas-em-andamento",
+      "page": "demandas/tarefas-em-andamento",
+      "layout": "page-vertical"
+    },
+    {
+      "path": "/demandas/home",
+      "page": "demandas/home",
+      "layout": "page-horizontal"
+    },
+    {
+      "path": "/usuarios/two-steps",
+      "page": "usuarios/two-steps",
+      "layout": "main"
+    },
+    {
+      "path": "/demandas/create-demande",
+      "page": "demandas/create-demande",
+      "layout": "page-vertical"
+    },
+    {
+      "path": "/cadastro",
+      "page": "usuarios/cadastro",
+      "layout": "main"
+    },
+    {
+      "path": "/painel_admin",
+      "page": "painel_admin",
+      "layout": "dashboard"
+    },
+    {
+      "path": "/painel_aluno",
+      "page": "painel_aluno",
+      "layout": "dashboard_aluno"
+    },
+    {
+      "path": "/aprovar_tasks",
+      "page": "aprovar_tasks",
+      "layout": "dashboard"
+    },
+    {
+      "path": "/perfil",
+      "page": "perfil",
+      "layout": "dashboard_aluno"
+    },
+    {
+      "path": "/minhas_tarefas",
+      "page": "minhas_tarefas",
+      "layout": "dashboard_aluno"
+    },
+    {
+      "path": "/perfil_admin",
+      "page": "perfil_admin",
+      "layout": "dashboard"
+    },
+    {
+      "path": "/alunos",
+      "page": "alunos",
+      "layout": "dashboard"
+    },
+    {
+      "path": "/itv_task_demander",
+      "page": "itv_task_demander",
+      "layout": "main"
+    },
+    {
+      "path": "/",
+      "page": "index",
+      "layout": "main"
+    },
+    {
+      "path": "/ranking_selos",
+      "page": "ranking_selos",
+      "layout": "dashboard_aluno"
+    },
+    {
+      "path": "/usuarios/resete_senha/:token",
+      "page": "usuarios/resete_senha",
+      "layout": "main"
+    }
+  ],
+  "layouts": {
+    "telaprincipal": {
+      "exec": "/api/auth/checkaccessUser"
+    },
+    "page-horizontal": {
+      "exec": "/api/auth/checkaccessUser"
+    },
+    "dashboard_aluno": {
+      "exec": "/api/permissoes/permissao_aluno"
+    },
+    "dashboard": {
+      "exec": "/api/permissoes/permissao_admin"
+    }
+  }
+}

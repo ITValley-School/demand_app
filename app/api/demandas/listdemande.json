@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "dbmasterclasse",
+        "sql": {
+          "query": "select [itv].[tarefas].[nome], [itv].[tarefas].[descricao], [itv].[tarefas].[estimativa_horas], \n[itv].[tarefas].[status], [itv].[tarefas].[data_inicio], [itv].[tarefas].[data_termino_prevista], \n[itv].[tarefas].[data_fim_realizado], [itv].[usuarios].[nome]  as 'Aluno'\n\nfrom [itv].[tarefas] \nleft join [itv].[usuarios] on [itv].[usuarios].[id] = [itv].[tarefas].[usuario_id]",
+          "params": []
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "nome",
+          "type": "text"
+        },
+        {
+          "name": "descricao",
+          "type": "text"
+        },
+        {
+          "name": "estimativa_horas",
+          "type": "number"
+        },
+        {
+          "name": "status",
+          "type": "text"
+        },
+        {
+          "name": "data_inicio",
+          "type": "datetime"
+        },
+        {
+          "name": "data_termino_prevista",
+          "type": "datetime"
+        },
+        {
+          "name": "data_fim_realizado",
+          "type": "datetime"
+        },
+        {
+          "name": "Aluno",
+          "type": "text"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

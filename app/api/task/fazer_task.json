@@ -1,0 +1,176 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "number",
+        "name": "tarefa_id"
+      },
+      {
+        "type": "number",
+        "name": "pontos"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "identity",
+        "module": "auth",
+        "action": "identify",
+        "options": {
+          "provider": "security_official"
+        },
+        "output": true,
+        "meta": []
+      },
+      {
+        "name": "query_usuario_logado",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "dbmasterclasse",
+          "sql": {
+            "type": "select",
+            "columns": [
+              {
+                "table": "itv.usuarios",
+                "column": "id"
+              }
+            ],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{identity}}",
+                "test": ""
+              }
+            ],
+            "table": {
+              "name": "itv.usuarios"
+            },
+            "primary": "id",
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "itv.usuarios.id",
+                  "field": "itv.usuarios.id",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{identity}}",
+                  "data": {
+                    "table": "itv.usuarios",
+                    "column": "id",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "integer",
+                      "primary": "PRIMARY",
+                      "nullable": false,
+                      "name": "id"
+                    }
+                  },
+                  "operation": "="
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "select [id] from [itv].[usuarios] where [itv].[usuarios].[id] = @p0"
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "number",
+            "name": "id"
+          }
+        ],
+        "outputType": "object"
+      },
+      {
+        "name": "ceiar_taferefa_atribuida",
+        "module": "dbupdater",
+        "action": "insert",
+        "options": {
+          "connection": "dbmasterclasse",
+          "sql": {
+            "type": "insert",
+            "values": [
+              {
+                "table": "itv.usuarios_tarefas",
+                "column": "usuario_id",
+                "type": "number",
+                "value": "{{query_usuario_logado.id}}"
+              },
+              {
+                "table": "itv.usuarios_tarefas",
+                "column": "tarefa_id",
+                "type": "number",
+                "value": "{{$_POST.tarefa_id}}"
+              },
+              {
+                "table": "itv.usuarios_tarefas",
+                "column": "data_atribuicao",
+                "type": "datetime",
+                "value": "{{NOW}}"
+              },
+              {
+                "table": "itv.usuarios_tarefas",
+                "column": "status",
+                "type": "text",
+                "value": "Andamento"
+              },
+              {
+                "table": "itv.usuarios_tarefas",
+                "column": "pontos",
+                "type": "number",
+                "value": "{{$_POST.pontos}}"
+              }
+            ],
+            "table": "itv.usuarios_tarefas",
+            "returning": "id",
+            "query": "select top(0) [t].[id] into #out from [itv].[usuarios_tarefas] as t left join [itv].[usuarios_tarefas] on 0=1;insert into [itv].[usuarios_tarefas] ([data_atribuicao], [pontos], [status], [tarefa_id], [usuario_id]) output inserted.[id] into #out values (@p0, @p1, @p2, @p3, @p4); select [id] from #out; drop table #out;",
+            "params": [
+              {
+                "name": ":P1",
+                "type": "expression",
+                "value": "{{query_usuario_logado.id}}",
+                "test": ""
+              },
+              {
+                "name": ":P2",
+                "type": "expression",
+                "value": "{{$_POST.tarefa_id}}",
+                "test": ""
+              },
+              {
+                "name": ":P3",
+                "type": "expression",
+                "value": "{{NOW}}",
+                "test": ""
+              },
+              {
+                "name": ":P4",
+                "type": "expression",
+                "value": "{{$_POST.pontos}}",
+                "test": ""
+              }
+            ]
+          }
+        },
+        "meta": [
+          {
+            "name": "identity",
+            "type": "text"
+          },
+          {
+            "name": "affected",
+            "type": "number"
+          }
+        ]
+      }
+    ]
+  }
+}

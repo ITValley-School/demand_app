@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "nome"
+      },
+      {
+        "type": "text",
+        "name": "descricao"
+      },
+      {
+        "type": "number",
+        "name": "estimativa_horas"
+      },
+      {
+        "type": "text",
+        "name": "nivel"
+      },
+      {
+        "type": "number",
+        "name": "id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "update_task",
+      "module": "dbupdater",
+      "action": "update",
+      "options": {
+        "connection": "dbmasterclasse",
+        "sql": {
+          "type": "update",
+          "values": [
+            {
+              "table": "itv.tarefas",
+              "column": "nome",
+              "type": "text",
+              "value": "{{$_POST.nome}}"
+            },
+            {
+              "table": "itv.tarefas",
+              "column": "descricao",
+              "type": "text",
+              "value": "{{$_POST.descricao}}"
+            },
+            {
+              "table": "itv.tarefas",
+              "column": "estimativa_horas",
+              "type": "number",
+              "value": "{{$_POST.estimativa_horas}}"
+            },
+            {
+              "table": "itv.tarefas",
+              "column": "nivel",
+              "type": "text",
+              "value": "{{$_POST.nivel}}"
+            }
+          ],
+          "table": "itv.tarefas",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "id",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_POST.id}}",
+                "data": {
+                  "column": "id"
+                },
+                "operation": "="
+              }
+            ]
+          },
+          "returning": "id",
+          "query": "update [itv].[tarefas] set [nome] = @p0, [descricao] = @p1, [estimativa_horas] = @p2, [nivel] = @p3 where [id] = @p4;select @@rowcount",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.nome}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.descricao}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.estimativa_horas}}",
+              "test": ""
+            },
+            {
+              "name": ":P4",
+              "type": "expression",
+              "value": "{{$_POST.nivel}}",
+              "test": ""
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P5",
+              "value": "{{$_POST.id}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

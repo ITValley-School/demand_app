@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "identity",
+        "module": "auth",
+        "action": "identify",
+        "options": {
+          "provider": "security_official"
+        },
+        "output": true,
+        "meta": []
+      },
+      {
+        "name": "query",
+        "module": "dbupdater",
+        "action": "custom",
+        "options": {
+          "connection": "dbmasterclasse",
+          "sql": {
+            "query": "SELECT \n    [id], \n    [nome], \n    [descricao], \n    [estimativa_horas], \n    [status], \n    [data_inicio]\nFROM \n    [itv].[tarefas]\nWHERE \n    [itv].[tarefas].[usuario_id] <> @p0\n    AND [itv].[tarefas].[status] NOT IN (\n        SELECT [status_aprovacao]\n        FROM [itv].[tarefas_atribuidas]\n    );",
+            "params": [
+              {
+                "name": "@p0",
+                "value": "{{identity}}",
+                "test": ""
+              }
+            ]
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "name": "id",
+            "type": "number"
+          },
+          {
+            "name": "nome",
+            "type": "text"
+          },
+          {
+            "name": "descricao",
+            "type": "text"
+          },
+          {
+            "name": "estimativa_horas",
+            "type": "number"
+          },
+          {
+            "name": "status",
+            "type": "text"
+          },
+          {
+            "name": "data_inicio",
+            "type": "datetime"
+          }
+        ],
+        "type": "dbcustom_query"
+      }
+    ]
+  }
+}

@@ -1,0 +1,140 @@
+<!-- Wappler include head-page="layouts/dashboard" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="painel_admin" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxBootstrap5Modal:{},dmxMediumEditor:{},dmxDataTraversal:{}}" -->
+<dmx-data-detail id="data_detail_detalhes_envio" dmx-bind:data="sc_listar_aprovacao.data.query_aprovacao.data" key="id"></dmx-data-detail>
+<div class="modal fade" id="modal_detalhes_envio_task" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-start">
+                <h5 class="modal-title text-start">{{data_detail_detalhes_envio.data.nome_tarefa}}</h5>
+                <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                <form is="dmx-serverconnect-form" id="sc_form_adicionar_task" method="post" action="/api/task/nova_task" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="notifies.success('task adicionada');sc_form_adicionar_task.reset();sc_listar_task.load({});modal_criar_task.hide()">
+                    <div class="form-group mb-3">
+                        <label for="inp_descricao">{{data_detail_detalhes_envio.data.info_envio}}</label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_aprovar_task" is="dmx-bs5-modal" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Conclusão de Tarefa</h5>
+                <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form is="dmx-serverconnect-form" id="sc_concluir_tasks" method="post" action="/api/task/aprovar_task" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="notifies.warning('Aprovação Concluída!');modal_aprovar_task.hide();sc_listar_aprovacao.load({})">
+                    <div class="form-group mb-3">
+                        <input type="hidden" class="form-control" id="inp_id" name="id" aria-describedby="inp_id_help" dmx-bind:value="data_detail_detalhes_envio.data.id">
+                    </div>
+                    <div class="form-group mb-3">
+                        <select id="inp_status" class="form-select" name="status">
+                            <option value="Andamento">Refazer</option>
+                            <option value="Concluida">Aprovada</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <button type="submit" class="btn btn-primary w-100" dmx-bind:disabled="state.executing">Confirmar <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+                    </div>
+                </form>
+                <p>
+            </div>
+        </div>
+    </div>
+</div>
+<dmx-serverconnect id="sc_listar_aprovacao" url="/api/task/aprovacao_admin"></dmx-serverconnect>
+<link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+<meta name="ac:route" content="/aprovar_tasks">
+<div class="main-content">
+    <!--breadcrumb-->
+    <div class="page-breadcrumb d-none d-sm-flex  mb-3">
+        <div class="breadcrumb-title pe-3">Adicionar Tasks</div>
+        <div class="ps-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0">
+                    <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Tasks</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="ms-auto">
+        </div>
+    </div>
+    <!--end breadcrumb-->
+
+
+    <div class="col-lg-12 col-xxl-12 d-flex align-items-stretch">
+        <div class="card w-100 rounded-4">
+            <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between mb-3 p-3">
+                    <div class="">
+                        <h5 class="mb-0">Task demander</h5>
+                    </div>
+                    <div class="d-flex align-items-start justify-content-between mb-3">
+                        <div class="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-search position-relative my-3">
+                    <input class="form-control rounded-5 px-5" type="text" placeholder="Search">
+                    <span class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50">search</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Nome Aluno</th>
+                                <th>Tarefas</th>
+                                <th>Dificuldade</th>
+                                <th>Detalhes do envio</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody is="dmx-repeat" id="reapeat_listar_aprovacao" dmx-bind:repeat="sc_listar_aprovacao.data.query_aprovacao.data" key="id">
+
+                            <tr>
+                                <!-- inicia o repetidor -->
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div>
+                                            <img src="" class="rounded-circle" width="50" height="50" dmx-bind:src="foto_usuario">
+                                        </div>
+                                        <p class="mb-0">{{nome_usuario}}</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div>
+                                        </div>
+                                        <p class="mb-0">{{nome_tarefa}}</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="dash-lable mb-0 badge bg-grd-danger rounded-2" dmx-class:bg-grd-warning="nivel_tarefa=='Medium'" dmx-class:bg-grd-info="nivel_tarefa=='Easy'">{{nivel_tarefa}}</p>
+                                </td>
+                                <td>
+                                    <button id="btn2" class="btn text-bg-dark" dmx-on:click="data_detail_detalhes_envio.select(id);modal_detalhes_envio_task.show()">Ver detalhes</button>
+                                </td>
+                                <td>
+                                    <button id="btn1" class="btn bg-primary text-light" dmx-on:click="data_detail_detalhes_envio.select(id);modal_aprovar_task.show()">Finalizar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+</main>

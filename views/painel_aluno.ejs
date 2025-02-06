@@ -1,0 +1,261 @@
+<!-- Wappler include head-page="layouts/dashboard_aluno" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="painel_aluno" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxPreloader:{},dmxAnimateCSS:{},dmxBootstrap5Modal:{},dmxDataTraversal:{},dmxCharts:{},dmxVideo:{}}" -->
+<div class="modal fade" id="modal_video" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tutorial Task Demand</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <iframe height="400" src="https://www.youtube.com/embed/h2AF_FZtyUg?si=Q8XuNwqr8az4VPIl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
+        </div>
+
+    </div>
+</div>
+</div>
+<dmx-serverconnect id="sc_pontos" url="/api/pontuacao/soma_de_pontos"></dmx-serverconnect>
+
+
+<dmx-serverconnect id="sc_count_tasks" url="/api/task/count_tasks"></dmx-serverconnect>
+<div class="modal" id="modal_confirmar_tarefa" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmação de Tarefa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form is="dmx-serverconnect-form" id="sc_conrfirmar_tarefa" method="post" action="/api/task/fazer_task" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="notifies.success('Agora é hora de codar! Divista-se');modal_confirmar_tarefa.hide();sc_tasks_alunos.load({});sc_count_tasks.load({})">
+                    <p>Você aceita fazer a tarefa: <strong class="text-info">
+                            <h5>{{data_detalhes_tarefa.data.nome}}</h5>
+                        </strong></p>
+                    <div class="form-group mb-3">
+                        <input type="hidden" class="form-control" id="inp_tarefa_id" name="tarefa_id" aria-describedby="inp_tarefa_id_help" dmx-bind:value="data_detalhes_tarefa.data.id">
+                        <input class="form-control" id="inp_pontos" name="pontos" aria-describedby="inp_tarefa_id_help" dmx-bind:value="data_detalhes_tarefa.data.pontuacao" type="hidden">
+                    </div>
+                    <div class="form-group mb-3">
+                        <button type="submit" class="btn btn-primary w-100 bg-success" dmx-bind:disabled="state.executing">Confirmar <span role="status" dmx-show="state.executing"></span></button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="modal_detalhes" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{data_detalhes_tarefa.data.nome}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{data_detalhes_tarefa.data.descricao}}</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<dmx-data-detail id="data_detalhes_tarefa" dmx-bind:data="sc_tasks_alunos.data.query_tasks_alunos" key="id"></dmx-data-detail>
+<dmx-serverconnect id="sc_tasks_alunos" url="/api/task/listar_tasks_alunos"></dmx-serverconnect>
+<dmx-preloader id="preloader" bgcolor="#220c49" color="#FFFF" spinner="wanderingCubes"></dmx-preloader>
+
+<meta name="ac:route" content="/painel_aluno">
+<main>
+    <div class="main-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex  mb-3">
+            <div class="breadcrumb-title pe-3">Painel do aluno</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Home</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="ms-auto">
+            </div>
+        </div>
+        <!--end breadcrumb-->
+
+        <div class="row">
+            <div class="col-lg-12 col-xxl-8 d-flex align-items-stretch">
+                <div class="card w-100 overflow-hidden rounded-4">
+                    <div class="card-body  p-4">
+                        <div class="row">
+                            <div class="col-12 col-sm-">
+                                <div class="d-flex align-items-center gap-3 mb-5">
+                                    <img src="assets/images/avatars/do-utilizador.png" class="rounded-circle bg-grd-info p-1" width="60" height="60" alt="user" dmx-bind:src="sc_usuario_atual.data.buscar_usuario.foto">
+                                    <div class="">
+                                        <p class="mb-0 fw-semibold">Bem-vindo</p>
+                                        <h4 class="fw-semibold mb-0 fs-4 mb-0">{{sc_usuario_atual.data.buscar_usuario.nome}}!</h4>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-5">
+                                    <div class="">
+                                        <h4 class="mb-1 fw-semibold d-flex align-content-center">{{sc_count_tasks.data.query_total_concluidas.total_concluida}}<i class="ti ti-arrow-up-right fs-5 lh-base text-success"></i>
+                                        </h4>
+                                        <p class="mb-3">Taks concluídas</p>
+                                        <div class="progress mb-0" style="height:5px;">
+                                            <div class="progress-bar bg-grd-success" role="progressbar" style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <div class="vr"></div>
+                                    <div class="">
+                                        <h4 class="mb-1 fw-semibold d-flex align-content-center">{{sc_count_tasks.data.query_total_adamento.total_andamento}}<i class="ti ti-arrow-up-right fs-5 lh-base text-success"></i>
+                                        </h4>
+                                        <p class="mb-3">Tasks em andamento</p>
+                                        <div class="progress mb-0" style="height:5px;">
+                                            <div class="progress-bar bg-grd-danger" role="progressbar" style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-5">
+                                <div class="welcome-back-img pb-3">
+                                    <img src="assets/images/gallery/load-35.gif" height="180" alt="">
+                                </div>
+                            </div>
+                        </div><!--end row-->
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-xl-6 col-xxl-2 d-flex align-items-stretch">
+                <div class="card w-100 rounded-4">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between mb-1">
+                            <div class="">
+                                <h5 class="mb-0 text-warning fw-bold">{{sc_pontos.data.query_soma_pontos.total_pontos}}</h5>
+                                <p class="mb-0 text-sm-start">Total de pontos</p>
+                            </div>
+                            <div class="dropdown">
+                                <a><span class="material-icons-outlined fs-5 pe-auto" style="cursor: pointer" dmx-on:click="selos_pontos.show()">help</span></a>
+
+
+
+                            </div>
+                            <div class="modal fade shadow-lg placeholder-glow" id="selos_pontos" is="dmx-bs5-modal" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Selos e pontos</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Para conquistar novos <b>selos</b>, desenvolva as Tarefas disponíveis no seu <b>Dashboard</b>, receba aprovação pelos professores e conquiste os níveis, Bronze, Prata e Dimound! </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container2 text-center pt-2">
+                            <img src="assets/images/gallery/selo iniciante.png" height="120" alt="" dmx-show="sc_pontos.data.query_soma_pontos.total_pontos&lt;100">
+                            <img src="/assets/images/gallery/selo%20bronze.png" height="120" alt="" dmx-show="sc_pontos.data.query_soma_pontos.total_pontos&gt;=100&amp;&amp;sc_pontos.data.query_soma_pontos.total_pontos&lt;180">
+                            <img src="/assets/images/gallery/Selo%20silver.png" height="120" alt="" dmx-show="sc_pontos.data.query_soma_pontos.total_pontos&gt;=180&amp;&amp;sc_pontos.data.query_soma_pontos.total_pontos&lt;500">
+                            <img src="/assets/images/gallery/selo%20dimound.png" height="120" alt="" dmx-show="sc_pontos.data.query_soma_pontos.total_pontos&gt;=500">
+                        </div>
+                        <div class="text-center">
+                            <p class="mb-0 font-12">Ganhe novos selos...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-xxl-2 d-flex align-items-stretch">
+                <div class="card w-100 rounded-4">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between mb-1">
+                            <div class="">
+                                <p class="mb-0 text-sm-start">Tutorial Demand</p>
+                            </div>
+                            <div class="dropdown">
+                                <a></a>
+
+
+
+                            </div>
+                            <div class="modal fade shadow-lg placeholder-glow" id="selos_pontos" is="dmx-bs5-modal" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Selos e pontos</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Para conquistar novos <b>selos</b>, desenvolva as Tarefas disponíveis no seu <b>Dashboard</b>, receba aprovação pelos professores e conquiste os níveis, Bronze, Prata e Dimound! </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container2 text-center pt-2">
+                            <img src="/assets/images/gallery/play.png" height="120" alt="" class="mt-xxl-1 " style="cursor: pointer" dmx-on:click="modal_video.show()">
+                        </div>
+                        <div class="text-center">
+                            <p class="mb-0 font-12 mt-xxl-3">Clique no play...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-12 col-xxl-12 d-flex align-items-stretch">
+        <div class="card w-100 rounded-4 ms-xxl-2">
+            <div class="card-body ms-xxl-3">
+                <div class="d-flex align-items-start justify-content-between mb-3">
+                    <div class="">
+                        <h5 class="mb-0">Tarefas disponíveis</h5>
+                    </div>
+                </div>
+                <div class="order-search position-relative my-3">
+                    <input class="form-control rounded-5 px-5" type="text" placeholder="Search">
+                    <span class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50">search</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Tarefas</th>
+                                <th>Estimativa de horas</th>
+                                <th>Dificuldade</th>
+                                <th>Veja os detalhes</th>
+                                <th>Task</th>
+                            </tr>
+                        </thead>
+                        <tbody is="dmx-repeat" id="repeat_tasks_alunos" dmx-bind:repeat="sc_tasks_alunos.data.query_tasks_alunos" key="id">
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div>
+                                            <img src="assets/images/top-products/icontasks.png" class="rounded-circle" width="50" height="50">
+                                        </div>
+                                        <p class="mb-0">{{nome}}</p>
+                                    </div>
+                                </td>
+                                <td>{{estimativa_horas}} Horas</td>
+                                <td>
+                                    <p class="dash-lable mb-0 bg-grd-danger rounded-2 text-white" dmx-class:bg-grd-warning="nivel=='Medium'" dmx-class:bg-grd-info="nivel=='Easy'">{{nivel}}</p>
+                                </td>
+                                <td>
+                                    <button id="btn9" class="btn bg-dark text-white" dmx-on:click="data_detalhes_tarefa.select(id);modal_detalhes.show()">Ver detalhes</button>
+                                </td>
+                                <td>
+                                    <button id="btn10" class="btn text-white bg-success" dmx-on:click="data_detalhes_tarefa.select(id);modal_confirmar_tarefa.show()">Fazer task</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    </div>
+
+</main>

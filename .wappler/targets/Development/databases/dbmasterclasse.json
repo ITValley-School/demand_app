@@ -1,0 +1,485 @@
+{
+  "type": "mssql",
+  "connection": {
+    "host": "srvmasterclass.database.windows.net",
+    "user": "adminitvalley",
+    "password": "Itvalley01.",
+    "database": "dbmasterclasse",
+    "encrypt": true
+  },
+  "direct": true,
+  "schema": {
+    "tables": {
+      "itv.usuarios": {
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "integer",
+              "primary": "PRIMARY",
+              "nullable": false
+            }
+          },
+          "nome": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "nullable": false
+            }
+          },
+          "email": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "nullable": false
+            }
+          },
+          "senha": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "nullable": false
+            }
+          },
+          "cargo": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "nullable": false
+            }
+          },
+          "telefone": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "nullable": true
+            }
+          },
+          "foto": {
+            "db": {
+              "type": "string",
+              "maxLength": -1,
+              "nullable": true
+            }
+          },
+          "permissao": {
+            "db": {
+              "type": "integer",
+              "default": "((1))",
+              "nullable": false
+            }
+          },
+          "total_pontos": {
+            "db": {
+              "type": "integer",
+              "default": "((0))",
+              "nullable": false
+            }
+          },
+          "token": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "nullable": true
+            }
+          }
+        }
+      },
+      "itv.tarefas": {
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "integer",
+              "primary": "PRIMARY",
+              "nullable": false
+            }
+          },
+          "nome": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "nullable": false
+            }
+          },
+          "descricao": {
+            "db": {
+              "type": "string",
+              "maxLength": -1,
+              "nullable": true
+            }
+          },
+          "estimativa_horas": {
+            "db": {
+              "type": "decimal",
+              "nullable": true
+            }
+          },
+          "nivel": {
+            "db": {
+              "type": "string",
+              "maxLength": 10,
+              "nullable": true
+            }
+          },
+          "pontuacao": {
+            "db": {
+              "type": "integer",
+              "default": "((0))",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "itv.usuarios_tarefas": {
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "integer",
+              "primary": "PRIMARY",
+              "nullable": false
+            }
+          },
+          "usuario_id": {
+            "db": {
+              "type": "integer",
+              "nullable": false,
+              "referenceType": "integer"
+            }
+          },
+          "tarefa_id": {
+            "db": {
+              "type": "integer",
+              "nullable": false,
+              "referenceType": "integer"
+            }
+          },
+          "data_atribuicao": {
+            "db": {
+              "type": "datetime",
+              "default": "(getdate())",
+              "nullable": false
+            }
+          },
+          "status": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "nullable": false
+            }
+          },
+          "data_enviada": {
+            "db": {
+              "type": "datetime",
+              "nullable": true
+            }
+          },
+          "data_aprovada": {
+            "db": {
+              "type": "datetime",
+              "nullable": true
+            }
+          },
+          "info_envio": {
+            "db": {
+              "type": "string",
+              "maxLength": -1,
+              "nullable": true
+            }
+          },
+          "pontos": {
+            "db": {
+              "type": "integer",
+              "default": "((0))",
+              "nullable": true
+            }
+          }
+        }
+      },
+      "mfi.alimentos": {
+        "db": {}
+      },
+      "mfi.usuarios": {
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "integer",
+              "primary": "PRIMARY",
+              "nullable": false
+            }
+          },
+          "nome": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "nullable": false
+            }
+          },
+          "email": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "nullable": false
+            }
+          },
+          "data_nascimento": {
+            "db": {
+              "type": "date",
+              "nullable": false
+            }
+          },
+          "peso": {
+            "db": {
+              "type": "float",
+              "nullable": false
+            }
+          },
+          "altura": {
+            "db": {
+              "type": "float",
+              "nullable": false
+            }
+          },
+          "sexo": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "nullable": true
+            }
+          },
+          "nivel_atividade": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "nullable": true
+            }
+          }
+        },
+        "refs": {
+          "mfi.alimentos": "usuario_id",
+          "mfi.metas": "usuario_id"
+        }
+      },
+      "mfi.metas": {
+        "db": {}
+      },
+      "epp.aluno": {
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "integer",
+              "primary": "PRIMARY",
+              "nullable": false
+            }
+          },
+          "nickname": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "nullable": false
+            }
+          },
+          "linkavatar": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "nullable": true
+            }
+          },
+          "annee": {
+            "db": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          "professora": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "nullable": true
+            }
+          },
+          "email": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "nullable": true
+            }
+          }
+        },
+        "refs": {
+          "epp.conversa": "aluno1_id",
+          "epp.registro_conversas": "aluno_id"
+        }
+      },
+      "epp.conversa": {
+        "db": {},
+        "columns": {
+          "id_conversa": {
+            "db": {
+              "type": "integer",
+              "primary": "PRIMARY",
+              "nullable": false
+            }
+          },
+          "aluno1_id": {
+            "db": {
+              "type": "reference",
+              "nullable": false,
+              "references": "id",
+              "inTable": "epp.aluno",
+              "referenceType": "integer",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "aluno2_id": {
+            "db": {
+              "type": "reference",
+              "nullable": false,
+              "references": "id",
+              "inTable": "epp.aluno",
+              "referenceType": "integer",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "data_inicio": {
+            "db": {
+              "type": "datetime",
+              "default": "(getdate())",
+              "nullable": true
+            }
+          },
+          "data_fim": {
+            "db": {
+              "type": "datetime",
+              "nullable": true
+            }
+          }
+        },
+        "refs": {
+          "epp.registro_conversas": "id_conversa"
+        }
+      },
+      "epp.registro_conversas": {
+        "db": {},
+        "columns": {
+          "id_registro": {
+            "db": {
+              "type": "integer",
+              "primary": "PRIMARY",
+              "nullable": false
+            }
+          },
+          "id_conversa": {
+            "db": {
+              "type": "reference",
+              "nullable": false,
+              "references": "id_conversa",
+              "inTable": "epp.conversa",
+              "referenceType": "integer",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "aluno_id": {
+            "db": {
+              "type": "reference",
+              "nullable": false,
+              "references": "id",
+              "inTable": "epp.aluno",
+              "referenceType": "integer",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "mensagem": {
+            "db": {
+              "type": "string",
+              "maxLength": -1,
+              "nullable": false
+            }
+          },
+          "data_envio": {
+            "db": {
+              "type": "datetime",
+              "default": "(getdate())",
+              "nullable": true
+            }
+          }
+        }
+      },
+      "dbo.avatar": {
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": "PRIMARY",
+              "nullable": false
+            }
+          },
+          "avatar": {
+            "db": {
+              "type": "integer",
+              "nullable": true
+            }
+          }
+        }
+      }
+    },
+    "views": {
+      "sys.database_firewall_rules": {
+        "db": {
+          "name": "database_firewall_rules",
+          "schema": "sys"
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "integer",
+              "nullable": false
+            }
+          },
+          "name": {
+            "db": {
+              "type": "string",
+              "maxLength": 128,
+              "nullable": false
+            }
+          },
+          "start_ip_address": {
+            "db": {
+              "type": "string",
+              "maxLength": 45,
+              "nullable": false
+            }
+          },
+          "end_ip_address": {
+            "db": {
+              "type": "string",
+              "maxLength": 45,
+              "nullable": false
+            }
+          },
+          "create_date": {
+            "db": {
+              "type": "datetime",
+              "nullable": false
+            }
+          },
+          "modify_date": {
+            "db": {
+              "type": "datetime",
+              "nullable": false
+            }
+          }
+        }
+      }
+    }
+  }
+}

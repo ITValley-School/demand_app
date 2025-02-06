@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "number",
+        "name": "id"
+      },
+      {
+        "type": "text",
+        "name": "status"
+      },
+      {
+        "type": "number",
+        "name": "pontos"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "aprovar_task",
+      "module": "dbupdater",
+      "action": "update",
+      "options": {
+        "connection": "dbmasterclasse",
+        "sql": {
+          "type": "update",
+          "values": [
+            {
+              "table": "itv.usuarios_tarefas",
+              "column": "status",
+              "type": "text",
+              "value": "{{$_POST.status}}"
+            },
+            {
+              "table": "itv.usuarios_tarefas",
+              "column": "data_aprovada",
+              "type": "datetime",
+              "value": "{{NOW}}"
+            }
+          ],
+          "table": "itv.usuarios_tarefas",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "id",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_POST.id}}",
+                "data": {
+                  "column": "id"
+                },
+                "operation": "="
+              }
+            ]
+          },
+          "returning": "id",
+          "query": "select top(0) [t].[id] into #out from [itv].[usuarios_tarefas] as t left join [itv].[usuarios_tarefas] on 0=1;update [itv].[usuarios_tarefas] set [status] = @p0, [data_aprovada] = @p1 output inserted.[id] into #out where [id] = @p2; select [id] from #out; drop table #out;",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.status}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{NOW}}",
+              "test": ""
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P3",
+              "value": "{{$_POST.id}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

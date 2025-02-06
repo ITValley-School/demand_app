@@ -1,0 +1,49 @@
+{
+  "name": "security_official",
+  "module": "auth",
+  "action": "provider",
+  "options": {
+    "secret": "1bqqALedBvSqhTn",
+    "provider": "Database",
+    "connection": "dbmasterclasse",
+    "expires": 1,
+    "secure": true,
+    "sameSite": "Strict",
+    "users": {
+      "table": "itv.usuarios",
+      "identity": "id",
+      "username": "email",
+      "password": "senha"
+    },
+    "permissions": {
+      "aluno": {
+        "table": "itv.usuarios",
+        "identity": "id",
+        "conditions": [
+          {
+            "column": "permissao",
+            "operator": ">=",
+            "value": "1"
+          }
+        ]
+      },
+      "admin": {
+        "table": "itv.usuarios",
+        "identity": "id",
+        "conditions": [
+          {
+            "column": "permissao",
+            "operator": ">=",
+            "value": "10"
+          }
+        ]
+      }
+    }
+  },
+  "meta": [
+    {
+      "name": "identity",
+      "type": "text"
+    }
+  ]
+}

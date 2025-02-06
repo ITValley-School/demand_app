@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "options": {
+          "rules": {}
+        },
+        "name": "email"
+      },
+      {
+        "type": "text",
+        "options": {
+          "rules": {}
+        },
+        "name": "senha"
+      },
+      {
+        "type": "text",
+        "name": "remember"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "identity",
+        "module": "auth",
+        "action": "login",
+        "options": {
+          "provider": "security_official",
+          "username": "{{$_POST.email.lowercase()}}",
+          "password": "{{$_POST.senha.sha1()}}"
+        },
+        "output": true,
+        "meta": []
+      },
+      {
+        "name": "identity_user",
+        "module": "auth",
+        "action": "identify",
+        "options": {
+          "provider": "security_official"
+        },
+        "output": true,
+        "meta": []
+      },
+      {
+        "name": "query_buscar_usuario",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "dbmasterclasse",
+          "sql": {
+            "type": "select",
+            "columns": [
+              {
+                "table": "usuarios",
+                "column": "permissao",
+                "schema": "itv"
+              }
+            ],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{identity_user}}",
+                "test": ""
+              }
+            ],
+            "table": {
+              "name": "usuarios",
+              "schema": "itv"
+            },
+            "primary": "id",
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "itv.usuarios.id",
+                  "field": "itv.usuarios.id",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{identity_user}}",
+                  "data": {
+                    "table": "usuarios",
+                    "column": "id",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "integer",
+                      "primary": "PRIMARY",
+                      "nullable": false,
+                      "name": "id"
+                    },
+                    "schema": "itv"
+                  },
+                  "operation": "="
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "select [permissao] from [itv].[usuarios] where [itv].[usuarios].[id] = @p0"
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "number",
+            "name": "permissao"
+          }
+        ],
+        "outputType": "object"
+      }
+    ]
+  }
+}

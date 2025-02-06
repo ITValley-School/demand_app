@@ -1,0 +1,92 @@
+<!-- Wappler include head-page="layouts/dashboard" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="perfil_admin" appConnect="local" components="{dmxBootstrap5Navigation:{}}" -->
+<!-- Wappler include head-page="layouts/dashboard_aluno" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="perfil" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxNotifications:{},dmxBrowser:{},dmxValidator:{}}" -->
+<div is="dmx-browser" id="browser"></div>
+<dmx-notifications id="notifies1"></dmx-notifications>
+<meta name="ac:route" content="/perfil_admin">
+<!--start main wrapper-->
+<main class="">
+    <div class="main-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Meu perfil</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Perfil Admin</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="ms-auto">
+                <div class="btn-group">
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end"> <a class="dropdown-item" href="javascript:;">Action</a>
+                        <a class="dropdown-item" href="javascript:;">Another action</a>
+                        <a class="dropdown-item" href="javascript:;">Something else here</a>
+                        <div class="dropdown-divider"></div> <a class="dropdown-item" href="javascript:;">Separated link</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end breadcrumb-->
+
+
+        <div class="card rounded-4">
+            <div class="card-body p-4">
+                <div class="position-relative mb-5">
+                    <img src="assets/images/gallery/profile-cover.png" class="img-fluid rounded-4 shadow" alt="">
+                    <div class="profile-avatar position-absolute top-100 start-50 translate-middle">
+                        <img src="assets/images/avatars/01.png" class="img-fluid rounded-4 p-1 bg-grd-danger shadow" width="150" height="150" alt="" dmx-bind:src="sc_usuario_atual.data.buscar_usuario.foto">
+                    </div>
+                </div>
+                <div class="profile-info pt-5 d-flex align-items-center justify-content-between">
+                    <div class="">
+                        <h3>{{sc_usuario_atual.data.buscar_usuario.nome}}</h3>
+                    </div>
+                    <div class="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-xl-12">
+
+                <div class="card rounded-4 border-top border-4 border-primary border-gradient-1">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-start justify-content-between mb-3">
+                            <div class="">
+                                <h5 class="mb-0 fw-bold">Edite seu perfil</h5>
+                            </div>
+                        </div>
+                        <form is="dmx-serverconnect-form" id="sc_form_atualizar_user" method="post" action="/api/usuarios/atualizar_usuario" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="notifies1.success('Perfil atualizado!');sc_usuario_atual.load({})">
+                            <div class="form-group mb-3">
+                                <label for="inp_foto">Foto</label>
+                                <input id="inp_foto" name="foto" type="file" class="form-control">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="inp_nome">Nome</label>
+                                <input type="text" class="form-control" id="inp_nome" name="nome" aria-describedby="inp_nome_help" required="" data-msg-required="Campo obrigatorio" dmx-bind:value="sc_usuario_atual.data.buscar_usuario.nome">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="inp_telefone">Telefone</label>
+                                <input type="text" class="form-control" id="inp_telefone" name="telefone" aria-describedby="inp_telefone_help" dmx-bind:value="sc_usuario_atual.data.buscar_usuario.telefone">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="inp_email">Email</label>
+                                <input type="text" class="form-control" id="inp_email" name="email" aria-describedby="inp_telefone_help" disabled="true" dmx-bind:value="sc_usuario_atual.data.buscar_usuario.email">
+                            </div>
+                            <div class="form-group mb-3">
+                                <button type="submit" class="btn btn-primary" dmx-bind:disabled="state.executing">Salvar&nbsp;<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div><!--end row-->
+
+
+
+    </div>
+</main>
+<!--end main wrapper-->

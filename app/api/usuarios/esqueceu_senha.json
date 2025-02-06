@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "email"
+      }
+    ],
+    "$_SERVER": [
+      {
+        "type": "text",
+        "name": "HTTP_HOST"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "query_usuario",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "dbmasterclasse",
+          "sql": {
+            "type": "select",
+            "columns": [
+              {
+                "table": "itv.usuarios",
+                "column": "nome"
+              },
+              {
+                "table": "itv.usuarios",
+                "column": "email"
+              },
+              {
+                "table": "itv.usuarios",
+                "column": "token"
+              }
+            ],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{$_POST.email.lowercase()}}",
+                "test": ""
+              }
+            ],
+            "table": {
+              "name": "itv.usuarios"
+            },
+            "primary": "id",
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "itv.usuarios.email",
+                  "field": "itv.usuarios.email",
+                  "type": "string",
+                  "operator": "equal",
+                  "value": "{{$_POST.email.lowercase()}}",
+                  "data": {
+                    "table": "itv.usuarios",
+                    "column": "email",
+                    "type": "text",
+                    "columnObj": {
+                      "type": "string",
+                      "maxLength": 255,
+                      "nullable": false,
+                      "name": "email"
+                    }
+                  },
+                  "operation": "=",
+                  "table": "itv.usuarios"
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "select [nome], [email], [token] from [itv].[usuarios] where [itv].[usuarios].[email] = @p0"
+          }
+        },
+        "meta": [
+          {
+            "type": "text",
+            "name": "nome"
+          },
+          {
+            "type": "text",
+            "name": "email"
+          },
+          {
+            "type": "text",
+            "name": "token"
+          }
+        ],
+        "outputType": "object"
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{query_usuario}}",
+          "then": {
+            "steps": {
+              "name": "",
+              "module": "mail",
+              "action": "send",
+              "options": {
+                "instance": "mailtrap",
+                "subject": "Resete de senha",
+                "fromName": "IT Valley School",
+                "fromEmail": "itvscriacao@gmail.com",
+                "replyTo": "itvscriacao@gmail.com",
+                "toName": "{{query_usuario.nome}}",
+                "toEmail": "{{query_usuario.email}}",
+                "body": "<base href=\"file:///C:/Users/conta/Desktop/Template/vuexy-admin-v9.12.0/email-templates/vuexy-mail-template/vuexy-mail-template/\">\n  <meta charset=\"utf-8\">\n  <meta name=\"x-apple-disable-message-reformatting\">\n  <meta http-equiv=\"x-ua-compatible\" content=\"ie=edge\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <!--[if mso]>\n    <xml><o:officedocumentsettings><o:pixelsperinch>96</o:pixelsperinch></o:officedocumentsettings></xml>\n  <![endif]-->\n  <title>Resete sua senha</title>\n  <link href=\"https://fonts.googleapis.com/css?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700\" rel=\"stylesheet\" media=\"screen\">\n  <style>\n    .hover-underline:hover {\n      text-decoration: underline !important;\n    }\n\n    @media (max-width: 600px) {\n      .sm-w-full {\n        width: 100% !important;\n      }\n\n      .sm-px-24 {\n        padding-left: 24px !important;\n        padding-right: 24px !important;\n      }\n\n      .sm-py-32 {\n        padding-top: 32px !important;\n        padding-bottom: 32px !important;\n      }\n    }\n  </style>\n\n\n\n  <div style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; display: none;\">A request to reset password was received from your PixInvent Account</div>\n  <div role=\"article\" aria-roledescription=\"email\" aria-label=\"Reset your Password\" lang=\"en\" style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly;\">\n    <table style=\"width: 100%; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif;\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\">\n      <tbody><tr>\n        <td align=\"center\" style=\"mso-line-height-rule: exactly; background-color: #eceff1; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif;\">\n          <table class=\"sm-w-full\" style=\"width: 600px;\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\">\n            <tbody><tr>\n            </tr>\n            <tr>\n              <td align=\"center\" class=\"sm-px-24\" style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly;\">\n                <table style=\"width: 100%;\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\">\n                  <tbody><tr>\n                    <td class=\"sm-px-24\" style=\"mso-line-height-rule: exactly; border-radius: 4px; background-color: #ffffff; padding: 48px; text-align: left; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 24px; color: #626262;\">\n                      <p style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; margin-bottom: 0; font-size: 20px; font-weight: 600;\">Olá</p>\n                      <p style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; margin-top: 0; font-size: 24px; font-weight: 700; color: #ff5850;\">{{query_usuario.nome}}!</p>\n                      <p style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; margin: 0; margin-bottom: 24px;\">Uma solicitação para redefinição de sua senha foi recebida em nossa plataforma. Para redefini-la, clique no botão abaixo ou copie e cole o link em seu navegador.</p>\n                      <p style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; margin: 0; margin-bottom: 24px;\">Caso você não tenha solicitado a redefinição de sua senha, por favor, desconsidere esse e-mail.</p>\n                      <a href=\"https://pixinvent.com?reset_password_url\" style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; margin-bottom: 24px; display: block; font-size: 16px; line-height: 100%; color: #7367f0; text-decoration: none;\">{{$_SERVER.HTTP_HOST+'/resetar_senha/'+query_usuario.token}}{{$_SERVER.HTTP_HOST}}</a>\n                      <table cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\">\n                        <tbody><tr>\n                          <td style=\"mso-line-height-rule: exactly; mso-padding-alt: 16px 24px; border-radius: 4px; background-color: #7367f0; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif;\">\n                            <a href=\"{{$_SERVER.HTTP_HOST+'/resetar_senha/'+query_usuario.token}}{{$_SERVER.HTTP_HOST}}\" style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; display: block; padding-left: 24px; padding-right: 24px; padding-top: 16px; padding-bottom: 16px; font-size: 16px; font-weight: 600; line-height: 100%; color: #ffffff; text-decoration: none;\">Resetar Senha →</a>\n                          </td>\n                        </tr>\n                      </tbody></table>\n                      <p style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; margin: 0; margin-top: 24px; margin-bottom: 24px;\"><span style=\"font-weight: 600;\">Obs.:</span> Esse link é válido para alterar sua senha uma única vez.</p>\n                      <p style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; margin: 0;\">Caso precise de ajuda, entre em contato conosco:</p>\n                      <table style=\"width: 100%;\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\">\n                        <tbody><tr>\n                          <td style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; padding-top: 32px; padding-bottom: 32px;\">\n                            <div style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; height: 1px; background-color: #eceff1; line-height: 1px;\">‌</div>\n                          </td>\n                        </tr>\n                      </tbody></table>\n                      <p style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; margin: 0; margin-bottom: 16px;\">Atenciosamente,<br>IT Valley School</p>\n                    </td>\n                  </tr>\n                  <tr>\n                    <td style=\"font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; height: 20px;\"></td>\n                  </tr>\n                  <tr>\n                  </tr>\n                  <tr>\n                  </tr>\n                </tbody></table>\n              </td>\n            </tr>\n          </tbody></table>\n        </td>\n      </tr>\n    </tbody></table>\n  </div>",
+                "contentType": "html"
+              }
+            }
+          },
+          "else": {
+            "steps": {
+              "name": "erro",
+              "module": "core",
+              "action": "response",
+              "options": {
+                "status": 403,
+                "data": "Esse usuário não existe!"
+              }
+            }
+          }
+        },
+        "outputType": "boolean"
+      }
+    ]
+  }
+}

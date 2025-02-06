@@ -1,0 +1,130 @@
+<!-- Wappler include head-page="layouts/dashboard" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="adicionar_tasks" appConnect="local" components="{dmxBootstrap5Navigation:{}}" -->
+<!-- Wappler include head-page="layouts/dashboard" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="painel_admin" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxBootstrap5Modal:{},dmxMediumEditor:{}}" -->
+<div class="modal fade" id="modal_criar_task" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">Adicionar Task</h5>
+                <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                <form is="dmx-serverconnect-form" id="sc_form_adicionar_task" method="post" action="/api/task/nova_task" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="notifies.success('task adicionada');sc_form_adicionar_task.reset();sc_listar_task.load({});modal_criar_task.hide()">
+                    <div class="form-group mb-3">
+                        <label for="inp_nome">Nome</label>
+                        <input type="text" class="form-control" id="inp_nome" name="nome" aria-describedby="inp_nome_help" placeholder="Enter Nome">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="inp_descricao">Descrição</label>
+                        <textarea id="inp_descricao" class="form-control" name="descricao" is="dmx-medium-editor" placeholder="Escreva a descrição"></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="inp_estimativa_horas">Estimativa horas</label>
+                        <input type="number" class="form-control" id="inp_estimativa_horas" name="estimativa_horas" aria-describedby="inp_estimativa_horas_help" placeholder="ex: 5 horas">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="inp_nivel">Nivel</label>
+                        <select id="inp_nivel" class="form-select" name="nivel">
+                            <option value="Hard">Hard</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Easy">Easy</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3 text-center">
+                        <button type="submit" class="btn btn-primary text-center bg-success" dmx-bind:disabled="state.executing">Adiconar <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<dmx-serverconnect id="sc_listar_aprovacao" url="/api/task/tasks_aprovacao"></dmx-serverconnect>
+<link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+<meta name="ac:route" content="/adicionar_tasks">
+<div class="main-content">
+    <!--breadcrumb-->
+    <div class="page-breadcrumb d-none d-sm-flex  mb-3">
+        <div class="breadcrumb-title pe-3">Adicionar Tasks</div>
+        <div class="ps-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0">
+                    <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Tasks</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="ms-auto">
+        </div>
+    </div>
+    <!--end breadcrumb-->
+
+
+    <div class="col-lg-12 col-xxl-12 d-flex align-items-stretch">
+        <div class="card w-100 rounded-4">
+            <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between mb-3 p-3">
+                    <div class="">
+                        <h5 class="mb-0">Task demander</h5>
+                    </div>
+                    <div class="d-flex align-items-start justify-content-between mb-3">
+                        <div class="">
+                            <button id="btn11" class="btn bg-success text-white" dmx-on:click="modal_criar_task.show()">Adicionar Task</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-search position-relative my-3">
+                    <input class="form-control rounded-5 px-5" type="text" placeholder="Search">
+                    <span class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50">search</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Tarefas</th>
+                                <th>Estimativa de horas</th>
+                                <th>Dificuldade</th>
+                                <th>Veja os detalhes</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody is="dmx-repeat" id="repeat_task" dmx-bind:repeat="sc_listar_aprovacao.data.query_task.data" key="id">
+
+                            <tr>
+                                <!-- inicia o repetidor -->
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div>
+                                            <img src="assets/images/top-products/icontasks.png" class="rounded-circle" width="50" height="50">
+                                        </div>
+                                        <p class="mb-0">{{nome}}</p>
+                                    </div>
+                                </td>
+                                <td>{{estimativa_horas}} Horas</td>
+                                <td>
+                                    <p class="dash-lable mb-0 badge bg-grd-danger rounded-2" dmx-class:bg-grd-warning="nivel=='Medium'" dmx-class:bg-grd-info="nivel=='Easy'">{{nivel}}</p>
+                                </td>
+                                <td>
+                                    <button id="btn2" class="btn text-bg-dark" dmx-on:click="">Ver detalhes</button>
+                                </td>
+                                <td>
+                                    <div class="d-flex"><button type="button" class="btn btn-success raised d-flex gap-2 me-2"><i class="material-icons-outlined">edit</i>
+                                        </button><button type="button" class="btn btn-danger raised d-flex gap-2"><i class="material-icons-outlined">delete</i></button></div>
+
+
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+</main>

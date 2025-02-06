@@ -1,0 +1,13 @@
+{
+  "name": "",
+  "module": "auth",
+  "action": "restrict",
+  "options": {
+    "provider": "security_official",
+    "permissions": [
+      "aluno"
+    ],
+    "loginUrl": "/usuarios/login-user",
+    "forbiddenUrl": "/cadastro"
+  }
+}

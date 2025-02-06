@@ -1,0 +1,223 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "offset"
+      },
+      {
+        "type": "text",
+        "name": "limit"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query_task",
+      "module": "dbconnector",
+      "action": "paged",
+      "options": {
+        "connection": "dbmasterclasse",
+        "sql": {
+          "type": "select",
+          "columns": [
+            {
+              "table": "itv.tarefas",
+              "column": "*"
+            }
+          ],
+          "params": [],
+          "table": {
+            "name": "itv.tarefas"
+          },
+          "primary": "id",
+          "joins": [
+            {
+              "table": "itv.usuarios_tarefas",
+              "column": "*",
+              "alias": "usuarios_tarefas",
+              "type": "INNER",
+              "clauses": {
+                "condition": "AND",
+                "rules": [
+                  {
+                    "table": "usuarios_tarefas",
+                    "column": "id",
+                    "operator": "equal",
+                    "operation": "=",
+                    "value": {
+                      "table": "itv.tarefas",
+                      "column": "id"
+                    }
+                  },
+                  {
+                    "table": "usuarios_tarefas",
+                    "column": "usuario_id",
+                    "operator": "equal",
+                    "operation": "=",
+                    "value": {
+                      "table": "itv.tarefas",
+                      "column": "usuario_id"
+                    }
+                  },
+                  {
+                    "table": "usuarios_tarefas",
+                    "column": "status",
+                    "operator": "equal",
+                    "operation": "=",
+                    "value": {
+                      "table": "itv.tarefas",
+                      "column": "status"
+                    }
+                  }
+                ]
+              },
+              "primary": "id"
+            }
+          ],
+          "orders": [
+            {
+              "table": "itv.tarefas",
+              "column": "id",
+              "direction": "DESC",
+              "recid": 1
+            }
+          ],
+          "query": "select [itv].[tarefas].* from [itv].[tarefas] inner join [itv].[usuarios_tarefas] as [usuarios_tarefas] on [usuarios_tarefas].[id] = [itv].[tarefas].[id] and [usuarios_tarefas].[usuario_id] = [itv].[tarefas].[usuario_id] and [usuarios_tarefas].[status] = [itv].[tarefas].[status] where [usuarios_tarefas].[status] = @p0 order by [itv].[tarefas].[id] DESC",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "usuarios_tarefas.status",
+                "field": "usuarios_tarefas.status",
+                "type": "string",
+                "operator": "equal",
+                "value": "Aprovacao",
+                "data": {
+                  "table": "usuarios_tarefas",
+                  "column": "status",
+                  "type": "text",
+                  "columnObj": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "nullable": false,
+                    "name": "status"
+                  }
+                },
+                "operation": "="
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          }
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "offset",
+          "type": "number"
+        },
+        {
+          "name": "limit",
+          "type": "number"
+        },
+        {
+          "name": "total",
+          "type": "number"
+        },
+        {
+          "name": "page",
+          "type": "object",
+          "sub": [
+            {
+              "name": "offset",
+              "type": "object",
+              "sub": [
+                {
+                  "name": "first",
+                  "type": "number"
+                },
+                {
+                  "name": "prev",
+                  "type": "number"
+                },
+                {
+                  "name": "next",
+                  "type": "number"
+                },
+                {
+                  "name": "last",
+                  "type": "number"
+                }
+              ]
+            },
+            {
+              "name": "current",
+              "type": "number"
+            },
+            {
+              "name": "total",
+              "type": "number"
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "type": "array",
+          "sub": [
+            {
+              "type": "number",
+              "name": "id"
+            },
+            {
+              "type": "text",
+              "name": "nome"
+            },
+            {
+              "type": "text",
+              "name": "descricao"
+            },
+            {
+              "type": "number",
+              "name": "estimativa_horas"
+            },
+            {
+              "type": "text",
+              "name": "status"
+            },
+            {
+              "type": "date",
+              "name": "data_inicio"
+            },
+            {
+              "type": "date",
+              "name": "data_termino_prevista"
+            },
+            {
+              "type": "number",
+              "name": "usuario_id"
+            },
+            {
+              "type": "date",
+              "name": "data_fim_realizado"
+            },
+            {
+              "type": "text",
+              "name": "nivel"
+            }
+          ]
+        }
+      ],
+      "outputType": "object"
+    }
+  }
+}

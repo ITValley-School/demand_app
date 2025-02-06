@@ -1,0 +1,103 @@
+[
+  {
+    "name": "identity",
+    "module": "auth",
+    "action": "identify",
+    "options": {
+      "provider": "security_official"
+    },
+    "output": true,
+    "meta": []
+  },
+  {
+    "name": "query_soma_pontos",
+    "module": "dbconnector",
+    "action": "single",
+    "options": {
+      "connection": "dbmasterclasse",
+      "sql": {
+        "type": "select",
+        "columns": [
+          {
+            "table": "itv.usuarios_tarefas",
+            "column": "pontos",
+            "alias": "total_pontos",
+            "aggregate": "SUM"
+          }
+        ],
+        "params": [
+          {
+            "operator": "equal",
+            "type": "expression",
+            "name": ":P1",
+            "value": "{{identity}}",
+            "test": ""
+          }
+        ],
+        "table": {
+          "name": "itv.usuarios_tarefas"
+        },
+        "primary": "id",
+        "joins": [],
+        "wheres": {
+          "condition": "AND",
+          "rules": [
+            {
+              "id": "itv.usuarios_tarefas.usuario_id",
+              "field": "itv.usuarios_tarefas.usuario_id",
+              "type": "double",
+              "operator": "equal",
+              "value": "{{identity}}",
+              "data": {
+                "table": "itv.usuarios_tarefas",
+                "column": "usuario_id",
+                "type": "number",
+                "columnObj": {
+                  "type": "integer",
+                  "nullable": false,
+                  "referenceType": "integer",
+                  "name": "usuario_id"
+                }
+              },
+              "operation": "=",
+              "table": "itv.usuarios_tarefas"
+            },
+            {
+              "id": "itv.usuarios_tarefas.status",
+              "field": "itv.usuarios_tarefas.status",
+              "type": "string",
+              "operator": "equal",
+              "value": "Concluida",
+              "data": {
+                "table": "itv.usuarios_tarefas",
+                "column": "status",
+                "type": "text",
+                "columnObj": {
+                  "type": "string",
+                  "maxLength": 50,
+                  "nullable": false,
+                  "name": "status"
+                }
+              },
+              "operation": "=",
+              "table": "itv.usuarios_tarefas"
+            }
+          ],
+          "conditional": null,
+          "valid": true
+        },
+        "orders": [],
+        "groupBy": [],
+        "query": "select sum([pontos]) as [total_pontos] from [itv].[usuarios_tarefas] where [itv].[usuarios_tarefas].[usuario_id] = @p0 and [itv].[usuarios_tarefas].[status] = @p1"
+      }
+    },
+    "output": true,
+    "meta": [
+      {
+        "type": "number",
+        "name": "total_pontos"
+      }
+    ],
+    "outputType": "object"
+  }
+]
