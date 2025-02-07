@@ -11,7 +11,10 @@
   "schema": {
     "tables": {
       "itv.usuarios": {
-        "db": {},
+        "db": {
+          "name": "usuarios",
+          "schema": "itv"
+        },
         "columns": {
           "id": {
             "db": {
@@ -86,7 +89,10 @@
         }
       },
       "itv.tarefas": {
-        "db": {},
+        "db": {
+          "name": "tarefas",
+          "schema": "itv"
+        },
         "columns": {
           "id": {
             "db": {
@@ -132,7 +138,10 @@
         }
       },
       "itv.usuarios_tarefas": {
-        "db": {},
+        "db": {
+          "name": "usuarios_tarefas",
+          "schema": "itv"
+        },
         "columns": {
           "id": {
             "db": {
@@ -198,10 +207,16 @@
         }
       },
       "mfi.alimentos": {
-        "db": {}
+        "db": {
+          "name": "alimentos",
+          "schema": "mfi"
+        }
       },
       "mfi.usuarios": {
-        "db": {},
+        "db": {
+          "name": "usuarios",
+          "schema": "mfi"
+        },
         "columns": {
           "id": {
             "db": {
@@ -263,10 +278,16 @@
         }
       },
       "mfi.metas": {
-        "db": {}
+        "db": {
+          "name": "metas",
+          "schema": "mfi"
+        }
       },
       "epp.aluno": {
-        "db": {},
+        "db": {
+          "name": "aluno",
+          "schema": "epp"
+        },
         "columns": {
           "id": {
             "db": {
@@ -316,7 +337,10 @@
         }
       },
       "epp.conversa": {
-        "db": {},
+        "db": {
+          "name": "conversa",
+          "schema": "epp"
+        },
         "columns": {
           "id_conversa": {
             "db": {
@@ -366,7 +390,10 @@
         }
       },
       "epp.registro_conversas": {
-        "db": {},
+        "db": {
+          "name": "registro_conversas",
+          "schema": "epp"
+        },
         "columns": {
           "id_registro": {
             "db": {
@@ -414,7 +441,10 @@
         }
       },
       "dbo.avatar": {
-        "db": {},
+        "db": {
+          "name": "avatar",
+          "schema": "dbo"
+        },
         "columns": {
           "id": {
             "db": {

@@ -24,7 +24,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form is="dmx-serverconnect-form" id="sc_conrfirmar_tarefa" method="post" action="/api/task/fazer_task" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="notifies.success('Agora é hora de codar! Divista-se');modal_confirmar_tarefa.hide();sc_tasks_alunos.load({});sc_count_tasks.load({})">
+                <form is="dmx-serverconnect-form" id="sc_conrfirmar_tarefa" method="post" action="/api/task/fazer_task" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="notifies.success('Agora é hora de codar! Divista-se');modal_confirmar_tarefa.hide();sc_tasks_alunos.load({});sc_count_tasks.load({});browser.goto('/minhas_tarefas')">
                     <p>Você aceita fazer a tarefa: <strong class="text-info">
                             <h5>{{data_detalhes_tarefa.data.nome}}</h5>
                         </strong></p>
@@ -133,21 +133,53 @@
                             </div>
                             <div class="dropdown">
                                 <a><span class="material-icons-outlined fs-5 pe-auto" style="cursor: pointer" dmx-on:click="selos_pontos.show()">help</span></a>
-
-
-
                             </div>
                             <div class="modal fade shadow-lg placeholder-glow" id="selos_pontos" is="dmx-bs5-modal" tabindex="-1">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
+
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Selos e pontos</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p>Para conquistar novos <b>selos</b>, desenvolva as Tarefas disponíveis no seu <b>Dashboard</b>, receba aprovação pelos professores e conquiste os níveis, Bronze, Prata e Dimound! </p>
+                                            <p>Para conquistar novos <b>selos</b>, desenvolva as Tarefas disponíveis no seu <b>Dashboard</b>, receba aprovação pelos professores e conquiste os níveis: Bronze, Prata e Diamante!</p>
+
+                                            <div class="list-group">
+                                                <!-- Selo Bronze -->
+                                                <div class="list-group-item d-flex align-items-center">
+                                                    <img src="/assets/images/gallery/selo%20bronze.png" alt="Selo Bronze" style="width: 80px; height: 80px;" class="selo-img">
+                                                    <div class="ms-3">
+                                                        <h6 class="mb-1">Selo Bronze</h6>
+                                                        <p class="mb-0">Alcance <b>100 pontos</b> para conquistar este selo.</p>
+                                                        <small class="text-muted">💡 Pontuação por tarefa: Easy = 20 | Medium = 60 | Hard = 100</small>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Selo Prata -->
+                                                <div class="list-group-item d-flex align-items-center">
+                                                    <img src="/assets/images/gallery/Selo%20silver.png" style="width: 80px; height: 80px;" alt="Selo Prata" class="selo-img">
+                                                    <div class="ms-3">
+                                                        <h6 class="mb-1">Selo Prata</h6>
+                                                        <p class="mb-0">Alcance 18<b>0 pontos</b> para conquistar este selo.</p>
+                                                        <small class="text-muted">💡 Pontuação por tarefa: Easy = 20 | Medium = 60 | Hard = 100</small>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Selo Ouro -->
+                                                <div class="list-group-item d-flex align-items-center">
+                                                    <img src="/assets/images/gallery/selo%20dimound.png" style="width: 80px; height: 80px;" alt="Selo Ouro" class="selo-img">
+                                                    <div class="ms-3">
+                                                        <h6 class="mb-1">Selo Diamante</h6>
+                                                        <p class="mb-0">Alcance <b>500 pontos</b> para conquistar este selo.</p>
+                                                        <small class="text-muted">💡 Pontuação por tarefa: Easy = 20 | Medium = 60 | Hard = 100</small>
+                                                    </div>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-<!-- Wappler include head-page="layouts/dashboard_aluno" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="minhas_tarefas" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxBootstrap5Modal:{}}" -->
+<!-- Wappler include head-page="layouts/dashboard_aluno" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="minhas_tarefas" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxBootstrap5Modal:{},dmxSummernote:{},dmxSummernoteFileUpload:{},dmxFormatter:{}}" jquery_slim_35="cdn" -->
 <div class="modal fade" id="modal_detalhes_enviado" is="dmx-bs5-modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -14,7 +14,7 @@
 </div>
 <dmx-serverconnect id="sc_listar_concluidas" url="/api/task/listar_my_tasks_concluida" dmx-param:sort=""></dmx-serverconnect>
 <div class="modal" id="modal_enviar_task" is="dmx-bs5-modal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Envie sua tarefa! {{data_detalhes_tarefa.data.nome_tarefas}}</h5>
@@ -25,10 +25,10 @@
                     <div class="form-group mb-3">
                         <input id="id" name="id" class="form-control" dmx-bind:value="data_detalhes_tarefa.data.id" type="hidden">
                         <label for="inp_info_envio">Coloque as informações desejadas.</label>
-                        <textarea id="inp_info_envio" name="info_envio" class="form-control"></textarea>
+                        <textarea id="inp_info_envio" name="info_envio" class="form-control" is="dmx-summernote" dmx-bind:toolbar="[['style',['style']],['font',['bold','underline','clear']],['fontname',['fontname']],['color',['color']],['para',['ul','ol','paragraph']],['table',['table']],['insert',['link','picture','video']],['view',['fullscreen','codeview','help']]]" lang="pt-BR" min-height="500" codeview-filter="false" codeview-iframe-filter="false"></textarea>
                     </div>
                     <div class="form-group mb-3">
-                        <button type="submit" class="btn btn-primary w-100 bg-success" dmx-bind:disabled="state.executing">Enviar&nbsp;<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+                        <button type="submit" class="btn btn-primary bg-success" dmx-bind:disabled="state.executing">Enviar&nbsp;<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
                     </div>
                 </form>
             </div>
@@ -39,14 +39,14 @@
 <!-- Wappler include head-page="layouts/dashboard_aluno" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="painel_aluno" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxPreloader:{},dmxAnimateCSS:{},dmxBootstrap5Modal:{},dmxDataTraversal:{}}" -->
 <div class="modal" id="modal_detalhes" is="dmx-bs5-modal" tabindex="-1">
 
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">{{data_detalhes_tarefa.data.nome_tarefas}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>{{data_detalhes_tarefa.data.descricao_tarefa}}</p>
+                <p class="text-wrapper">{{data_detalhes_tarefa.data.descricao_tarefa}}</p>
 
             </div>
         </div>

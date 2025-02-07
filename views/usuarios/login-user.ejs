@@ -47,19 +47,19 @@
                     <div class="card rounded-4 mb-0">
                         <div class="card-body p-5">
                             <img src="../../assets/images/logoitva.png" class="mb-4" width="190" alt="">
-                            <h4 class="fw-bold text-start">Bem-vindo ao Task Maneger!</h4>
+                            <h4 class="fw-bold text-start">Bem-vindo ao Task Demand!</h4>
                             <p class="mb-0 text-start">Tarefas e projetos reais para empresas nacionais e internacionais.</p>
 
                             <div class="form-body my-5">
                                 <form class="row g-3" id="form_login" is="dmx-serverconnect-form" action="/api/usuarios/loginuser" method="post" dmx-on:success="run([{condition:{outputType:'boolean',if:`form_login.data.query_buscar_usuario.permissao==1`,then:{steps:{run:{name:'direcionamento_aluno',outputType:'text',action:`browser.goto(\'/painel_aluno\')`}}}}},{condition:{outputType:'boolean',if:`form_login.data.query_buscar_usuario.permissao==10`,then:{steps:{run:{name:'direcionamento_admin',outputType:'text',action:`browser.goto(\'/painel_admin\')`}}}}}])">
                                     <div class="col-12">
                                         <label for="inp_email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="inp_email" placeholder="jhon@example.com" name="email" required="" data-msg-required="Obrigatório!" data-rule-email="" data-msg-email="Digite um email válido.">
+                                        <input type="email" class="form-control" id="inp_email" placeholder="jhon@gmail.com" name="email" required="" data-msg-required="Obrigatório!" data-rule-email="" data-msg-email="Digite um email válido.">
                                     </div>
                                     <div class="col-12">
                                         <label for="inp_senha" class="form-label">Sua senha</label>
                                         <div class="input-group" id="show_hide_password">
-                                            <input type="password" class="form-control border-end-0" id="inp_senha" placeholder="Enter Password" name="senha" required="" data-msg-required="Obrigatório!">
+                                            <input type="password" class="form-control border-end-0" id="inp_senha" placeholder="Coloque sua senha" name="senha" required="" data-msg-required="Obrigatório!">
                                             <a href="javascript:;" class="input-group-text bg-transparent"><i class="bi bi-eye-slash-fill"></i></a>
                                         </div>
                                     </div>
@@ -73,7 +73,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="d-grid">
-                                            <button type="submit" class="btn btn-grd-danger">Entrar</button>
+                                            <button type="submit" class="btn btn-grd-deep-blue">Entrar</button>
                                         </div>
                                     </div>
                                     <div class="col-12">
