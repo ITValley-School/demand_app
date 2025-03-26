@@ -101,11 +101,6 @@
       "layout": "dashboard"
     },
     {
-      "path": "/painel_aluno",
-      "page": "painel_aluno",
-      "layout": "dashboard_aluno"
-    },
-    {
       "path": "/aprovar_tasks",
       "page": "aprovar_tasks",
       "layout": "dashboard"
@@ -149,6 +144,11 @@
       "path": "/usuarios/resete_senha/:token",
       "page": "usuarios/resete_senha",
       "layout": "main"
+    },
+    {
+      "path": "/painel_aluno",
+      "page": "painel_aluno",
+      "layout": "dashboard_aluno"
     }
   ],
   "layouts": {

@@ -41,6 +41,24 @@
         </div>
     </div>
 </div>
+<div class="modal" id="modal_tarefa_bloqueada" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-xl-center bg-danger">
+                <h5 class="modal-title text-xl-start text-light">Tarefa bloqueada <i class="fas fa-lock"></i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-danger">
+                <p class="text-light">O estágio internacional esta disponível apenas para alunos da Pós graduação!<strong class="text-info">
+                    </strong></p>
+                <div class="form-group mb-3">
+                    <a href="https://br.itvalleyschool.com/" target="_blank"><button type="submit" class="btn btn-dark w-100 text-bg-light fw-bold" dmx-bind:disabled="state.executing">Ver mais<span role="status" dmx-show="state.executing"></span></button></a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal" id="modal_detalhes" is="dmx-bs5-modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -132,9 +150,9 @@
                                 <p class="mb-0 text-sm-start">Total de pontos</p>
                             </div>
                             <div class="dropdown">
-                                <a><span class="material-icons-outlined fs-5 pe-auto" style="cursor: pointer" dmx-on:click="selos_pontos.show()">help</span></a>
+                                <a><span class="material-icons-outlined fs-5 pe-auto" style="cursor: pointer" dmx-on:click="selos_pontos_ok.show()">help</span></a>
                             </div>
-                            <div class="modal fade shadow-lg placeholder-glow" id="selos_pontos" is="dmx-bs5-modal" tabindex="-1">
+                            <div class="modal fade shadow-lg placeholder-glow" id="selos_pontos_ok" is="dmx-bs5-modal" tabindex="-1">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
 
                                     <div class="modal-content">
@@ -152,7 +170,7 @@
                                                     <div class="ms-3">
                                                         <h6 class="mb-1">Selo Bronze</h6>
                                                         <p class="mb-0">Alcance <b>100 pontos</b> para conquistar este selo.</p>
-                                                        <small class="text-muted">💡 Pontuação por tarefa: Easy = 20 | Medium = 60 | Hard = 100</small>
+                                                        <p class="text-light">💡 Pontuação por tarefa: Easy = 20 | Medium = 60 | Hard = 100</p>
                                                     </div>
                                                 </div>
 
@@ -162,7 +180,7 @@
                                                     <div class="ms-3">
                                                         <h6 class="mb-1">Selo Prata</h6>
                                                         <p class="mb-0">Alcance 18<b>0 pontos</b> para conquistar este selo.</p>
-                                                        <small class="text-muted">💡 Pontuação por tarefa: Easy = 20 | Medium = 60 | Hard = 100</small>
+                                                        <p class="text-light">💡 Pontuação por tarefa: Easy = 20 | Medium = 60 | Hard = 100</p>
                                                     </div>
                                                 </div>
 
@@ -172,7 +190,7 @@
                                                     <div class="ms-3">
                                                         <h6 class="mb-1">Selo Diamante</h6>
                                                         <p class="mb-0">Alcance <b>500 pontos</b> para conquistar este selo.</p>
-                                                        <small class="text-muted">💡 Pontuação por tarefa: Easy = 20 | Medium = 60 | Hard = 100</small>
+                                                        <p class="text-light">💡 Pontuação por tarefa: Easy = 20 | Medium = 60 | Hard = 100</p>
                                                     </div>
                                                 </div>
 
@@ -263,7 +281,8 @@
                                 <td>
                                     <div class="d-flex align-items-center gap-3">
                                         <div>
-                                            <img src="assets/images/top-products/icontasks.png" class="rounded-circle" width="50" height="50">
+                                            <img src="/assets/images/internacional.png" class="rounded-circle" width="50" height="50" dmx-show="programa=='pos'">
+                                            <img src="/assets/images/brasil.png" class="rounded-circle" width="50" height="50" dmx-show="programa=='escola'">
                                         </div>
                                         <p class="mb-0">{{nome}}</p>
                                     </div>
@@ -276,7 +295,10 @@
                                     <button id="btn9" class="btn bg-dark text-white" dmx-on:click="data_detalhes_tarefa.select(id);modal_detalhes.show()">Ver detalhes</button>
                                 </td>
                                 <td>
-                                    <button id="btn10" class="btn text-white bg-success" dmx-on:click="data_detalhes_tarefa.select(id);modal_confirmar_tarefa.show()">Fazer task</button>
+                                    <button id="btn10" class="btn text-white bg-success" dmx-on:click="data_detalhes_tarefa.select(id);modal_confirmar_tarefa.show()" dmx-show="programa==sc_usuario_atual.data.buscar_usuario.programa||sc_usuario_atual.data.buscar_usuario.programa!='escola'">Fazer task</button>
+                                    <button id="btn1" class="btn text-white bg-secondary" dmx-on:click="modal_tarefa_bloqueada.show()" dmx-show="programa!=sc_usuario_atual.data.buscar_usuario.programa&amp;&amp;sc_usuario_atual.data.buscar_usuario.programa=='escola'">
+                                        <i class="fas fa-lock"></i> Fazer task
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>

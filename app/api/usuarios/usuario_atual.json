@@ -40,6 +40,10 @@
           {
             "table": "itv.usuarios",
             "column": "foto"
+          },
+          {
+            "table": "itv.usuarios",
+            "column": "programa"
           }
         ],
         "params": [
@@ -83,7 +87,7 @@
           "conditional": null,
           "valid": true
         },
-        "query": "select [nome], [email], [telefone], [foto] from [itv].[usuarios] where [itv].[usuarios].[id] = @p0"
+        "query": "select [nome], [email], [telefone], [foto], [programa] from [itv].[usuarios] where [itv].[usuarios].[id] = @p0"
       }
     },
     "output": true,
@@ -103,6 +107,10 @@
       {
         "type": "text",
         "name": "foto"
+      },
+      {
+        "type": "text",
+        "name": "programa"
       }
     ],
     "outputType": "object"

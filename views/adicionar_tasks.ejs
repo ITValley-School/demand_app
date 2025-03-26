@@ -30,6 +30,13 @@
                             <option value="Easy">Easy</option>
                         </select>
                     </div>
+                    <div class="form-group mb-3">
+                        <label for="inp_nivel1">Programa</label>
+                        <select id="inp_nivel1" class="form-select" name="programa">
+                            <option value="Nacional">Nacional</option>
+                            <option value="Internacional">Internacional</option>
+                        </select>
+                    </div>
                     <div class="form-group mb-3 text-center">
                         <button type="submit" class="btn btn-primary text-center bg-success" dmx-bind:disabled="state.executing">Adiconar <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
                     </div>

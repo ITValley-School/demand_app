@@ -24,6 +24,10 @@
       {
         "type": "text",
         "name": "foto"
+      },
+      {
+        "type": "text",
+        "name": "programa"
       }
     ]
   },
@@ -84,11 +88,17 @@
               "column": "token",
               "type": "text",
               "value": "{{UUID}}"
+            },
+            {
+              "table": "itv.usuarios",
+              "column": "programa",
+              "type": "text",
+              "value": "{{$_POST.programa}}"
             }
           ],
           "table": "itv.usuarios",
           "returning": "id",
-          "query": "select top(0) [t].[id] into #out from [itv].[usuarios] as t left join [itv].[usuarios] on 0=1;insert into [itv].[usuarios] ([cargo], [email], [foto], [nome], [permissao], [senha], [telefone], [token]) output inserted.[id] into #out values (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7); select [id] from #out; drop table #out;",
+          "query": "select top(0) [t].[id] into #out from [itv].[usuarios] as t left join [itv].[usuarios] on 0=1;insert into [itv].[usuarios] ([cargo], [email], [foto], [nome], [permissao], [programa], [senha], [telefone], [token]) output inserted.[id] into #out values (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8); select [id] from #out; drop table #out;",
           "params": [
             {
               "name": ":P1",
@@ -124,6 +134,12 @@
               "name": ":P6",
               "type": "expression",
               "value": "{{UUID}}",
+              "test": ""
+            },
+            {
+              "name": ":P7",
+              "type": "expression",
+              "value": "{{$_POST.programa}}",
               "test": ""
             }
           ]

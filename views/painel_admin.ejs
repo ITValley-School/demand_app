@@ -45,6 +45,13 @@
                             <option value="Easy">Easy</option>
                         </select>
                     </div>
+                    <div class="form-group mb-3">
+                        <label for="inp_programa">Programa</label>
+                        <select id="inp_programa" class="form-select" name="programa">
+                            <option value="Internacional">Internacional</option>
+                            <option value="Nacional">Nacional</option>
+                        </select>
+                    </div>
                     <div class="form-group mb-3 text-center">
                         <button type="submit" class="btn btn-primary text-center bg-success w-100" dmx-bind:disabled="state.executing">Adiconar <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
                     </div>
@@ -70,8 +77,8 @@
 
                     </div>
                     <div class="form-group mb-3">
-                        <textarea id="text" class="form-control" name="descricao" dmx-bind:value="data_detail_editar_task.data.descricao"></textarea>
-                        <label for="inp_descricao">Descrição</label>
+                        <label for="inp_descricao">Descrição</label><textarea id="text" class="form-control" name="descricao" dmx-bind:value="data_detail_editar_task.data.descricao"></textarea>
+
                     </div>
                     <div class="form-group mb-3">
                         <label for="inp_estimativa_horas">Estimativa horas</label>

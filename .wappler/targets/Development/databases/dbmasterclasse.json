@@ -11,10 +11,7 @@
   "schema": {
     "tables": {
       "itv.usuarios": {
-        "db": {
-          "name": "usuarios",
-          "schema": "itv"
-        },
+        "db": {},
         "columns": {
           "id": {
             "db": {
@@ -85,14 +82,18 @@
               "maxLength": 255,
               "nullable": true
             }
+          },
+          "programa": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "nullable": true
+            }
           }
         }
       },
       "itv.tarefas": {
-        "db": {
-          "name": "tarefas",
-          "schema": "itv"
-        },
+        "db": {},
         "columns": {
           "id": {
             "db": {
@@ -133,6 +134,20 @@
               "type": "integer",
               "default": "((0))",
               "nullable": false
+            }
+          },
+          "programa": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "nullable": true
+            }
+          },
+          "flag": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "nullable": true
             }
           }
         }

@@ -44,7 +44,7 @@
                             <p class="mb-0">Digite o emai de sua conta!</p>
 
                             <div class="form-body mt-4">
-                                <form class="row g-4" method="post" is="dmx-serverconnect-form" id="sc_esqueceu_a_senha" action="/api/usuarios/esqueceu_senha" dmx-on:success="notifies1.success('Verifique o seu email');browser1.goto('/usuarios/login-user')" dmx-on:forbidden="notifies1.danger('Esse ussuario não existe')">
+                                <form class="row g-4" method="post" is="dmx-serverconnect-form" id="sc_esqueceu_a_senha" action="/api/usuarios/esqueceu_senha" dmx-on:success="notifies1.success('Verifique o seu email')" dmx-on:forbidden="notifies1.danger('Esse ussuario não existe')">
                                     <div class="col-12">
                                         <label class="form-label">Seu email</label>
                                         <input type="email" class="form-control form-control-lg" placeholder="example@user.com" name="email">
