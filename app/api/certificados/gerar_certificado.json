@@ -1,0 +1,205 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "tarefa"
+      },
+      {
+        "type": "text",
+        "name": "horas"
+      },
+      {
+        "type": "text",
+        "name": "programa"
+      },
+      {
+        "type": "text",
+        "name": "tarefa_id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "identity_aluno",
+        "module": "auth",
+        "action": "identify",
+        "options": {
+          "provider": "security_official"
+        },
+        "output": true,
+        "meta": []
+      },
+      {
+        "name": "query_user",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "dbmasterclasse",
+          "sql": {
+            "type": "select",
+            "columns": [
+              {
+                "table": "itv.usuarios",
+                "column": "id",
+                "recid": 1
+              },
+              {
+                "table": "itv.usuarios",
+                "column": "nome",
+                "recid": 2
+              }
+            ],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{identity_aluno}}",
+                "test": ""
+              }
+            ],
+            "table": {
+              "name": "itv.usuarios"
+            },
+            "primary": "id",
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "itv.usuarios.id",
+                  "field": "itv.usuarios.id",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{identity_aluno}}",
+                  "data": {
+                    "table": "itv.usuarios",
+                    "column": "id",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "integer",
+                      "primary": "PRIMARY",
+                      "nullable": false,
+                      "name": "id"
+                    }
+                  },
+                  "operation": "=",
+                  "table": "itv.usuarios"
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "select [id], [nome] from [itv].[usuarios] where [itv].[usuarios].[id] = @p0"
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "number",
+            "name": "id"
+          },
+          {
+            "type": "text",
+            "name": "nome"
+          }
+        ],
+        "outputType": "object"
+      },
+      {
+        "name": "api_gerar_certificado",
+        "module": "api",
+        "action": "send",
+        "options": {
+          "url": "http://127.0.0.1:8000/gerar_certificado",
+          "method": "POST",
+          "dataType": "json",
+          "data": {
+            "aluno": "{{query_user.nome}}",
+            "tarefa": "{{$_GET.tarefa}}",
+            "horas": "{{$_GET.horas}}",
+            "programa": "{{$_GET.programa}}",
+            "usuario_id": "{{query_user.id}}",
+            "tarefa_id": "{{$_GET.tarefa_id}}"
+          },
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "schema": [
+            {
+              "type": "object",
+              "name": "data",
+              "sub": [
+                {
+                  "type": "text",
+                  "name": "certificado_url"
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "name": "headers",
+              "sub": [
+                {
+                  "type": "text",
+                  "name": "content-length"
+                },
+                {
+                  "type": "text",
+                  "name": "content-type"
+                },
+                {
+                  "type": "text",
+                  "name": "date"
+                },
+                {
+                  "type": "text",
+                  "name": "server"
+                }
+              ]
+            }
+          ]
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "object",
+            "name": "data",
+            "sub": [
+              {
+                "type": "text",
+                "name": "certificado_url"
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "name": "headers",
+            "sub": [
+              {
+                "type": "text",
+                "name": "content-length"
+              },
+              {
+                "type": "text",
+                "name": "content-type"
+              },
+              {
+                "type": "text",
+                "name": "date"
+              },
+              {
+                "type": "text",
+                "name": "server"
+              }
+            ]
+          }
+        ],
+        "outputType": "object",
+        "collapsed": true
+      }
+    ]
+  }
+}

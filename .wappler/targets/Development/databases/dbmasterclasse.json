@@ -11,7 +11,10 @@
   "schema": {
     "tables": {
       "itv.usuarios": {
-        "db": {},
+        "db": {
+          "name": "usuarios",
+          "schema": "itv"
+        },
         "columns": {
           "id": {
             "db": {
@@ -90,10 +93,25 @@
               "nullable": true
             }
           }
+        },
+        "refs": {
+          "itv.programas_usuarios": "usuario_id"
+        }
+      },
+      "itv.programas": {
+        "db": {
+          "name": "programas",
+          "schema": "itv"
+        },
+        "sub": {
+          "itv.programas_usuarios": "programa_id"
         }
       },
       "itv.tarefas": {
-        "db": {},
+        "db": {
+          "name": "tarefas",
+          "schema": "itv"
+        },
         "columns": {
           "id": {
             "db": {
@@ -149,7 +167,35 @@
               "maxLength": 100,
               "nullable": true
             }
+          },
+          "pais": {
+            "db": {
+              "type": "string",
+              "maxLength": 5,
+              "nullable": true
+            }
           }
+        },
+        "refs": {
+          "itv.entregaveis": "projeto_id"
+        }
+      },
+      "itv.programas_usuarios": {
+        "db": {
+          "name": "programas_usuarios",
+          "schema": "itv"
+        },
+        "parent": "itv.programas"
+      },
+      "sync.usuarios": {
+        "db": {
+          "name": "usuarios",
+          "schema": "sync"
+        },
+        "refs": {
+          "sync.curriculos": "user_id",
+          "sync.vagas": "user_id",
+          "sync.analises": "user_id"
         }
       },
       "itv.usuarios_tarefas": {
@@ -218,13 +264,46 @@
               "default": "((0))",
               "nullable": true
             }
+          },
+          "certificado_url": {
+            "db": {
+              "type": "string",
+              "maxLength": 1000,
+              "nullable": true
+            }
           }
+        }
+      },
+      "sync.curriculos": {
+        "db": {
+          "name": "curriculos",
+          "schema": "sync"
+        }
+      },
+      "sync.vagas": {
+        "db": {
+          "name": "vagas",
+          "schema": "sync"
+        },
+        "refs": {
+          "sync.analises": "job_description_id"
         }
       },
       "mfi.alimentos": {
         "db": {
           "name": "alimentos",
           "schema": "mfi"
+        }
+      },
+      "sync.analises": {
+        "db": {
+          "name": "analises",
+          "schema": "sync"
+        },
+        "refs": {
+          "sync.keywords": "analysis_id",
+          "sync.recomendacoes": "analysis_id",
+          "sync.curriculos_otimizados": "analysis_id"
         }
       },
       "mfi.usuarios": {
@@ -292,10 +371,72 @@
           "mfi.metas": "usuario_id"
         }
       },
+      "sync.keywords": {
+        "db": {
+          "name": "keywords",
+          "schema": "sync"
+        }
+      },
       "mfi.metas": {
         "db": {
           "name": "metas",
           "schema": "mfi"
+        }
+      },
+      "sync.recomendacoes": {
+        "db": {
+          "name": "recomendacoes",
+          "schema": "sync"
+        }
+      },
+      "sync.curriculos_otimizados": {
+        "db": {
+          "name": "curriculos_otimizados",
+          "schema": "sync"
+        }
+      },
+      "sync.analysis_complete": {
+        "db": {
+          "name": "analysis_complete",
+          "schema": "sync"
+        }
+      },
+      "skiil.usuarios": {
+        "db": {
+          "name": "usuarios",
+          "schema": "skiil"
+        }
+      },
+      "itv.entregaveis": {
+        "db": {
+          "name": "entregaveis",
+          "schema": "itv"
+        }
+      },
+      "itv.paises": {
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "integer",
+              "primary": "PRIMARY",
+              "nullable": false
+            }
+          },
+          "nome": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "nullable": false
+            }
+          },
+          "imagem_url": {
+            "db": {
+              "type": "string",
+              "maxLength": -1,
+              "nullable": false
+            }
+          }
         }
       },
       "epp.aluno": {
@@ -474,6 +615,12 @@
               "nullable": true
             }
           }
+        }
+      },
+      "dbo.programas": {
+        "db": {
+          "name": "programas",
+          "schema": "dbo"
         }
       }
     },

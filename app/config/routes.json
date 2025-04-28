@@ -149,6 +149,16 @@
       "path": "/painel_aluno",
       "page": "painel_aluno",
       "layout": "dashboard_aluno"
+    },
+    {
+      "path": "/certificados",
+      "page": "certificados",
+      "layout": "dashboard_aluno"
+    },
+    {
+      "path": "/create_country",
+      "page": "create_country",
+      "layout": "dashboard"
     }
   ],
   "layouts": {

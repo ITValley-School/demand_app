@@ -1,0 +1,54 @@
+{
+  "type": "generate_certificate",
+  "module": "generate_certificate",
+  "action": "generate",
+  "groupTitle": "Certificados",
+  "groupIcon": "fas fa-certificate",
+  "title": "Gerar Certificado de Estágio",
+  "icon": "fas fa-certificate",
+  "properties": [
+    {
+      "group": "Dados do Certificado",
+      "variables": [
+        {
+          "name": "aluno",
+          "optionName": "aluno",
+          "title": "Nome do Aluno",
+          "type": "text",
+          "required": true,
+          "serverDataBindings": true
+        },
+        {
+          "name": "tarefa",
+          "optionName": "tarefa",
+          "title": "Nome da Tarefa",
+          "type": "text",
+          "required": true,
+          "serverDataBindings": true
+        },
+        {
+          "name": "horas",
+          "optionName": "horas",
+          "title": "Horas Realizadas",
+          "type": "text",
+          "required": true,
+          "serverDataBindings": true
+        },
+        {
+          "name": "programa",
+          "optionName": "programa",
+          "title": "Programa (pt/en)",
+          "type": "text",
+          "required": true,
+          "serverDataBindings": true
+        }
+      ]
+    }
+  ],
+  "dataScheme": [
+    {
+      "name": "path",
+      "type": "text"
+    }
+  ]
+}

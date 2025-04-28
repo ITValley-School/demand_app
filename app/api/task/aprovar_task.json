@@ -16,75 +16,227 @@
     ]
   },
   "exec": {
-    "steps": {
-      "name": "aprovar_task",
-      "module": "dbupdater",
-      "action": "update",
-      "options": {
-        "connection": "dbmasterclasse",
-        "sql": {
-          "type": "update",
-          "values": [
-            {
-              "table": "itv.usuarios_tarefas",
-              "column": "status",
-              "type": "text",
-              "value": "{{$_POST.status}}"
-            },
-            {
-              "table": "itv.usuarios_tarefas",
-              "column": "data_aprovada",
-              "type": "datetime",
-              "value": "{{NOW}}"
-            }
-          ],
-          "table": "itv.usuarios_tarefas",
-          "wheres": {
-            "condition": "AND",
-            "rules": [
+    "steps": [
+      {
+        "name": "aprovar_task",
+        "module": "dbupdater",
+        "action": "update",
+        "options": {
+          "connection": "dbmasterclasse",
+          "sql": {
+            "type": "update",
+            "values": [
               {
-                "id": "id",
-                "type": "double",
+                "table": "itv.usuarios_tarefas",
+                "column": "status",
+                "type": "text",
+                "value": "{{$_POST.status}}",
+                "recid": 1
+              },
+              {
+                "table": "itv.usuarios_tarefas",
+                "column": "data_aprovada",
+                "type": "datetime",
+                "value": "{{NOW}}",
+                "recid": 2
+              }
+            ],
+            "table": "itv.usuarios_tarefas",
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "id",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{$_POST.id}}",
+                  "data": {
+                    "column": "id"
+                  },
+                  "operation": "="
+                }
+              ]
+            },
+            "returning": "id",
+            "query": "select top(0) [t].[id] into #out from [itv].[usuarios_tarefas] as t left join [itv].[usuarios_tarefas] on 0=1;update [itv].[usuarios_tarefas] set [status] = @p0, [data_aprovada] = @p1 output inserted.[id] into #out where [id] = @p2; select [id] from #out; drop table #out;",
+            "params": [
+              {
+                "name": ":P1",
+                "type": "expression",
+                "value": "{{$_POST.status}}",
+                "test": ""
+              },
+              {
+                "name": ":P2",
+                "type": "expression",
+                "value": "{{NOW}}",
+                "test": ""
+              },
+              {
                 "operator": "equal",
+                "type": "expression",
+                "name": ":P3",
                 "value": "{{$_POST.id}}",
-                "data": {
-                  "column": "id"
-                },
-                "operation": "="
+                "test": ""
               }
             ]
-          },
-          "returning": "id",
-          "query": "select top(0) [t].[id] into #out from [itv].[usuarios_tarefas] as t left join [itv].[usuarios_tarefas] on 0=1;update [itv].[usuarios_tarefas] set [status] = @p0, [data_aprovada] = @p1 output inserted.[id] into #out where [id] = @p2; select [id] from #out; drop table #out;",
-          "params": [
-            {
-              "name": ":P1",
-              "type": "expression",
-              "value": "{{$_POST.status}}",
-              "test": ""
-            },
-            {
-              "name": ":P2",
-              "type": "expression",
-              "value": "{{NOW}}",
-              "test": ""
-            },
-            {
-              "operator": "equal",
-              "type": "expression",
-              "name": ":P3",
-              "value": "{{$_POST.id}}",
-              "test": ""
-            }
-          ]
-        }
+          }
+        },
+        "meta": [
+          {
+            "name": "affected",
+            "type": "number"
+          }
+        ]
       },
-      "meta": [
-        {
-          "name": "affected",
-          "type": "number"
-        }
-      ]
-    }
+      {
+        "name": "identity",
+        "module": "auth",
+        "action": "identify",
+        "options": {
+          "provider": "security_official"
+        },
+        "output": true,
+        "meta": []
+      },
+      {
+        "name": "query_tarefas",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "dbmasterclasse",
+          "sql": {
+            "type": "select",
+            "columns": [
+              {
+                "table": "itv.tarefas",
+                "column": "nome",
+                "alias": "Nome tarefa",
+                "recid": 1
+              },
+              {
+                "table": "usuario_left",
+                "column": "nome",
+                "alias": "Nome user",
+                "recid": 2
+              },
+              {
+                "table": "itv.tarefas",
+                "column": "estimativa_horas",
+                "alias": "Estimativa horas",
+                "recid": 3
+              },
+              {
+                "table": "itv.tarefas",
+                "column": "programa",
+                "alias": "Programa",
+                "recid": 4
+              }
+            ],
+            "params": [],
+            "table": {
+              "name": "itv.tarefas"
+            },
+            "primary": "id",
+            "joins": [
+              {
+                "table": "itv.usuarios",
+                "column": "*",
+                "alias": "usuario_left",
+                "type": "LEFT",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "usuario_left",
+                      "column": "id",
+                      "operator": "equal",
+                      "operation": "=",
+                      "value": {
+                        "table": "itv.tarefas",
+                        "column": "id"
+                      }
+                    },
+                    {
+                      "table": "usuario_left",
+                      "column": "nome",
+                      "operator": "equal",
+                      "operation": "=",
+                      "value": {
+                        "table": "itv.tarefas",
+                        "column": "nome"
+                      }
+                    },
+                    {
+                      "table": "usuario_left",
+                      "column": "programa",
+                      "operator": "equal",
+                      "operation": "=",
+                      "value": {
+                        "table": "itv.tarefas",
+                        "column": "programa"
+                      }
+                    }
+                  ]
+                },
+                "primary": "id"
+              }
+            ],
+            "query": "select [itv].[tarefas].[nome] as [Nome tarefa], [usuario_left].[nome] as [Nome user], [itv].[tarefas].[estimativa_horas] as [Estimativa horas], [itv].[tarefas].[programa] as [Programa] from [itv].[tarefas] left join [itv].[usuarios] as [usuario_left] on [usuario_left].[id] = [itv].[tarefas].[id] and [usuario_left].[nome] = [itv].[tarefas].[nome] and [usuario_left].[programa] = [itv].[tarefas].[programa]"
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "text",
+            "name": "Nome tarefa"
+          },
+          {
+            "type": "text",
+            "name": "Nome user"
+          },
+          {
+            "type": "number",
+            "name": "Estimativa horas"
+          },
+          {
+            "type": "text",
+            "name": "Programa"
+          }
+        ],
+        "outputType": "object"
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{$_POST.status=='Concluida'}}",
+          "then": {
+            "steps": {
+              "name": "api",
+              "module": "api",
+              "action": "send",
+              "options": {},
+              "output": true,
+              "collapsed": true
+            }
+          },
+          "else": {
+            "steps": {
+              "name": "nao_aprovado",
+              "module": "core",
+              "action": "setvalue",
+              "options": {
+                "value": "{{null}}"
+              },
+              "meta": [],
+              "outputType": "text"
+            }
+          }
+        },
+        "outputType": "boolean"
+      }
+    ]
   }
 }

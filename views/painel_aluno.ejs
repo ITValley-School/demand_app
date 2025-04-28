@@ -45,7 +45,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header text-xl-center bg-danger">
-                <h5 class="modal-title text-xl-start text-light">Tarefa bloqueada <i class="fas fa-lock"></i></h5>
+                <h5 class="modal-title text-xl-start text-light">Projeto bloqueado <i class="fas fa-lock"></i></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body bg-danger">
@@ -258,7 +258,7 @@
             <div class="card-body ms-xxl-3">
                 <div class="d-flex align-items-start justify-content-between mb-3">
                     <div class="">
-                        <h5 class="mb-0">Tarefas disponíveis</h5>
+                        <h5 class="mb-0">Projetos disponíveis</h5>
                     </div>
                 </div>
                 <div class="order-search position-relative my-3">
@@ -295,10 +295,8 @@
                                     <button id="btn9" class="btn bg-dark text-white" dmx-on:click="data_detalhes_tarefa.select(id);modal_detalhes.show()">Ver detalhes</button>
                                 </td>
                                 <td>
-                                    <button id="btn10" class="btn text-white bg-success" dmx-on:click="data_detalhes_tarefa.select(id);modal_confirmar_tarefa.show()" dmx-show="programa==sc_usuario_atual.data.buscar_usuario.programa||sc_usuario_atual.data.buscar_usuario.programa!='escola'">Fazer task</button>
-                                    <button id="btn1" class="btn text-white bg-secondary" dmx-on:click="modal_tarefa_bloqueada.show()" dmx-show="programa!=sc_usuario_atual.data.buscar_usuario.programa&amp;&amp;sc_usuario_atual.data.buscar_usuario.programa=='escola'">
-                                        <i class="fas fa-lock"></i> Fazer task
-                                    </button>
+                                    <button id="btn10" class="btn text-white bg-success" dmx-on:click="data_detalhes_tarefa.select(id);modal_confirmar_tarefa.show()" dmx-show="programa==sc_usuario_atual.data.buscar_usuario.programa||sc_usuario_atual.data.buscar_usuario.programa!='escola'">Realizar Projeto</button>
+                                    <button id="btn1" class="btn text-white bg-secondary" dmx-on:click="modal_tarefa_bloqueada.show()" dmx-show="programa!=sc_usuario_atual.data.buscar_usuario.programa&amp;&amp;sc_usuario_atual.data.buscar_usuario.programa=='escola'"><i class="fas fa-lock"></i> Indisponível</button>
                                 </td>
                             </tr>
                         </tbody>

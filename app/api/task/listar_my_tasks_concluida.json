@@ -43,8 +43,7 @@
               {
                 "table": "usuarios",
                 "column": "id",
-                "schema": "itv",
-                "recid": 1
+                "schema": "itv"
               }
             ],
             "params": [
@@ -318,6 +317,14 @@
               {
                 "type": "text",
                 "name": "info_envio"
+              },
+              {
+                "type": "number",
+                "name": "pontos"
+              },
+              {
+                "type": "text",
+                "name": "certificado_url"
               },
               {
                 "type": "text",

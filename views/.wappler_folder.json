@@ -74,5 +74,13 @@
   "esqueceu.ejs": {
     "layoutPage": "dashboard",
     "description": ""
+  },
+  "certificados.ejs": {
+    "layoutPage": "dashboard_aluno",
+    "description": ""
+  },
+  "create_country.ejs": {
+    "layoutPage": "dashboard",
+    "description": ""
   }
 }
