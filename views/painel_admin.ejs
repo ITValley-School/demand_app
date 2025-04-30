@@ -1,4 +1,7 @@
 <!-- Wappler include head-page="layouts/dashboard" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="painel_admin" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxBootstrap5Modal:{},dmxMediumEditor:{},dmxBootstrap5PagingGenerator:{},dmxDataTraversal:{},dmxMediumEditorImageUpload:{},dmxBootbox5:{}}" -->
+<dmx-serverconnect id="sc_listar_subtask" url="/api/subtasks/list_subtask" dmx-param:entregavel_id="entregavel_atual.value"></dmx-serverconnect>
+<dmx-serverconnect id="sc_listar_entregaveis" url="/api/entregaveis/listar_entregavel"></dmx-serverconnect>
+<dmx-serverconnect id="sc_paises" url="/api/pais/listar_paises"></dmx-serverconnect>
 <dmx-serverconnect id="serverconnect_totais" url="/api/dashboard/totais"></dmx-serverconnect>
 <div class="modal fade" id="modal_detalhes_task" is="dmx-bs5-modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -15,6 +18,7 @@
     </div>
 </div>
 <dmx-data-detail id="data_detail_editar_task" dmx-bind:data="sc_listar_task.data.query_task.data" key="id"></dmx-data-detail>
+<dmx-data-detail id="data_detai_entregavel" dmx-bind:data="sc_listar_entregaveis.data.query_listar_entregavel" key="id"></dmx-data-detail>
 <div class="modal fade" id="modal_criar_task" is="dmx-bs5-modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -47,21 +51,108 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="inp_pais">País do ptojeto</label>
-                        <select id="inp_pais" class="form-select" name="pais">
-                            <option value="brasil">Brasil</option>
-                            <option value="canada">Canadá</option>
-                            <option value="eua">Estados Unidos</option>
+                        <select id="inp_pais" class="form-select" name="pais_id" dmx-bind:options="sc_paises.data.query_paises" optiontext="nome" optionvalue="id">
                         </select>
                     </div>
                     <div class="form-group mb-3">
                         <label for="inp_programa1">Programa</label>
                         <select id="inp_programa1" class="form-select" name="programa">
-                            <option value="Internacional">Internacional</option>
-                            <option value="Nacional">Nacional</option>
+                            <option value="pos">Internacional</option>
+                            <option value="escola">Nacional</option>
                         </select>
                     </div>
                     <div class="form-group mb-3 text-center">
                         <button type="submit" class="btn btn-primary text-center bg-success w-100" dmx-bind:disabled="state.executing">Adiconar Projeto<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_criar_entregavel" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">Cadastro de entregavel (Obs: Você pode cadastrar mais de um entregavel).</h5>
+                <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                <form is="dmx-serverconnect-form" id="sc_form_adicionar_entregavel" method="post" action="/api/entregaveis/criar_entregaveis" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="notifies.success('Entregavel criado');sc_form_adicionar_entregavel.reset();sc_listar_entregaveis.load({});modal_criar_entregavel.hide()">
+                    <div class="form-group mb-3">
+                        <label for="inp_pais1">Selecione o projeto</label>
+                        <select id="inp_pais1" class="form-select" name="projeto_id" dmx-bind:options="sc_listar_task.data.query_task.data" optiontext="nome" optionvalue="id">
+                        </select>
+                    </div>
+                    <div class="form-group mb-3"><label for="inp_id">Nome (entregavel)</label>
+                        <input type="text" class="form-control" id="inp_nome_entregavel" name="nome" aria-describedby="inp_nome_help" placeholder="Enter Nome">
+                    </div>
+                    <div class="form-group mb-3"><label for="inp_id">Prazo de entrega</label>
+                        <input type="date" class="form-control" id="inp_nome_entregavel1" name="prazo_entrega" aria-describedby="inp_nome_help">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="inp_descricao_entregavel">Descrição</label>
+                        <textarea id="inp_descricao_entregavel" class="form-control" name="descricao" is="dmx-medium-editor" placeholder="Escreva a descrição"></textarea>
+                    </div>
+
+                    <div class="form-group mb-3 text-center">
+                        <button type="submit" class="btn btn-primary text-center bg-success w-100" dmx-bind:disabled="state.executing">Adiconar entregavel<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_deletar_entregavel" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">Deletar entregavel.</h5>
+                <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                </p>
+                <form is="dmx-serverconnect-form" id="sc_form_deletar_entregavel" method="post" action="/api/entregaveis/criar_entregaveis" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="notifies.success('Entregavel criado');sc_form_adicionar_entregavel.reset();sc_listar_entregaveis.load({});modal_criar_entregavel.hide()">
+                    <div class="form-group mb-3">
+                        <label for="inp_pais2">Selecione o entregavel</label>
+                        <select id="inp_pais2" class="form-select" name="projeto_id" dmx-bind:options="sc_listar_entregaveis.data.query_listar_entregavel" optiontext="nome" optionvalue="id">
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3 text-center">
+                        <button type="submit" class="btn btn-primary text-center bg-success w-100" dmx-bind:disabled="state.executing">Deletar entregavel<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_criar_subtask" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">Criar tasks.</h5>
+                <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                <form is="dmx-serverconnect-form" id="sc_form_adicionar_subtask" method="post" action="/api/subtasks/criar_task" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="notifies.success('Task criada');sc_form_adicionar_subtask.reset();sc_listar_subtask.load({});modal_criar_subtask.hide()">
+                    <input class="form-control" id="inp_nome_entregavel3" name="entregavel_id" aria-describedby="inp_nome_help" placeholder="Enter Nome" dmx-bind:value="data_detai_entregavel.data.id" type="hidden">
+                    <div class="form-group mb-3"><label for="inp_id">Nome (Task)</label>
+                        <input type="text" class="form-control" id="inp_nome_entregavel2" name="nome" aria-describedby="inp_nome_help" placeholder="Enter Nome">
+
+                    </div>
+                    <div class="form-group mb-3"><label for="inp_id">Estimativas hoas</label>
+                        <input class="form-control" id="inp_nome_entregavel2" name="estimativa_horas" aria-describedby="inp_nome_help" placeholder="ex: 5" type="number">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="inp_descricao_entregavel1">Descrição</label>
+                        <textarea id="inp_descricao_entregavel1" class="form-control" name="descricao" is="dmx-medium-editor" placeholder="Escreva a descrição"></textarea>
+                    </div>
+
+                    <div class="form-group mb-3 text-center">
+                        <button type="submit" class="btn btn-primary text-center bg-success w-100" dmx-bind:disabled="state.executing">Adiconar task<span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
                     </div>
                 </form>
             </div>
@@ -154,7 +245,7 @@
                                 <div class="">
                                     <h4 class="mb-1 fw-semibold d-flex align-content-center">{{serverconnect_totais.data.query_total_tasks.total_tasks}}<i class="ti ti-arrow-up-right fs-5 lh-base text-success"></i>
                                     </h4>
-                                    <p class="mb-3">Tasks cadastradas</p>
+                                    <p class="mb-3">Projetos cadastrados</p>
                                     <div class="progress mb-0" style="height:5px;">
                                         <div class="progress-bar bg-grd-danger" role="progressbar" style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -213,7 +304,7 @@
                                 <td>
                                     <div class="d-flex align-items-center gap-3">
                                         <div>
-                                            <img src="assets/images/top-products/icontasks.png" class="rounded-circle" width="50" height="50">
+                                            <img src="assets/images/top-products/icontasks.png" class="rounded-circle" width="50" height="50" dmx-bind:src="imagem_url">
                                         </div>
                                         <p class="mb-0">{{nome}}</p>
                                     </div>
@@ -260,90 +351,102 @@
         </div>
 
     </div>
-    <div class="col-lg-12 col-xxl-12 d-flex align-items-stretch">
+    <!-- Variável para armazenar o entregável clicado -->
+    <dmx-value id="entregavel_atual" value=""></dmx-value>
+
+    <div class="col-lg-12 col-xxl-12 d-flex align-items-stretch mt-4">
         <div class="card w-100 rounded-4">
             <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-3 p-3">
+                    <h5 class="mb-0">Entregáveis do Projeto</h5>
 
-                <div class="d-flex align-items-start justify-content-between mb-3 p-3">
-                    <div class="">
-                        <h5 class="mb-0">Task demander</h5>
-                    </div>
-                    <div class="d-flex align-items-start justify-content-between mb-3">
-                        <div class="">
-                            <button id="btn1" class="btn bg-success text-white" dmx-on:click="modal_criar_task.show()">Adicionar Task</button>
-                        </div>
+                    <div class="d-flex align-items-center gap-2 ms-auto">
+                        <button class="btn bg-success text-white" dmx-on:click="modal_criar_entregavel.show()">Adicionar Entregável</button>
                     </div>
                 </div>
 
-                <div class="order-search position-relative my-3">
-                    <input class="form-control rounded-5 px-5" type="text" placeholder="Search">
-                    <span class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50">search</span>
-                </div>
-                <div class="table-responsive">
-                    <table class="table align-middle">
-                        <thead>
-                            <tr>
-                                <th>Tarefas</th>
-                                <th>Estimativa de horas</th>
-                                <th>Dificuldade</th>
-                                <th>Veja os detalhes</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody is="dmx-repeat" id="repeat_task1" dmx-bind:repeat="sc_listar_task.data.query_task.data" key="id">
+                <!-- Accordion externo -->
+                <div class="accordion" id="listar_entregaveis">
 
-                            <tr>
-                                <!-- inicia o repetidor -->
-                                <td>
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div>
-                                            <img src="assets/images/top-products/icontasks.png" class="rounded-circle" width="50" height="50">
-                                        </div>
-                                        <p class="mb-0">{{nome}}</p>
+                    <!-- Repetidor de entregáveis -->
+                    <div is="dmx-repeat" id="repeat_entregaveis" dmx-bind:repeat="sc_listar_entregaveis.data.query_listar_entregavel" key="id">
+
+                        <!-- Variável para guardar o índice -->
+                        <dmx-value id="var_index" dmx-bind:value="$index"></dmx-value>
+
+                        <div class="accordion-item mb-3">
+                            <h2 class="accordion-header" dmx-bind:id="'heading_' + var_index.value">
+                                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" dmx-bind:data-bs-target="'#collapse_' + var_index.value" aria-expanded="false" dmx-bind:aria-controls="'collapse_' + var_index.value" dmx-on:click="entregavel_atual.setValue(id); sc_listar_subtask.load({entregavel_id: id})">
+                                    {{nome_projeto}}: {{nome}}
+                                    <span class="badge bg-secondary ms-2">Prazo: {{prazo_de_entrega}}</span><i class="material-icons-outlined text-danger" dmx-on:click="run({'bootbox.confirm':{name:'deletar_entregavel',message:`\'Excluir entregavel \'+nome+\'?\'`,title:'Deletar entregavel',buttons:{confirm:{label:'Excluir'},cancel:{label:'Cancelar'}},centerVertical:true,then:{steps:[{serverConnect:{name:'sc_deletar',outputType:'object',url:'/api/entregaveis/deletar_entregavel',site:'task_demander',params:{id:`id`}}},{run:{name:'run_delet',outputType:'text',action:`sc_listar_entregaveis.load({})`}}]}}})">delete</i>
+
+                                </button>
+
+
+                            </h2>
+
+                            <div class="accordion-collapse collapse" dmx-bind:id="'collapse_' + var_index.value" dmx-bind:aria-labelledby="'heading_' + var_index.value" data-bs-parent="#listar_entregaveis">
+
+                                <div class="accordion-body">
+                                    <p class="mb-3">{{descricao}}</p>
+
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <strong>Tasks deste entregável:</strong>
+
+                                        <button class="btn btn-outline-primary btn-sm" dmx-on:click="data_detai_entregavel.select(id);modal_criar_subtask.show()">
+                                            + Adicionar Task
+                                        </button>
                                     </div>
-                                </td>
-                                <td>{{estimativa_horas}} Horas</td>
-                                <td>
-                                    <p class="dash-lable mb-0 badge bg-grd-danger rounded-2" dmx-class:bg-grd-warning="nivel=='Medium'" dmx-class:bg-grd-info="nivel=='Easy'">{{nivel}}</p>
-                                </td>
-                                <td>
-                                    <button id="botao_detathes1" class="btn text-bg-dark" dmx-on:click="data_detail_editar_task.select(id);modal_detalhes_task.show()">Ver detalhes</button>
-                                </td>
-                                <td>
-                                    <div class="d-flex"><button type="button" class="btn btn-success raised d-flex gap-2 me-2" dmx-on:click="data_detail_editar_task.select(id);modal_editar_task.show()"><i class="material-icons-outlined">edit</i>
-                                        </button><button type="button" class="btn btn-danger raised d-flex gap-2" dmx-on:click="run({'bootbox.confirm':{name:'confirmar_exclusao',message:`\'Deseja excluir a task \'+nome+\'?\'`,title:'Excluir task',buttons:{confirm:{label:'Excluir'},cancel:{label:'Cancelar'}},centerVertical:true,then:{steps:[{serverConnect:{name:'sc_deletar_task',outputType:'object',url:'/api/task/deletar_task',site:'task_demander',params:{id:`id`}}},{run:{name:'deletar_task',outputType:'text',action:`notifies.success(\'Task excluída com sucesso!\');sc_listar_task.load({})`}}]}}})"><i class="material-icons-outlined">delete</i></button></div>
 
+                                    <div class="table-responsive">
+                                        <table class="table table-dark table-striped align-middle" style="border-collapse: separate;">
+                                            <thead>
+                                                <tr>
+                                                    <th class="ps-4">Task</th>
+                                                    <th>Estimativa</th>
+                                                    <th>Status</th>
+                                                    <th class="text-end pe-4">Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody is="dmx-repeat" id="repeat_subtask" dmx-bind:repeat="sc_listar_subtask.data.query_subtask" key="id">
+                                                <tr>
+                                                    <td class="ps-4">
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <input class="form-check-input mt-0" type="checkbox">
+                                                            <span>{{nome}}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0">{{estimativa_horas}}h</p>
+                                                    </td>
+                                                    <td><span class="badge bg-warning text-dark">{{status}}</span></td>
+                                                    <td class="text-end pe-4">
+                                                        <div class="d-flex justify-content-end gap-2">
+                                                            <button class="btn btn-sm btn-success d-flex align-items-center justify-content-center">
+                                                                <i class="material-icons-outlined">edit</i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-danger d-flex align-items-center justify-content-center" dmx-on:click="run({'bootbox.confirm':{name:'deletar_subtask',message:`\'Deletar subtask \'+nome+\'?\'`,title:'Deletar subtask',buttons:{confirm:{label:'Excluir'},cancel:{label:'Cancelar'}},centerVertical:true,then:{steps:[{serverConnect:{name:'sc_deletar_subtask',outputType:'object',url:'/api/subtasks/deletar_subtask',site:'task_demander',params:{id:`id`}}},{run:{name:'deletar_subtask',outputType:'text',action:`sc_listar_subtask.load({})`}}]}}})">
+                                                                <i class="material-icons-outlined">delete</i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
 
+                                </div>
+                            </div>
+                        </div>
 
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    </div>
+                    <!-- /Fim do repeat -->
                 </div>
             </div>
-            <ul class="pagination pagination-sm justify-content-end me-3" dmx-populate="sc_listar_task.data.query_task" dmx-generator="bs5paging">
-                <li class="page-item" dmx-class:disabled="sc_listar_task.data.query_task.page.current == 1" aria-label="First">
-                    <a href="javascript:void(0)" class="page-link" dmx-on:click="sc_listar_task.load({offset: sc_listar_task.data.query_task.page.offset.first})"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
-                </li>
-                <li class="page-item" dmx-class:disabled="sc_listar_task.data.query_task.page.current == 1" aria-label="Previous">
-                    <a href="javascript:void(0)" class="page-link" dmx-on:click="sc_listar_task.load({offset: sc_listar_task.data.query_task.page.offset.prev})"><span aria-hidden="true">&lsaquo;</span></a>
-                </li>
-                <li class="page-item" dmx-class:active="title == sc_listar_task.data.query_task.page.current" dmx-class:disabled="!active" dmx-repeat="sc_listar_task.data.query_task.getServerConnectPagination(2,1,'...')">
-                    <a href="javascript:void(0)" class="page-link" dmx-on:click="sc_listar_task.load({offset: (page-1)*sc_listar_task.data.query_task.limit})">{{title}}</a>
-                </li>
-                <li class="page-item" dmx-class:disabled="sc_listar_task.data.query_task.page.current ==  sc_listar_task.data.query_task.page.total" aria-label="Next">
-                    <a href="javascript:void(0)" class="page-link" dmx-on:click="sc_listar_task.load({offset: sc_listar_task.data.query_task.page.offset.next})"><span aria-hidden="true">&rsaquo;</span></a>
-                </li>
-                <li class="page-item" dmx-class:disabled="sc_listar_task.data.query_task.page.current ==  sc_listar_task.data.query_task.page.total" aria-label="Last">
-                    <a href="javascript:void(0)" class="page-link" dmx-on:click="sc_listar_task.load({offset: sc_listar_task.data.query_task.page.offset.last})"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
-                </li>
-            </ul>
-
-
-
         </div>
-
     </div>
+
+
 </div>
 
 </main>

@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query_listar_entregavel",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "dbmasterclasse",
+        "sql": {
+          "type": "select",
+          "columns": [
+            {
+              "table": "itv.entregaveis",
+              "column": "*"
+            },
+            {
+              "table": "nome_projeto",
+              "column": "nome",
+              "alias": "nome_projeto"
+            }
+          ],
+          "params": [],
+          "table": {
+            "name": "itv.entregaveis"
+          },
+          "primary": "id",
+          "joins": [
+            {
+              "table": "itv.tarefas",
+              "column": "*",
+              "alias": "nome_projeto",
+              "type": "LEFT",
+              "clauses": {
+                "condition": "AND",
+                "rules": [
+                  {
+                    "table": "nome_projeto",
+                    "column": "id",
+                    "operator": "equal",
+                    "operation": "=",
+                    "value": {
+                      "table": "itv.entregaveis",
+                      "column": "projeto_id"
+                    }
+                  }
+                ]
+              },
+              "primary": "id"
+            }
+          ],
+          "query": "select [itv].[entregaveis].*, [nome_projeto].[nome] as [nome_projeto] from [itv].[entregaveis] left join [itv].[tarefas] as [nome_projeto] on [nome_projeto].[id] = [itv].[entregaveis].[projeto_id]"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id"
+        },
+        {
+          "type": "number",
+          "name": "projeto_id"
+        },
+        {
+          "type": "text",
+          "name": "nome"
+        },
+        {
+          "type": "text",
+          "name": "descricao"
+        },
+        {
+          "type": "datetime",
+          "name": "prazo_de_entrega"
+        },
+        {
+          "type": "text",
+          "name": "nome_projeto"
+        }
+      ],
+      "outputType": "array"
+    }
+  }
+}

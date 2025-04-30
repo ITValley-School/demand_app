@@ -26,8 +26,8 @@
         "name": "programa"
       },
       {
-        "type": "text",
-        "name": "pais"
+        "type": "number",
+        "name": "pais_id"
       }
     ]
   },
@@ -147,14 +147,14 @@
               },
               {
                 "table": "itv.tarefas",
-                "column": "pais",
-                "type": "text",
-                "value": "{{$_POST.pais}}"
+                "column": "pais_id",
+                "type": "number",
+                "value": "{{$_POST.pais_id}}"
               }
             ],
             "table": "itv.tarefas",
             "returning": "id",
-            "query": "select top(0) [t].[id] into #out from [itv].[tarefas] as t left join [itv].[tarefas] on 0=1;insert into [itv].[tarefas] ([descricao], [estimativa_horas], [nivel], [nome], [pais], [pontuacao], [programa]) output inserted.[id] into #out values (@p0, @p1, @p2, @p3, @p4, @p5, @p6); select [id] from #out; drop table #out;",
+            "query": "select top(0) [t].[id] into #out from [itv].[tarefas] as t left join [itv].[tarefas] on 0=1;insert into [itv].[tarefas] ([descricao], [estimativa_horas], [nivel], [nome], [pais_id], [pontuacao], [programa]) output inserted.[id] into #out values (@p0, @p1, @p2, @p3, @p4, @p5, @p6); select [id] from #out; drop table #out;",
             "params": [
               {
                 "name": ":P1",
@@ -195,7 +195,7 @@
               {
                 "name": ":P7",
                 "type": "expression",
-                "value": "{{$_POST.pais}}",
+                "value": "{{$_POST.pais_id}}",
                 "test": ""
               }
             ]

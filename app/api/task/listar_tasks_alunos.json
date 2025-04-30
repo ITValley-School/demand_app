@@ -106,7 +106,7 @@
         "options": {
           "connection": "dbmasterclasse",
           "sql": {
-            "query": "SELECT t.id, t.nome, t.descricao, t.estimativa_horas, t.nivel, t.pontuacao, t.programa\nFROM itv.tarefas t\nLEFT JOIN itv.usuarios_tarefas ut\nON t.id = ut.tarefa_id AND ut.usuario_id = :P1\nWHERE ut.tarefa_id IS NULL;",
+            "query": "SELECT \n    t.id, \n    t.nome, \n    t.descricao, \n    t.estimativa_horas, \n    t.nivel, \n    t.pontuacao, \n    t.programa,\n    p.nome AS nome_pais,\n    p.imagem_url AS bandeira_pais\nFROM itv.tarefas t\nLEFT JOIN itv.usuarios_tarefas ut \n    ON t.id = ut.tarefa_id AND ut.usuario_id = :P1\nLEFT JOIN itv.paises p \n    ON t.pais_id = p.id\nWHERE ut.tarefa_id IS NULL;",
             "params": [
               {
                 "name": ":P1",
@@ -143,6 +143,14 @@
           },
           {
             "name": "programa",
+            "type": "text"
+          },
+          {
+            "name": "nome_pais",
+            "type": "text"
+          },
+          {
+            "name": "bandeira_pais",
             "type": "text"
           }
         ]

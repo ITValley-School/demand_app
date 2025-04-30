@@ -1,0 +1,100 @@
+<!-- Wappler include head-page="layouts/dashboard_aluno" fontawesome_5="cdn" bootstrap5="custom" is="dmx-app" id="entregaveis_projeto" appConnect="local" -->
+<meta name="ac:route" content="/entregaveis_projeto">
+<dmx-serverconnect id="sc_listar_entregaveis" url="/api/entregaveis/listar_entregavel"></dmx-serverconnect>
+<dmx-serverconnect id="sc_listar_subtask" url="/api/subtasks/list_subtask" dmx-param:entregavel_id="entregavel_atual.value"></dmx-serverconnect>
+
+<div class="container py-4">
+    <h2 class="text-center mb-4">Entregáveis atribuídos aos seus projetos</h2>
+
+    <div class="col-lg-12 col-xxl-12 d-flex align-items-stretch mt-4">
+        <div class="card w-100 rounded-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-3 p-3">
+                    <h5 class="mb-0">Entregáveis do Projeto</h5>
+
+                    <div class="d-flex align-items-center gap-2 ms-auto">
+                        <button class="btn bg-success text-white" dmx-on:click="modal_criar_entregavel.show()">Adicionar Entregável</button>
+                    </div>
+                </div>
+
+                <!-- Accordion externo -->
+                <div class="accordion" id="listar_entregaveis">
+
+                    <!-- Repetidor de entregáveis -->
+                    <div is="dmx-repeat" id="repeat_entregaveis" dmx-bind:repeat="sc_listar_entregaveis.data.query_listar_entregavel" key="id">
+
+                        <!-- Variável para guardar o índice -->
+                        <dmx-value id="var_index" dmx-bind:value="$index"></dmx-value>
+
+                        <div class="accordion-item mb-3">
+                            <h2 class="accordion-header" dmx-bind:id="'heading_' + var_index.value">
+                                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" dmx-bind:data-bs-target="'#collapse_' + var_index.value" aria-expanded="false" dmx-bind:aria-controls="'collapse_' + var_index.value" dmx-on:click="entregavel_atual.setValue(id); sc_listar_subtask.load({entregavel_id: id})">
+                                    {{nome_projeto}}: {{nome}}
+                                    <span class="badge bg-secondary ms-2">Prazo: {{prazo_de_entrega}}</span><i class="material-icons-outlined text-danger" dmx-on:click="run({'bootbox.confirm':{name:'deletar_entregavel',message:`\'Excluir entregavel \'+nome+\'?\'`,title:'Deletar entregavel',buttons:{confirm:{label:'Excluir'},cancel:{label:'Cancelar'}},centerVertical:true,then:{steps:[{serverConnect:{name:'sc_deletar',outputType:'object',url:'/api/entregaveis/deletar_entregavel',site:'task_demander',params:{id:`id`}}},{run:{name:'run_delet',outputType:'text',action:`sc_listar_entregaveis.load({})`}}]}}})">delete</i>
+
+                                </button>
+
+
+                            </h2>
+
+                            <div class="accordion-collapse collapse" dmx-bind:id="'collapse_' + var_index.value" dmx-bind:aria-labelledby="'heading_' + var_index.value" data-bs-parent="#listar_entregaveis">
+
+                                <div class="accordion-body">
+                                    <p class="mb-3">{{descricao}}</p>
+
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <strong>Tasks deste entregável:</strong>
+
+                                        <button class="btn btn-outline-primary btn-sm" dmx-on:click="data_detai_entregavel.select(id);modal_criar_subtask.show()">
+                                            + Adicionar Task
+                                        </button>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-dark table-striped align-middle" style="border-collapse: separate;">
+                                            <thead>
+                                                <tr>
+                                                    <th class="ps-4">Task</th>
+                                                    <th>Estimativa</th>
+                                                    <th>Status</th>
+                                                    <th class="text-end pe-4">Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody is="dmx-repeat" id="repeat_subtask" dmx-bind:repeat="sc_listar_subtask.data.query_subtask" key="id">
+                                                <tr>
+                                                    <td class="ps-4">
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <input class="form-check-input mt-0" type="checkbox">
+                                                            <span>{{nome}}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <p class="mb-0">{{estimativa_horas}}h</p>
+                                                    </td>
+                                                    <td><span class="badge bg-warning text-dark">{{status}}</span></td>
+                                                    <td class="text-end pe-4">
+                                                        <div class="d-flex justify-content-end gap-2">
+                                                            <button class="btn btn-sm btn-success d-flex align-items-center justify-content-center">
+                                                                <i class="material-icons-outlined">edit</i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-danger d-flex align-items-center justify-content-center" dmx-on:click="run({'bootbox.confirm':{name:'deletar_subtask',message:`\'Deletar subtask \'+nome+\'?\'`,title:'Deletar subtask',buttons:{confirm:{label:'Excluir'},cancel:{label:'Cancelar'}},centerVertical:true,then:{steps:[{serverConnect:{name:'sc_deletar_subtask',outputType:'object',url:'/api/subtasks/deletar_subtask',site:'task_demander',params:{id:`id`}}},{run:{name:'deletar_subtask',outputType:'text',action:`sc_listar_subtask.load({})`}}]}}})">
+                                                                <i class="material-icons-outlined">delete</i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /Fim do repeat -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -102,31 +102,36 @@
                 "table": "itv.usuarios_tarefas",
                 "column": "usuario_id",
                 "type": "number",
-                "value": "{{query_usuario_logado.id}}"
+                "value": "{{query_usuario_logado.id}}",
+                "recid": 1
               },
               {
                 "table": "itv.usuarios_tarefas",
                 "column": "tarefa_id",
                 "type": "number",
-                "value": "{{$_POST.tarefa_id}}"
+                "value": "{{$_POST.tarefa_id}}",
+                "recid": 2
               },
               {
                 "table": "itv.usuarios_tarefas",
                 "column": "data_atribuicao",
                 "type": "datetime",
-                "value": "{{NOW}}"
+                "value": "{{NOW}}",
+                "recid": 3
               },
               {
                 "table": "itv.usuarios_tarefas",
                 "column": "status",
                 "type": "text",
-                "value": "Andamento"
+                "value": "Andamento",
+                "recid": 4
               },
               {
                 "table": "itv.usuarios_tarefas",
                 "column": "pontos",
                 "type": "number",
-                "value": "{{$_POST.pontos}}"
+                "value": "{{$_POST.pontos}}",
+                "recid": 5
               }
             ],
             "table": "itv.usuarios_tarefas",

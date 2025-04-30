@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "nome"
+      },
+      {
+        "type": "text",
+        "name": "descricao"
+      },
+      {
+        "type": "date",
+        "name": "prazo_entrega"
+      },
+      {
+        "type": "text",
+        "name": "projeto_id"
+      },
+      {
+        "type": "datetime",
+        "name": "prazo_de_entrega"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "insert_entregavel",
+      "module": "dbupdater",
+      "action": "insert",
+      "options": {
+        "connection": "dbmasterclasse",
+        "sql": {
+          "type": "insert",
+          "values": [
+            {
+              "table": "itv.entregaveis",
+              "column": "projeto_id",
+              "type": "number",
+              "value": "{{$_POST.projeto_id}}"
+            },
+            {
+              "table": "itv.entregaveis",
+              "column": "nome",
+              "type": "text",
+              "value": "{{$_POST.nome}}"
+            },
+            {
+              "table": "itv.entregaveis",
+              "column": "descricao",
+              "type": "text",
+              "value": "{{$_POST.descricao}}"
+            },
+            {
+              "table": "itv.entregaveis",
+              "column": "prazo_de_entrega",
+              "type": "datetime",
+              "value": "{{$_POST.prazo_entrega}}"
+            }
+          ],
+          "table": "itv.entregaveis",
+          "returning": "id",
+          "query": "select top(0) [t].[id] into #out from [itv].[entregaveis] as t left join [itv].[entregaveis] on 0=1;insert into [itv].[entregaveis] ([descricao], [nome], [prazo_de_entrega], [projeto_id]) output inserted.[id] into #out values (@p0, @p1, @p2, @p3); select [id] from #out; drop table #out;",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.projeto_id}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.nome}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.descricao}}",
+              "test": ""
+            },
+            {
+              "name": ":P4",
+              "type": "expression",
+              "value": "{{$_POST.prazo_entrega}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "identity",
+          "type": "text"
+        },
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

@@ -82,5 +82,13 @@
   "create_country.ejs": {
     "layoutPage": "dashboard",
     "description": ""
+  },
+  "entregaveis.ejs": {
+    "layoutPage": "dashboard_aluno",
+    "description": ""
+  },
+  "entregaveis_projeto.ejs": {
+    "layoutPage": "dashboard_aluno",
+    "description": ""
   }
 }

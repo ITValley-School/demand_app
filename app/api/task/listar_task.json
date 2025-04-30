@@ -110,8 +110,12 @@
             "columns": [
               {
                 "table": "tarefas",
-                "column": "*",
-                "schema": "itv"
+                "column": "*"
+              },
+              {
+                "table": "paises",
+                "column": "imagem_url",
+                "alias": "imagem_url"
               }
             ],
             "params": [],
@@ -122,20 +126,44 @@
             "primary": "id",
             "joins": [
               {
-                "table": "itv.usuarios_tarefas",
+                "table": "usuarios_tarefas",
                 "column": "*",
                 "type": "LEFT",
                 "clauses": {
                   "condition": "AND",
                   "rules": [
                     {
-                      "table": "itv.usuarios_tarefas",
+                      "table": "usuarios_tarefas",
                       "column": "id",
                       "operator": "equal",
                       "operation": "=",
                       "value": {
                         "table": "tarefas",
                         "column": "id"
+                      },
+                      "schema": "itv"
+                    }
+                  ]
+                },
+                "primary": "id",
+                "schema": "itv"
+              },
+              {
+                "table": "itv.paises",
+                "column": "*",
+                "alias": "paises",
+                "type": "LEFT",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "paises",
+                      "column": "id",
+                      "operator": "equal",
+                      "operation": "=",
+                      "value": {
+                        "table": "tarefas",
+                        "column": "pais_id"
                       }
                     }
                   ]
@@ -152,7 +180,7 @@
                 "recid": 1
               }
             ],
-            "query": "select [itv].[tarefas].* from [itv].[tarefas] left join [itv].[usuarios_tarefas] on [itv].[usuarios_tarefas].[id] = [tarefas].[id] order by [itv].[tarefas].[id] DESC",
+            "query": "select [tarefas].*, [paises].[imagem_url] as [imagem_url] from [itv].[tarefas] left join [itv].[usuarios_tarefas] on [itv].[usuarios_tarefas].[id] = [tarefas].[id] left join [itv].[paises] as [paises] on [paises].[id] = [tarefas].[pais_id] order by [itv].[tarefas].[id] DESC",
             "wheres": {
               "condition": "AND",
               "rules": [],
@@ -216,44 +244,8 @@
             "type": "array",
             "sub": [
               {
-                "type": "number",
-                "name": "id"
-              },
-              {
                 "type": "text",
-                "name": "nome"
-              },
-              {
-                "type": "text",
-                "name": "descricao"
-              },
-              {
-                "type": "number",
-                "name": "estimativa_horas"
-              },
-              {
-                "type": "text",
-                "name": "status"
-              },
-              {
-                "type": "date",
-                "name": "data_inicio"
-              },
-              {
-                "type": "date",
-                "name": "data_termino_prevista"
-              },
-              {
-                "type": "number",
-                "name": "usuario_id"
-              },
-              {
-                "type": "date",
-                "name": "data_fim_realizado"
-              },
-              {
-                "type": "text",
-                "name": "nivel"
+                "name": "imagem_url"
               }
             ]
           }

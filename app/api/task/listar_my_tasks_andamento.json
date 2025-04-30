@@ -113,8 +113,7 @@
             "columns": [
               {
                 "table": "usuarios_tarefas",
-                "column": "*",
-                "schema": "itv"
+                "column": "*"
               },
               {
                 "table": "tarefas",
@@ -135,6 +134,10 @@
                 "table": "tarefas",
                 "column": "nivel",
                 "alias": "nivel_tarefa"
+              },
+              {
+                "table": "query_pais",
+                "column": "imagem_url"
               }
             ],
             "params": [
@@ -174,9 +177,32 @@
                 },
                 "primary": "id",
                 "schema": "itv"
+              },
+              {
+                "table": "paises",
+                "column": "*",
+                "alias": "query_pais",
+                "type": "LEFT",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "query_pais",
+                      "column": "id",
+                      "operator": "equal",
+                      "operation": "=",
+                      "value": {
+                        "table": "tarefas",
+                        "column": "pais_id"
+                      }
+                    }
+                  ]
+                },
+                "primary": "id",
+                "schema": "itv"
               }
             ],
-            "query": "select [itv].[usuarios_tarefas].*, [tarefas].[nome] as [nome_tarefas], [tarefas].[descricao] as [descricao_tarefa], [tarefas].[estimativa_horas] as [estimativa_horas_tarefa], [tarefas].[nivel] as [nivel_tarefa] from [itv].[usuarios_tarefas] left join [itv].[tarefas] as [tarefas] on [tarefas].[id] = [usuarios_tarefas].[tarefa_id] where [itv].[usuarios_tarefas].[usuario_id] = @p0 and [itv].[usuarios_tarefas].[status] = @p1",
+            "query": "select [usuarios_tarefas].*, [tarefas].[nome] as [nome_tarefas], [tarefas].[descricao] as [descricao_tarefa], [tarefas].[estimativa_horas] as [estimativa_horas_tarefa], [tarefas].[nivel] as [nivel_tarefa], [query_pais].[imagem_url] from [itv].[usuarios_tarefas] left join [itv].[tarefas] as [tarefas] on [tarefas].[id] = [usuarios_tarefas].[tarefa_id] left join [itv].[paises] as [query_pais] on [query_pais].[id] = [tarefas].[pais_id] where [usuarios_tarefas].[usuario_id] = @p0 and [usuarios_tarefas].[status] = @p1",
             "orders": [],
             "wheres": {
               "condition": "AND",
@@ -200,8 +226,7 @@
                       "onUpdate": "NO ACTION",
                       "onDelete": "NO ACTION",
                       "name": "usuario_id"
-                    },
-                    "schema": "itv"
+                    }
                   },
                   "operation": "=",
                   "table": "usuarios_tarefas"
@@ -221,8 +246,7 @@
                       "maxLength": 50,
                       "nullable": false,
                       "name": "status"
-                    },
-                    "schema": "itv"
+                    }
                   },
                   "operation": "=",
                   "table": "usuarios_tarefas"
@@ -288,38 +312,6 @@
             "type": "array",
             "sub": [
               {
-                "type": "number",
-                "name": "id"
-              },
-              {
-                "type": "number",
-                "name": "usuario_id"
-              },
-              {
-                "type": "number",
-                "name": "tarefa_id"
-              },
-              {
-                "type": "datetime",
-                "name": "data_atribuicao"
-              },
-              {
-                "type": "text",
-                "name": "status"
-              },
-              {
-                "type": "datetime",
-                "name": "data_enviada"
-              },
-              {
-                "type": "datetime",
-                "name": "data_aprovada"
-              },
-              {
-                "type": "text",
-                "name": "info_envio"
-              },
-              {
                 "type": "text",
                 "name": "nome_tarefas"
               },
@@ -334,6 +326,10 @@
               {
                 "type": "text",
                 "name": "nivel_tarefa"
+              },
+              {
+                "type": "text",
+                "name": "imagem_url"
               }
             ]
           }

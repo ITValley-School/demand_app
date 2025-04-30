@@ -159,6 +159,11 @@
       "path": "/create_country",
       "page": "create_country",
       "layout": "dashboard"
+    },
+    {
+      "path": "/entregaveis_projeto",
+      "page": "entregaveis_projeto",
+      "layout": "dashboard_aluno"
     }
   ],
   "layouts": {

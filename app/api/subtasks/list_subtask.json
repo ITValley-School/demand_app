@@ -1,0 +1,113 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "number",
+        "name": "entregavel_id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query_subtask",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "dbmasterclasse",
+        "sql": {
+          "type": "select",
+          "columns": [
+            {
+              "table": "tasks",
+              "column": "*",
+              "schema": "itv"
+            }
+          ],
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.entregavel_id}}",
+              "test": ""
+            }
+          ],
+          "table": {
+            "name": "tasks",
+            "schema": "itv"
+          },
+          "joins": [],
+          "primary": "id",
+          "query": "select * from [itv].[tasks] where [itv].[tasks].[entregavel_id] = @p0",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "itv.tasks.entregavel_id",
+                "field": "itv.tasks.entregavel_id",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.entregavel_id}}",
+                "data": {
+                  "table": "tasks",
+                  "column": "entregavel_id",
+                  "type": "number",
+                  "columnObj": {
+                    "type": "reference",
+                    "nullable": false,
+                    "references": "id",
+                    "inTable": "itv.entregaveis",
+                    "referenceType": "integer",
+                    "onUpdate": "NO ACTION",
+                    "onDelete": "NO ACTION",
+                    "name": "entregavel_id"
+                  },
+                  "schema": "itv"
+                },
+                "operation": "="
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          }
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id"
+        },
+        {
+          "type": "number",
+          "name": "entregavel_id"
+        },
+        {
+          "type": "text",
+          "name": "nome"
+        },
+        {
+          "type": "text",
+          "name": "descricao"
+        },
+        {
+          "type": "number",
+          "name": "estimativa_horas"
+        },
+        {
+          "type": "text",
+          "name": "status"
+        }
+      ],
+      "outputType": "array"
+    }
+  }
+}
