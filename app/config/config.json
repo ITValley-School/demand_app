@@ -6,7 +6,7 @@
   },
   "session": {
     "cookie": {
-      "sameSite": "none",
+      "sameSite": "lax",
       "secure": true
     }
   }

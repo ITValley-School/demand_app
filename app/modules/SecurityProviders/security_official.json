@@ -8,7 +8,7 @@
     "connection": "dbmasterclasse",
     "expires": 1,
     "secure": true,
-    "sameSite": "None",
+    "sameSite": "Lax",
     "users": {
       "table": "itv.usuarios",
       "identity": "id",
